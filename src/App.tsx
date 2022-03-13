@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 
 function App() {
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth='sm'>
       <Box sx={{ my: 4 }}>
         <Typography>Hello, world!</Typography>
       </Box>
