@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 // import Typography from '@mui/material/Typography';
 
 import Navigation from './components/Navigation';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`,
           )
           .join('\n')}
       </Box>
+      <Footer />
     </Container>
   );
 }
