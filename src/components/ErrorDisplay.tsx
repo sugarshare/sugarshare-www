@@ -23,20 +23,20 @@ export default function ErrorDisplay({ codeOrText }: ErrorDisplayProps) {
   return (
     <Box sx={{
       bgcolor: 'honey.main',
+      width: '100%',
       height: '100vh',
       display: 'flex',
       flexDirection: 'column',
-      flexWrap: 'wrap',
-      justifyContent: 'center',
+      flexWrap: 'nowrap',
+      justifyContent: 'space-between',
       alignItems: 'center',
-      alignContent: 'center',
       textAlign: 'center',
     }}
     >
       <Box sx={{ my: 4 }}>
-        <Logo />
+        <Logo width='30rem' />
       </Box>
-      <Typography variant='h1' sx={{ mx: 4, my: 1 }}>{codeOrText}</Typography>
+      <Typography variant='h1' sx={{ mx: 4, my: 1, fontWeight: 'bold' }}>{codeOrText}</Typography>
       <Typography variant='h5' sx={{ mx: 4, my: 1 }}>{getMessage(codeOrText)}</Typography>
       <Typography variant='body1' sx={{ my: 8 }}>
         &#8617; Go to&nbsp;
