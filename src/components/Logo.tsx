@@ -3,7 +3,11 @@ import Link from '@mui/material/Link';
 
 import settings from '../settings';
 
-export default function Logo() {
+interface LogoProps {
+  width?: string | number;
+}
+
+export default function Logo({ width = '200px' }: LogoProps = {}) {
   return (
     <Link href='/'>
       <img
@@ -12,7 +16,7 @@ export default function Logo() {
         alt={`${settings.projectName} logo`}
         aria-label={`${settings.projectName} logo`}
         style={{
-          width: '200px',
+          width,
         }}
       />
     </Link>
