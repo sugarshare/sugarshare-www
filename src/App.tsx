@@ -11,7 +11,7 @@ import {
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import Landing from './components/Landing';
-import InstallLink from './components/InstallLink';
+import InstallTile from './components/InstallTile';
 import PropertyTile from './components/PropertyTile';
 
 export default function App() {
@@ -87,18 +87,18 @@ export default function App() {
 
         <Box sx={{ my: 10 }}>
           <Typography variant='h2' fontWeight='bold' sx={{ my: 10 }}>Download</Typography>
-          <Grid container spacing={2} sx={{ my: 4 }}>
+          <Grid container spacing={{ xs: 1, sm: 2, md: 4 }}>
             <Grid item xs='auto'>
-              <InstallLink link='/' browser='Chrome' />
+              <InstallTile link='/' browser='Chrome' />
             </Grid>
             <Grid item xs='auto'>
-              <InstallLink link='/' browser='Firefox' isSoon />
+              <InstallTile link='/' browser='Firefox' isSoon />
             </Grid>
             <Grid item xs='auto'>
-              <InstallLink link='/' browser='Microsoft Edge' isSoon />
+              <InstallTile link='/' browser='Microsoft Edge' isSoon />
             </Grid>
             <Grid item xs='auto'>
-              <InstallLink link='/' browser='Opera' isSoon />
+              <InstallTile link='/' browser='Opera' isSoon />
             </Grid>
           </Grid>
         </Box>

@@ -11,7 +11,7 @@ import BaseTile from './BaseTile';
 
 type CompatibleBrowser = 'Chrome' | 'Firefox' | 'Microsoft Edge' | 'Opera' | 'Brave' | 'Vivaldi';
 
-interface InstallLinkProps {
+interface InstallTileProps {
   link: string;
   browser: CompatibleBrowser;
   isSoon?: boolean;
@@ -38,7 +38,7 @@ function getBroswerIcon(browser: CompatibleBrowser): IconDefinition | null {
   }
 }
 
-export default function InstallLink({ link, browser, isSoon = false }: InstallLinkProps) {
+export default function InstallTile({ link, browser, isSoon = false }: InstallTileProps) {
   const icon = getBroswerIcon(browser);
   return (
     <Link href={link} target='_blank' rel='noopener' color='inherit' underline='none'>
