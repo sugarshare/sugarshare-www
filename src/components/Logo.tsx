@@ -4,10 +4,10 @@ import Link from '@mui/material/Link';
 import settings from '../settings';
 
 interface LogoProps {
-  width?: string | number;
+  width: string | number;
 }
 
-export default function Logo({ width = '200px' }: LogoProps = {}) {
+export default function Logo({ width }: LogoProps) {
   return (
     <Link href='/'>
       <img

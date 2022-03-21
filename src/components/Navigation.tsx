@@ -48,7 +48,7 @@ export default function Navigation() {
 
               {/* Logo on medium to large displays */}
               <Box sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}>
-                <Logo />
+                <Logo width='200px' />
               </Box>
 
               <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -89,7 +89,7 @@ export default function Navigation() {
               </Box>
 
               <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                <Logo />
+                <Logo width='200px' />
               </Box>
 
               <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
