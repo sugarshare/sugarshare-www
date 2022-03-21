@@ -2,7 +2,6 @@ import React from 'react';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
 
 import {
   faShieldHalved, faEyeSlash, faTruckFast, faWindowRestore, faCalendarDays, faHandHoldingDollar,
@@ -11,6 +10,7 @@ import {
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import Landing from './components/Landing';
+import GridList from './components/GridList';
 import InstallTile from './components/InstallTile';
 import PropertyTile from './components/PropertyTile';
 
@@ -39,70 +39,51 @@ export default function App() {
         </Box>
 
         <Box sx={{ my: 10 }}>
-          <Grid container spacing={{ xs: 1, sm: 2, md: 4 }}>
-            <Grid item xs='auto'>
-              <PropertyTile
-                icon={faTruckFast}
-                primaryText='Fast'
-                secondaryText='We use state-of-the-art content delivery technology to allow for quick upload and download.'
-              />
-            </Grid>
-            <Grid item xs='auto'>
-              <PropertyTile
-                icon={faShieldHalved}
-                primaryText='Secure TLS 1.2'
-                secondaryText='Files are securely transmitted over TLS encryption.'
-              />
-            </Grid>
-            <Grid item xs='auto'>
-              <PropertyTile
-                icon={faWindowRestore}
-                primaryText='Cross-platform'
-                secondaryText='Available in all major browsers and operating systems.'
-              />
-            </Grid>
-            <Grid item xs='auto'>
-              <PropertyTile
-                icon={faEyeSlash}
-                primaryText='Encrypted storage'
-                secondaryText='Nobody other than you and your collaborators can see the files you are sharing through the link you receive.'
-              />
-            </Grid>
-            <Grid item xs='auto'>
-              <PropertyTile
-                icon={faCalendarDays}
-                primaryText='Customized availability'
-                secondaryText='You can set how long files are available &mdash; one day, one week, one month, ...forever.'
-              />
-            </Grid>
-            <Grid item xs='auto'>
-              <PropertyTile
-                icon={faHandHoldingDollar}
-                primaryText='Supportive subscription'
-                secondaryText='A low-price, hassle-free monthly subscription that helps us cover our running costs and develop even more awesome features.'
-              />
-            </Grid>
-          </Grid>
+          <GridList list={[
+            <PropertyTile
+              icon={faTruckFast}
+              primaryText='Fast'
+              secondaryText='We use state-of-the-art content delivery technology to allow for quick upload and download.'
+            />,
+            <PropertyTile
+              icon={faShieldHalved}
+              primaryText='Secure TLS 1.2'
+              secondaryText='Files are securely transmitted over TLS encryption.'
+            />,
+            <PropertyTile
+              icon={faWindowRestore}
+              primaryText='Cross-platform'
+              secondaryText='Available in all major browsers and operating systems.'
+            />,
+            <PropertyTile
+              icon={faEyeSlash}
+              primaryText='Encrypted storage'
+              secondaryText='Nobody other than you and your collaborators can see the files you are sharing through the link you receive.'
+            />,
+            <PropertyTile
+              icon={faCalendarDays}
+              primaryText='Customized availability'
+              secondaryText='You can set how long files are available &mdash; one day, one week, one month, ...forever.'
+            />,
+            <PropertyTile
+              icon={faHandHoldingDollar}
+              primaryText='Supportive subscription'
+              secondaryText='A low-price, hassle-free monthly subscription that helps us cover our running costs and develop even more awesome features.'
+            />,
+          ]}
+          />
         </Box>
 
         <Box sx={{ my: 10 }}>
           <Typography variant='h2' fontWeight='bold' sx={{ my: 10 }}>Download</Typography>
-          <Grid container spacing={{ xs: 1, sm: 2, md: 4 }}>
-            <Grid item xs='auto'>
-              <InstallTile link='/' browser='Chrome' />
-            </Grid>
-            <Grid item xs='auto'>
-              <InstallTile link='/' browser='Firefox' isSoon />
-            </Grid>
-            <Grid item xs='auto'>
-              <InstallTile link='/' browser='Microsoft Edge' isSoon />
-            </Grid>
-            <Grid item xs='auto'>
-              <InstallTile link='/' browser='Opera' isSoon />
-            </Grid>
-          </Grid>
+          <GridList list={[
+            <InstallTile link='/' browser='Chrome' />,
+            <InstallTile link='/' browser='Firefox' isSoon />,
+            <InstallTile link='/' browser='Microsoft Edge' isSoon />,
+            <InstallTile link='/' browser='Opera' isSoon />,
+          ]}
+          />
         </Box>
-
       </Container>
       <Footer />
     </Container>
