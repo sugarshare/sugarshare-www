@@ -34,10 +34,23 @@ export default function ErrorDisplay({ codeOrText }: ErrorDisplayProps) {
     }}
     >
       <Box sx={{ my: 4 }}>
-        <Logo width='30rem' />
+        <Logo width='50%' />
       </Box>
-      <Typography variant='h1' sx={{ mx: 4, my: 1, fontWeight: 'bold' }}>{codeOrText}</Typography>
-      <Typography variant='h5' sx={{ mx: 4, my: 1 }}>{getMessage(codeOrText)}</Typography>
+
+      <Typography
+        variant='h1'
+        sx={{ mx: 4, my: 1, fontWeight: 'bold' }}
+      >
+        {codeOrText}
+      </Typography>
+
+      <Typography
+        variant='h5'
+        sx={{ mx: 4, my: 1 }}
+      >
+        {getMessage(codeOrText)}
+      </Typography>
+
       <Typography variant='body1' sx={{ my: 8 }}>
         &#8617; Go to&nbsp;
         <Link href='/' variant='body1' color='inherit' title={settings.siteDomainName}>main site</Link>
