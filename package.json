@@ -33,6 +33,7 @@
     "@fontsource/poppins": "^4.5.3",
     "@fortawesome/fontawesome-svg-core": "^6.1.0",
     "@fortawesome/free-brands-svg-icons": "^6.1.0",
+    "@fortawesome/free-solid-svg-icons": "^6.1.0",
     "@fortawesome/react-fontawesome": "^0.1.18",
     "@mui/icons-material": "^5.5.0",
     "@mui/material": "^5.5.0",
