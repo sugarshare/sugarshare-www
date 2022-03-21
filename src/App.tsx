@@ -10,14 +10,33 @@ import {
 
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
+import Landing from './components/Landing';
 import InstallLink from './components/InstallLink';
 import PropertyTile from './components/PropertyTile';
 
-function App() {
+export default function App() {
   return (
     <Container maxWidth={false} disableGutters>
       <Navigation />
+      <Landing />
       <Container maxWidth='lg'>
+
+        <Box sx={{ my: 10 }}>
+          <Typography variant='h3' fontWeight='bold' sx={{ my: 10 }}>At SugarShare we believe that...</Typography>
+          <Typography variant='h4' component='span'>
+            Sharing files should be sweet and simple &mdash; as simple as uploading files to a secure location and
+            sending it over to anybody you want.
+          </Typography>
+          <br />
+          <br />
+          <br />
+          <Typography variant='h5' component='span'>
+            With SugarShare you can upload your files to a secure and temporary location in the cloud, and get a
+            link in return which you can share with anybody. The files stay in their location for a chosen duration
+            (e.g. 24 hours) before expiring, and can only be accessed via the provided link &mdash; i.e. by you
+            and your collaborators.
+          </Typography>
+        </Box>
 
         <Box sx={{ my: 10 }}>
           <Grid container spacing={{ xs: 1, sm: 2, md: 4 }}>
@@ -89,5 +108,3 @@ function App() {
     </Container>
   );
 }
-
-export default App;
