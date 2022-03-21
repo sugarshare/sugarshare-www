@@ -41,13 +41,13 @@ function getBroswerIcon(browser: CompatibleBrowser): IconDefinition | null {
 export default function InstallLink({ link, browser, isSoon = false }: InstallLinkProps) {
   const icon = getBroswerIcon(browser);
   return (
-    <Link href={link} target='_blank' rel='noopener' color='inherit' underline='hover'>
+    <Link href={link} target='_blank' rel='noopener' color='inherit' underline='none'>
       <BaseTile>
         {
           icon && <FontAwesomeIcon icon={icon} size='5x' />
         }
         <Typography variant='h5' textAlign='center' sx={{ mx: 2 }}>{browser}</Typography>
-        <Chip label={isSoon ? 'Available soon' : 'Available now'} size='small' />
+        <Chip label={isSoon ? 'Coming soon' : 'Available on all platforms'} size='small' />
       </BaseTile>
     </Link>
   );
