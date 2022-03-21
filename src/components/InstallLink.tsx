@@ -4,12 +4,12 @@ import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  IconDefinition, faChrome, faEdge, faOpera,
+  IconDefinition, faChrome, faFirefoxBrowser, faEdge, faOpera,
 } from '@fortawesome/free-brands-svg-icons';
 
 import BaseTile from './BaseTile';
 
-type CompatibleBrowser = 'Chrome' | 'Microsoft Edge' | 'Opera' | 'Brave' | 'Vivaldi';
+type CompatibleBrowser = 'Chrome' | 'Firefox' | 'Microsoft Edge' | 'Opera' | 'Brave' | 'Vivaldi';
 
 interface InstallLinkProps {
   link: string;
@@ -21,6 +21,8 @@ function getBroswerIcon(browser: CompatibleBrowser): IconDefinition | null {
   switch (browser) {
     case 'Chrome':
       return faChrome;
+    case 'Firefox':
+      return faFirefoxBrowser;
     case 'Microsoft Edge':
       return faEdge;
     case 'Opera':
