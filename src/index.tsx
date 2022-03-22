@@ -6,9 +6,11 @@ import { ThemeProvider } from '@mui/material/styles';
 import '@fontsource/poppins';
 
 // import './index.css';
-import App from './App';
-import ErrorDisplay from './components/ErrorDisplay';
 import theme from './theme';
+import App from './App';
+import Terms from './components/Terms';
+import Privacy from './components/Privacy';
+import ErrorDisplay from './components/ErrorDisplay';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
@@ -18,6 +20,8 @@ ReactDOM.render(
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<App />} />
+          <Route path='/terms' element={<Terms />} />
+          <Route path='/privacy' element={<Privacy />} />
           <Route path='/notfound' element={<ErrorDisplay codeOrText='404' />} />
           <Route path='/oops' element={<ErrorDisplay codeOrText='Oops!' />} />
         </Routes>
