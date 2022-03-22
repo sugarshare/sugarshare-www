@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 
 // A custom theme for this app
 declare module '@mui/material/styles' {
@@ -10,18 +10,23 @@ declare module '@mui/material/styles' {
   }
 }
 
-const theme = createTheme({
-  typography: {
-    fontFamily: 'Poppins',
-  },
-  palette: {
-    honey: {
-      main: '#eba937',
+const theme = responsiveFontSizes(
+  createTheme({
+    typography: {
+      fontFamily: 'Poppins',
     },
-    secondary: {
-      main: '#eba937',
+    palette: {
+      honey: {
+        main: '#eba937',
+      },
+      secondary: {
+        main: '#eba937',
+      },
     },
+  }),
+  {
+    factor: 2.5,
   },
-});
+);
 
 export default theme;
