@@ -23,8 +23,8 @@ export default function App() {
       <Landing />
       <Container maxWidth='lg'>
 
-        <Box id='intro' sx={{ my: 10 }}>
-          <Typography variant='h3' fontWeight='bold' sx={{ my: 10 }}>At SugarShare we believe that...</Typography>
+        <Box id='intro' sx={{ marginY: 10 }}>
+          <Typography variant='h3' fontWeight='bold' sx={{ marginBottom: 20 }}>At SugarShare we believe that...</Typography>
           <Typography variant='h4' component='span'>
             Sharing files should be sweet and simple &mdash; as simple as uploading files to a secure location and
             sending it over to anybody you want.
@@ -40,7 +40,7 @@ export default function App() {
           </Typography>
         </Box>
 
-        <Box id='advantages' sx={{ my: 10 }}>
+        <Box id='advantages' sx={{ marginY: 20 }}>
           <GridList list={[
             <PropertyTile
               icon={faTruckFast}
@@ -76,8 +76,8 @@ export default function App() {
           />
         </Box>
 
-        <Box id='download' sx={{ my: 10 }}>
-          <Typography variant='h3' fontWeight='bold' sx={{ my: 10 }}>Get it</Typography>
+        <Box id='download' sx={{ marginY: 20 }}>
+          <Typography variant='h3' fontWeight='bold' sx={{ marginY: 10 }}>Get it</Typography>
           <GridList list={[
             <InstallTile link='/' browser='Chrome' />,
             <InstallTile link='/' browser='Firefox' isSoon />,
@@ -87,8 +87,8 @@ export default function App() {
           />
         </Box>
 
-        <Box id='contact' sx={{ my: 10 }}>
-          <Typography variant='h3' fontWeight='bold' sx={{ my: 4 }}>Contact</Typography>
+        <Box id='contact' sx={{ marginY: 10 }}>
+          <Typography variant='h3' fontWeight='bold' sx={{ marginY: 4 }}>Contact</Typography>
           <Typography variant='body1'>Ask us questions, give us feedback, report an issue, or simply say hello.</Typography>
           <Link href={`mailto:${settings.defaultEmailAddress}?body=Hello!`} target='_blank'>
             {settings.defaultEmailAddress}
