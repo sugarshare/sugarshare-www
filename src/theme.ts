@@ -21,9 +21,6 @@ const theme = createTheme({
     secondary: {
       main: '#eba937',
     },
-    // background: {
-    //   default: '#eba937', // For buttons ##3779eb
-    // },
   },
 });
 

@@ -9,11 +9,13 @@ export default function Footer() {
     <>
       <Divider variant='middle' />
       <Box sx={{
+        paddingY: 8,
+        backgroundColor: 'text.primary',
+        color: 'white',
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'center',
         alignItems: 'flex-end',
-        my: 8,
         typography: 'body2',
         '& > :not(style) + :not(style)': {
           ml: { xs: 2, sm: 3, md: 4 },

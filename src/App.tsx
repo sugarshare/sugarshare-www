@@ -95,7 +95,7 @@ export default function App() {
         <Box id='contact' sx={{ marginY: 10 }}>
           <Typography variant='h3' fontWeight='bold' sx={{ marginY: 4 }}>Contact</Typography>
           <Typography variant='body1'>Ask us questions, give us feedback, report an issue, or simply say hello.</Typography>
-          <Link href={`mailto:${settings.defaultEmailAddress}?body=Hello!`} target='_blank'>
+          <Link href={`mailto:${settings.defaultEmailAddress}?body=Hello!`} target='_blank' color='inherit'>
             {settings.defaultEmailAddress}
           </Link>
         </Box>
