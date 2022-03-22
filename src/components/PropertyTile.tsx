@@ -14,7 +14,7 @@ export default function PropertyTile({ icon, primaryText, secondaryText }: Prope
   return (
     <BaseTile>
       <FontAwesomeIcon icon={icon} size='3x' />
-      <Typography variant='h5' textAlign='center' sx={{ mx: 2 }}>{primaryText}</Typography>
+      <Typography variant='h5' fontWeight='bold' textAlign='center' sx={{ mx: 2 }}>{primaryText}</Typography>
       <Typography variant='body2' textAlign='center' sx={{ mx: 2 }}>{secondaryText}</Typography>
     </BaseTile>
   );
