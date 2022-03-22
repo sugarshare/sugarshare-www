@@ -5,9 +5,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 import '@fontsource/poppins';
 
-// import './index.css';
 import theme from './theme';
 import App from './App';
+// import FileFrame from './components/FileFrame';
 import Terms from './components/Terms';
 import Privacy from './components/Privacy';
 import ErrorDisplay from './components/ErrorDisplay';
