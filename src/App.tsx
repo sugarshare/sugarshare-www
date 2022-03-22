@@ -23,7 +23,7 @@ export default function App() {
       <Landing />
       <Container maxWidth='lg'>
 
-        <Box sx={{ my: 10 }}>
+        <Box id='intro' sx={{ my: 10 }}>
           <Typography variant='h3' fontWeight='bold' sx={{ my: 10 }}>At SugarShare we believe that...</Typography>
           <Typography variant='h4' component='span'>
             Sharing files should be sweet and simple &mdash; as simple as uploading files to a secure location and
@@ -40,7 +40,7 @@ export default function App() {
           </Typography>
         </Box>
 
-        <Box sx={{ my: 10 }}>
+        <Box id='advantages' sx={{ my: 10 }}>
           <GridList list={[
             <PropertyTile
               icon={faTruckFast}
@@ -76,8 +76,8 @@ export default function App() {
           />
         </Box>
 
-        <Box sx={{ my: 10 }}>
-          <Typography variant='h2' fontWeight='bold' sx={{ my: 10 }}>Download</Typography>
+        <Box id='download' sx={{ my: 10 }}>
+          <Typography variant='h3' fontWeight='bold' sx={{ my: 10 }}>Get it</Typography>
           <GridList list={[
             <InstallTile link='/' browser='Chrome' />,
             <InstallTile link='/' browser='Firefox' isSoon />,
