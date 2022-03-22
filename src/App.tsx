@@ -24,7 +24,12 @@ export default function App() {
       <Container maxWidth='lg'>
 
         <Box id='intro' sx={{ marginY: 10 }}>
-          <Typography variant='h3' fontWeight='bold' sx={{ marginBottom: 20 }}>At SugarShare we believe that...</Typography>
+          <Typography variant='h4' fontWeight='bold' sx={{ marginBottom: 10 }}>
+            Create shareable links valid for 24 hours or more to transfer files privately and securely
+            with your collaborators and friends.
+          </Typography>
+
+          <Typography variant='h3' fontWeight='bold' sx={{ marginBottom: 10 }}>At SugarShare we believe that...</Typography>
           <Typography variant='h4' component='span'>
             Sharing files should be sweet and simple &mdash; as simple as uploading files to a secure location and
             sending it over to anybody you want.
