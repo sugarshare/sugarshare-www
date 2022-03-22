@@ -6,4 +6,5 @@ export default {
   siteDomainName: 'www.sugarshare.me',
   apiDomainName: 'api.sugarshare.me',
   authDomainName: 'auth.sugarshare.me',
+  defaultEmailAddress: 'hello@sugarshare.me',
 } as const;

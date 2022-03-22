@@ -24,7 +24,7 @@ export default function Footer() {
         </span>
         <Link href='/terms' underline='hover' color='inherit' aria-label='go to terms and conditions'>Terms</Link>
         <Link href='/privacy' underline='hover' color='inherit' aria-label='go to privacy policy'>Privacy</Link>
-        <Link href='/' underline='hover' color='inherit' aria-label='go to contact'>TODO Contact</Link>
+        <Link href='#contact' underline='hover' color='inherit' aria-label='go to contact'>Contact</Link>
         <Link href='/' underline='hover' color='inherit' aria-label='go to contact'>TODO Report a technical issue</Link>
         <Link href='/' underline='hover' color='inherit' aria-label='go to contact'>TODO GitHub</Link>
       </Box>

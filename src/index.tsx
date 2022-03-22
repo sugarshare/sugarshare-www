@@ -1,9 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import {
+  BrowserRouter, Routes, Route, Navigate,
+} from 'react-router-dom';
+
+import '@fontsource/poppins';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
-import '@fontsource/poppins';
 
 import theme from './theme';
 import App from './App';
@@ -20,10 +23,11 @@ ReactDOM.render(
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<App />} />
-          <Route path='/terms' element={<Terms />} />
-          <Route path='/privacy' element={<Privacy />} />
-          <Route path='/notfound' element={<ErrorDisplay codeOrText='404' />} />
-          <Route path='/oops' element={<ErrorDisplay codeOrText='Oops!' />} />
+          <Route path='contact' element={<Navigate replace to='/#contact' />} />
+          <Route path='terms' element={<Terms />} />
+          <Route path='privacy' element={<Privacy />} />
+          <Route path='notfound' element={<ErrorDisplay codeOrText='404' />} />
+          <Route path='oops' element={<ErrorDisplay codeOrText='Oops!' />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

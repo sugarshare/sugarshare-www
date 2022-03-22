@@ -2,6 +2,7 @@ import React from 'react';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
 
 import {
   faShieldHalved, faEyeSlash, faTruckFast, faWindowRestore, faCalendarDays, faHandHoldingDollar,
@@ -13,6 +14,7 @@ import Landing from './components/Landing';
 import GridList from './components/GridList';
 import InstallTile from './components/InstallTile';
 import PropertyTile from './components/PropertyTile';
+import settings from './settings';
 
 export default function App() {
   return (
@@ -83,6 +85,14 @@ export default function App() {
             <InstallTile link='/' browser='Opera' isSoon />,
           ]}
           />
+        </Box>
+
+        <Box id='contact' sx={{ my: 10 }}>
+          <Typography variant='h3' fontWeight='bold' sx={{ my: 4 }}>Contact</Typography>
+          <Typography variant='body1'>Ask us questions, give us feedback, report an issue, or simply say hello.</Typography>
+          <Link href={`mailto:${settings.defaultEmailAddress}?body=Hello!`} target='_blank'>
+            {settings.defaultEmailAddress}
+          </Link>
         </Box>
       </Container>
       <Footer />
