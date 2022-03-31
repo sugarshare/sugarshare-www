@@ -10,7 +10,7 @@ import { ThemeProvider } from '@mui/material/styles';
 
 import theme from './theme';
 import App from './App';
-// import FileFrame from './components/FileFrame';
+import FileFrame from './components/FileFrame';
 import Terms from './components/Terms';
 import Privacy from './components/Privacy';
 import ErrorDisplay from './components/ErrorDisplay';
@@ -23,11 +23,13 @@ ReactDOM.render(
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<App />} />
+          <Route path=':fileId' element={<FileFrame />} />
           <Route path='contact' element={<Navigate replace to='/#contact' />} />
           <Route path='terms' element={<Terms />} />
           <Route path='privacy' element={<Privacy />} />
-          <Route path='notfound' element={<ErrorDisplay codeOrText='404' />} />
           <Route path='oops' element={<ErrorDisplay codeOrText='Oops!' />} />
+          <Route path='notfound' element={<ErrorDisplay codeOrText='404' />} />
+          <Route path='*' element={<ErrorDisplay codeOrText='404' />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
