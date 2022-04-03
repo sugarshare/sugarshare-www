@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 
 import {
-  faShieldHalved, faEyeSlash, faTruckFast, faWindowRestore, faCalendarDays, faHandHoldingDollar,
+  faShieldHalved, faEyeSlash, faTruckFast, faWindowRestore, faCalendarDays, faHandHoldingDollar, faTree,
 } from '@fortawesome/free-solid-svg-icons';
 
 import Navigation from './components/Navigation';
@@ -76,6 +76,11 @@ export default function App() {
               icon={faHandHoldingDollar}
               primaryText='Supportive subscription'
               secondaryText='A low-price, hassle-free monthly subscription that helps us cover our running costs and develop even more awesome features.'
+            />,
+            <PropertyTile
+              icon={faTree}
+              primaryText='1% revenue towards carbon removal'
+              secondaryText='We contribute 1% of our total revenues to remove CO2 from the atmosphere.'
             />,
           ]}
           />
