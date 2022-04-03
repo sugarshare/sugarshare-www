@@ -7,8 +7,8 @@ export default function Landing() {
     <Box sx={{
       width: '100%',
       backgroundColor: 'honey.main',
-      paddingY: { sm: 5, lg: 10 },
-      paddingX: { sm: 10, lg: 20 },
+      paddingY: { xs: 4, sm: 10, lg: 10 },
+      paddingX: { xs: 2, sm: 5, lg: 20 },
     }}
     >
       <Typography
