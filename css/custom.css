@@ -1,0 +1,10 @@
+html {
+	height: 100%;
+}
+
+body {
+	background-color: #009DDC;
+	color: #F0F6F6;
+	font-family: Verdana, Tahoma, sans-serif;
+	min-height: 100%;
+}
