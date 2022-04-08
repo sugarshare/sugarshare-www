@@ -31,21 +31,6 @@ export default function App() {
               Create shareable links valid for 24 hours or more to transfer files privately and securely
               with your collaborators and friends.
             </Typography>
-
-            <Typography variant='h3' fontWeight='bold' sx={{ marginBottom: 10 }}>At SugarShare we believe that...</Typography>
-            <Typography variant='h4' component='span'>
-              Sharing files should be sweet and simple &mdash; as simple as uploading files to a secure location and
-              sending it over to anybody you want.
-            </Typography>
-            <br />
-            <br />
-            <br />
-            <Typography variant='h5' component='span'>
-              With SugarShare you can upload your files to a secure and temporary location in the cloud, and get a
-              link in return which you can share with anybody. The files stay in their location for a chosen duration
-              (e.g. 24 hours) before expiring, and can only be accessed via the provided link &mdash; i.e. by you
-              and your collaborators.
-            </Typography>
           </Box>
 
           <Box id='benefits' sx={{ marginY: 20 }}>
@@ -137,10 +122,10 @@ export default function App() {
         </Container>
       </Container>
 
-      <Container maxWidth={false} disableGutters>
+      <Container id='products' maxWidth={false} disableGutters sx={{ paddingY: 10 }}>
         <Container maxWidth='lg'>
-          <Box id='download' sx={{ marginY: 20 }}>
-            <Typography variant='h3' fontWeight='bold' sx={{ marginY: 10 }}>Get it</Typography>
+          <Box sx={{ marginY: 10 }}>
+            <Typography variant='h3' fontWeight='bold' sx={{ marginY: 4 }}>Get it</Typography>
             <GridList list={[
               <InstallTile link='/' browser='Chrome' />,
               <InstallTile link='/' browser='Firefox' isSoon />,
@@ -148,6 +133,27 @@ export default function App() {
               <InstallTile link='/' browser='Opera' isSoon />,
             ]}
             />
+          </Box>
+        </Container>
+      </Container>
+
+      <Container id='about' maxWidth={false} disableGutters sx={{ paddingTop: 10 }}>
+        <Container maxWidth='lg'>
+          <Box>
+            <Typography variant='h3' fontWeight='bold' sx={{ marginBottom: 10 }}>At SugarShare we believe that...</Typography>
+            <Typography variant='h4' component='span'>
+              Sharing files should be sweet and simple &mdash; as simple as uploading files to a secure location and
+              sending it over to anybody you want.
+            </Typography>
+            <br />
+            <br />
+            <br />
+            <Typography variant='h5' component='span'>
+              With SugarShare you can upload your files to a secure and temporary location in the cloud, and get a
+              link in return which you can share with anybody. The files stay in their location for a chosen duration
+              (e.g. 24 hours) before expiring, and can only be accessed via the provided link &mdash; i.e. by you
+              and your collaborators.
+            </Typography>
           </Box>
 
           <Box id='contact' sx={{ marginY: 10 }}>
