@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 
 import {
-  faShieldHalved, faEyeSlash, faTruckFast, faWindowRestore, faCalendarDays, faHandHoldingDollar, faTree,
+  faShieldHalved, faGlobe, faEyeSlash, faTruckFast, faWindowRestore, faCalendarDays, faHandHoldingDollar, faTree,
 } from '@fortawesome/free-solid-svg-icons';
 
 import settings from './settings';
@@ -38,12 +38,21 @@ export default function App() {
               <PropertyTile
                 icon={faTruckFast}
                 primaryText='Fast'
-                secondaryText='We use state-of-the-art content delivery technology to allow for quick upload and download.'
+                secondaryText='We use top notch content delivery technology for fast uploads and downloads worldwide.'
+              />,
+              <PropertyTile
+                icon={faGlobe}
+                primaryText='Send anywhere'
+                secondaryText='You get a link that you can share with anybody you want, wherever they are.'
+              />,
+              <PropertyTile
+                icon={faCalendarDays}
+                primaryText='Customize expiry'
+                secondaryText='You can set how long files are available &mdash; one day, one week, one month, ...forever.'
               />,
               <PropertyTile
                 icon={faShieldHalved}
-                // primaryText='Secure TLS'
-                primaryText='Secure TLS 1.2'
+                primaryText='Secure TLS'
                 secondaryText='Files are securely transmitted over TLS encryption.'
               />,
               <PropertyTile
@@ -57,15 +66,9 @@ export default function App() {
                 secondaryText='Nobody other than you and your collaborators can see the files you are sharing through the link you receive.'
               />,
               <PropertyTile
-                icon={faCalendarDays}
-                primaryText='Customized availability'
-                secondaryText='You can set how long files are available &mdash; one day, one week, one month, ...forever.'
-              />,
-              <PropertyTile
                 icon={faHandHoldingDollar}
                 primaryText='Supportive subscription'
-                // secondaryText='A low-price, hassle-free monthly (or yearly!) subscription that helps us cover our running costs and develop even more awesome features.'
-                secondaryText='A low-price, hassle-free monthly subscription that helps us cover our running costs and develop even more awesome features.'
+                secondaryText='A low-price, hassle-free monthly (or yearly!) subscription that helps us cover our running costs and develop even more awesome features.'
               />,
               <PropertyTile
                 icon={faTree}
