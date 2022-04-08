@@ -67,6 +67,7 @@ export default function Subscription({
       <Button
         type='submit'
         variant='contained'
+        size='large'
         color='secondary'
         fullWidth
         sx={{
