@@ -53,7 +53,7 @@ export default function Subscription() {
 
   return (
     <>
-      <FormGroup>
+      <FormGroup sx={{ display: 'inline-flex' }}>
         <FormControlLabel
           control={
             <Switch checked={isYearly} onChange={() => setIsYearly((y) => !y)} color='secondary' inputProps={{ 'aria-label': 'select yearly subscription' }} />
