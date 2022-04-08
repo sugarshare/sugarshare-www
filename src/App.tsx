@@ -51,19 +51,19 @@ export default function App() {
                 secondaryText='You can set how long files are available &mdash; one day, one week, one month, ...forever.'
               />,
               <PropertyTile
+                icon={faEyeSlash}
+                primaryText='Encrypted storage'
+                secondaryText='Nobody other than you and your collaborators can see the files you are sharing.'
+              />,
+              <PropertyTile
                 icon={faShieldHalved}
                 primaryText='Secure TLS'
-                secondaryText='Files are securely transmitted over TLS encryption.'
+                secondaryText='Files are securely transmitted with TLS encryption.'
               />,
               <PropertyTile
                 icon={faWindowRestore}
                 primaryText='Cross-platform'
                 secondaryText='Available in all major browsers and operating systems.'
-              />,
-              <PropertyTile
-                icon={faEyeSlash}
-                primaryText='Encrypted storage'
-                secondaryText='Nobody other than you and your collaborators can see the files you are sharing through the link you receive.'
               />,
               <PropertyTile
                 icon={faHandHoldingDollar}
