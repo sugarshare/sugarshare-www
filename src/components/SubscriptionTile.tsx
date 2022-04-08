@@ -19,8 +19,8 @@ export enum SubscriptionLevel {
 interface SubscriptionProps {
   level: SubscriptionLevel;
   benefits: string[];
-  price?: string;
-  priceId?: string;
+  price: string | null;
+  priceId: string | null;
 }
 
 export default function Subscription({
@@ -61,7 +61,7 @@ export default function Subscription({
       </Box>
 
       {priceId && <Divider variant='middle' flexItem sx={{ marginTop: 'auto' }} />}
-      <Typography variant='h5' fontWeight='bold' sx={{ marginY: 2 }}>{price}</Typography>
+      {price && <Typography variant='h5' fontWeight='bold' sx={{ marginY: 2 }}>{price}</Typography>}
 
       <Input type='hidden' name='priceId' value={priceId} />
       <Button
