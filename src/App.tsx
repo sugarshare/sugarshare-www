@@ -8,13 +8,15 @@ import {
   faShieldHalved, faEyeSlash, faTruckFast, faWindowRestore, faCalendarDays, faHandHoldingDollar, faTree,
 } from '@fortawesome/free-solid-svg-icons';
 
+import settings from './settings';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import Landing from './components/Landing';
 import GridList from './components/GridList';
 import InstallTile from './components/InstallTile';
 import PropertyTile from './components/PropertyTile';
-import settings from './settings';
+import Subscription, { SubscriptionLevel } from './components/Subscription';
+
 
 export default function App() {
   return (
@@ -54,6 +56,7 @@ export default function App() {
             />,
             <PropertyTile
               icon={faShieldHalved}
+              // primaryText='Secure TLS'
               primaryText='Secure TLS 1.2'
               secondaryText='Files are securely transmitted over TLS encryption.'
             />,
@@ -75,6 +78,7 @@ export default function App() {
             <PropertyTile
               icon={faHandHoldingDollar}
               primaryText='Supportive subscription'
+              // secondaryText='A low-price, hassle-free monthly (or yearly!) subscription that helps us cover our running costs and develop even more awesome features.'
               secondaryText='A low-price, hassle-free monthly subscription that helps us cover our running costs and develop even more awesome features.'
             />,
             <PropertyTile
@@ -83,6 +87,49 @@ export default function App() {
               secondaryText='We contribute 1% of our total revenues to remove CO2 from the atmosphere.'
             />,
           ]}
+          />
+        </Box>
+
+        <Typography variant='h3' fontWeight='bold' sx={{ marginY: 4 }}>Pricing</Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', md: 'row' },
+            flexWrap: 'no-wrap',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+          }}
+        >
+          <Subscription
+            level={SubscriptionLevel.FREE}
+            benefits={[
+              'Lorem ipsum',
+              'Lorem ipsum',
+              'Lorem ipsum',
+              'Lorem ipsum',
+              'Lorem ipsum',
+            ]}
+          />
+          <Subscription
+            level={SubscriptionLevel.STANDARD}
+            price='6$ / month'
+            priceId='price_xxx'
+            benefits={[
+              'Lorem ipsum',
+              'Lorem ipsum',
+              'Lorem ipsum',
+              'Lorem ipsum',
+            ]}
+          />
+          <Subscription
+            level={SubscriptionLevel.PREMIUM}
+            price='11$ / month'
+            priceId='price_xxx'
+            benefits={[
+              'Lorem ipsum',
+              'Lorem ipsum',
+              'Lorem ipsum',
+            ]}
           />
         </Box>
 
