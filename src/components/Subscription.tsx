@@ -34,7 +34,7 @@ export default function Subscription({
       sx={{
         backgroundColor: 'white',
         margin: 2,
-        paddingX: 4,
+        padding: 4,
         minWidth: '15rem',
         width: { xs: '80vw', md: '20rem' },
         height: '40rem',
@@ -48,7 +48,7 @@ export default function Subscription({
       }}
     >
       <Typography variant='h3' fontWeight='bold'>{level}</Typography>
-      <Box sx={{ minHeight: '20rem' }}>
+      <Box sx={{ minHeight: '20rem', marginY: 4 }}>
         {
           benefits.map((benefit) => (
             <Typography variant='body1'>
@@ -59,8 +59,10 @@ export default function Subscription({
           ))
         }
       </Box>
-      {priceId && <Divider variant='middle' flexItem />}
-      <Typography variant='h5' fontWeight='bold'>{price}</Typography>
+
+      {priceId && <Divider variant='middle' flexItem sx={{ marginTop: 'auto' }} />}
+      <Typography variant='h5' fontWeight='bold' sx={{ marginY: 2 }}>{price}</Typography>
+
       <Input type='hidden' name='priceId' value={priceId} />
       <Button
         type='submit'
@@ -69,6 +71,7 @@ export default function Subscription({
         fullWidth
         sx={{
           fontWeight: 'bold',
+          marginTop: 'auto',
         }}
       >
         {priceId ? 'Sign up' : 'Create account'}
