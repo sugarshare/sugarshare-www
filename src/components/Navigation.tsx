@@ -1,20 +1,33 @@
 import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
-import AppBar from '@mui/material/AppBar';
+import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
+import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
+import Link from '@mui/material/Link';
+import Button from '@mui/material/Button';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 
 import Logo from './Logo';
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = {
+  Products: {
+    href: '#products',
+  },
+  Pricing: {
+    href: '#pricing',
+  },
+  About: {
+    href: '#about',
+  },
+  Contact: {
+    href: '#contact',
+  },
+};
 
 function ElevationScroll({ children }: { children: React.ReactElement }) {
   const trigger = useScrollTrigger({
@@ -80,9 +93,9 @@ export default function Navigation() {
                     display: { xs: 'block', md: 'none' },
                   }}
                 >
-                  {pages.map((page) => (
+                  {Object.entries(pages).map(([page, { href }]) => (
                     <MenuItem key={page} onClick={handleCloseNavMenu}>
-                      <Typography textAlign='center'>{page}</Typography>
+                      <Link variant='body1' href={href} textAlign='center' color='inherit' underline='none'>{page}</Link>
                     </MenuItem>
                   ))}
                 </Menu>
@@ -93,9 +106,11 @@ export default function Navigation() {
               </Box>
 
               <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                {pages.map((page) => (
+                {/* {pages.map((page) => ( */}
+                {Object.entries(pages).map(([page, { href }]) => (
                   <Button
                     key={page}
+                    href={href}
                     onClick={handleCloseNavMenu}
                     sx={{ my: 2, color: 'white', display: 'block' }}
                   >
