@@ -63,7 +63,7 @@ export default function App() {
               <PropertyTile
                 icon={faWindowRestore}
                 primaryText='Cross-platform'
-                secondaryText='Available in all major browsers and operating systems.'
+                secondaryText='Available on all major browsers and operating systems.'
               />,
               <PropertyTile
                 icon={faHandHoldingDollar}
@@ -140,10 +140,10 @@ export default function App() {
         </Container>
       </Container>
 
-      <Container id='about' maxWidth={false} disableGutters sx={{ paddingTop: 10 }}>
+      <Container id='about' maxWidth={false} disableGutters sx={{ backgroundColor: 'text.primary', color: 'white', paddingY: 20 }}>
         <Container maxWidth='lg'>
           <Box>
-            <Typography variant='h3' fontWeight='bold' sx={{ marginBottom: 10 }}>At SugarShare we believe that...</Typography>
+            <Typography variant='h3' fontWeight='bold' sx={{ marginBottom: 10 }}>At SugarShare, we believe that...</Typography>
             <Typography variant='h4' component='span'>
               Sharing files should be sweet and simple &mdash; as simple as uploading files to a secure location and
               sending it over to anybody you want.
@@ -152,14 +152,18 @@ export default function App() {
             <br />
             <br />
             <Typography variant='h5' component='span'>
-              With SugarShare you can upload your files to a secure and temporary location in the cloud, and get a
+              With SugarShare, you can upload your files to a secure and temporary location in the cloud, and get a
               link in return which you can share with anybody. The files stay in their location for a chosen duration
               (e.g. 24 hours) before expiring, and can only be accessed via the provided link &mdash; i.e. by you
               and your collaborators.
             </Typography>
           </Box>
+        </Container>
+      </Container>
 
-          <Box id='contact' sx={{ marginY: 10 }}>
+      <Container id='contact' maxWidth={false} disableGutters sx={{ paddingTop: 10 }}>
+        <Container maxWidth='lg'>
+          <Box sx={{ marginY: 10 }}>
             <Typography variant='h3' fontWeight='bold' sx={{ marginY: 4 }}>Contact</Typography>
             <Typography variant='body1'>Ask us questions, give us feedback, report an issue, or simply say hello.</Typography>
             <Link href={`mailto:${settings.defaultEmailAddress}?body=Hello!`} target='_blank' color='inherit'>
