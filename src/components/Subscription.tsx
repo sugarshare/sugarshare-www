@@ -11,9 +11,7 @@ const SUBSCRIPTIONS = {
     price: null,
     priceId: null,
     benefits: [
-      'Lorem ipsum',
-      'Lorem ipsum',
-      'Lorem ipsum',
+      'Coming soon!',
     ],
   },
   [SubscriptionLevel.STANDARD]: {
@@ -26,9 +24,7 @@ const SUBSCRIPTIONS = {
       yearly: 'price_1KmD1HFJFAGDCGYEFWTjIuIG',
     },
     benefits: [
-      'Lorem ipsum',
-      'Lorem ipsum',
-      'Lorem ipsum',
+      'Coming soon!',
     ],
   },
   [SubscriptionLevel.PREMIUM]: {
@@ -41,9 +37,7 @@ const SUBSCRIPTIONS = {
       yearly: 'price_1KmDDdFJFAGDCGYEsP4hBTO5',
     },
     benefits: [
-      'Lorem ipsum',
-      'Lorem ipsum',
-      'Lorem ipsum',
+      'Coming soon!',
     ],
   },
 };

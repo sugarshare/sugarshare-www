@@ -65,6 +65,7 @@ export default function Subscription({
 
       <Input type='hidden' name='priceId' value={priceId} />
       <Button
+        disabled
         type='submit'
         variant='contained'
         size='large'
@@ -75,7 +76,7 @@ export default function Subscription({
           marginTop: 'auto',
         }}
       >
-        {priceId ? 'Sign up' : 'Create account'}
+        {priceId ? 'Join' : 'Create account'}
       </Button>
     </Box>
   );
