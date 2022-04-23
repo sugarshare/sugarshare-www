@@ -5,9 +5,12 @@ export default function BaseTile({ children }: { children: React.ReactNode }) {
   return (
     <Box
       sx={{
-        width: '15rem',
-        height: '20rem',
         backgroundColor: 'honey.main',
+        marginY: 1,
+        padding: 2,
+        minWidth: { xs: '80vw', md: null },
+        width: { xs: '80vw', md: '16rem' },
+        height: '22rem',
         display: 'flex',
         flexDirection: 'column',
         flexWrap: 'nowrap',
