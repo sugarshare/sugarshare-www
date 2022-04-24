@@ -11,7 +11,10 @@ const SUBSCRIPTIONS = {
     price: null,
     priceId: null,
     benefits: [
-      'Coming soon!',
+      'Send up to 3 GB per file',
+      'Unlimited number of files',
+      'Links valid for 24 hours',
+      'No payment method required',
     ],
   },
   [SubscriptionLevel.STANDARD]: {
