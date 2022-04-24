@@ -30,7 +30,7 @@ const FREE_SUBSCRIBE_URL = () => {
     client_id: 'mh81fe4s02g87iedt0pimthp4',
     response_type: 'code',
     scope: ['openid', 'email', 'profile'].join(' '),
-    redirect_uri: `https://${settings.siteDomainName}`,
+    redirect_uri: `https://${settings.siteDomainName}/`,
   };
 
   const cognitoHostedUIUrl = new URL('signup', `https://${settings.authDomainName}`);
@@ -42,36 +42,29 @@ const FREE_SUBSCRIBE_URL = () => {
 export default function Subscription({
   level, benefits, price, priceId,
 }: SubscriptionProps) {
-  return (
-    <Box
-      component='form'
-      action={
-        price
-          ? PAID_SUBSCRIBE_URL()
-          : FREE_SUBSCRIBE_URL()
-      }
-      method='POST'
-      sx={{
-        backgroundColor: 'white',
-        margin: 2,
-        padding: 4,
-        minWidth: '15rem',
-        width: { xs: '80vw', md: '20rem' },
-        height: '40rem',
-        display: 'flex',
-        flexDirection: 'column',
-        flexWrap: 'no-wrap',
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-        border: '1px solid grey',
-        borderRadius: 2,
-      }}
-    >
+  const sx = {
+    backgroundColor: 'white',
+    margin: 2,
+    padding: 4,
+    minWidth: '15rem',
+    width: { xs: '80vw', md: '20rem' },
+    height: '40rem',
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'no-wrap',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    border: '1px solid grey',
+    borderRadius: 2,
+  };
+
+  const content = (
+    <>
       <Typography variant='h3' fontWeight='bold'>{level}</Typography>
       <Box sx={{ minHeight: '20rem', marginY: 4 }}>
         {
           benefits.map((benefit) => (
-            <Typography variant='body1'>
+            <Typography variant='body1' sx={{ lineHeight: 2 }}>
               <FontAwesomeIcon icon={faCheck} />
               &nbsp;&nbsp;&nbsp;
               {benefit}
@@ -79,14 +72,45 @@ export default function Subscription({
           ))
         }
       </Box>
+    </>
+  );
 
-      {priceId && <Divider variant='middle' flexItem sx={{ marginTop: 'auto' }} />}
-      {price && <Typography variant='h5' fontWeight='bold' sx={{ marginY: 2 }}>{price}</Typography>}
+  if (price && priceId) {
+    return (
+      <Box
+        component='form'
+        action={PAID_SUBSCRIBE_URL()}
+        method='POST'
+        sx={sx}
+      >
+        {content}
+        <Divider variant='middle' flexItem sx={{ marginTop: 'auto' }} />
+        <Typography variant='h5' fontWeight='bold' sx={{ marginY: 2 }}>{price}</Typography>
 
-      <Input type='hidden' name='priceId' value={priceId} />
+        <Input type='hidden' name='priceId' value={priceId} />
+        <Button
+          disabled // TODO remove once subscription is available
+          type='submit'
+          variant='contained'
+          size='large'
+          color='secondary'
+          fullWidth
+          sx={{
+            fontWeight: 'bold',
+            marginTop: 'auto',
+          }}
+        >
+          Join
+        </Button>
+      </Box>
+    );
+  }
+
+  return (
+    <Box sx={sx}>
+      {content}
       <Button
-        disabled
-        type='submit'
+        href={FREE_SUBSCRIBE_URL()}
         variant='contained'
         size='large'
         color='secondary'
@@ -96,7 +120,7 @@ export default function Subscription({
           marginTop: 'auto',
         }}
       >
-        {priceId ? 'Join' : 'Create account'}
+        Create account
       </Button>
     </Box>
   );
