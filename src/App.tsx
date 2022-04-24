@@ -17,7 +17,6 @@ import InstallTile from './components/InstallTile';
 import PropertyTile from './components/PropertyTile';
 import Subscription from './components/Subscription';
 
-
 export default function App() {
   return (
     <>
