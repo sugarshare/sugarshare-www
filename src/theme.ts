@@ -13,7 +13,7 @@ declare module '@mui/material/styles' {
 const theme = responsiveFontSizes(
   createTheme({
     typography: {
-      fontFamily: 'Poppins',
+      fontFamily: '"Poppins", sans-serif;',
     },
     palette: {
       honey: {

@@ -1,82 +1,81 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
-import Input from '@mui/material/Input';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import SubscriptionTile, { SubscriptionLevel } from './SubscriptionTile';
 
-import settings from '../settings';
+const SUBSCRIPTIONS = {
+  [SubscriptionLevel.FREE]: {
+    price: null,
+    priceId: null,
+    benefits: [
+      'Coming soon!',
+    ],
+  },
+  [SubscriptionLevel.STANDARD]: {
+    price: {
+      monthly: 6,
+      yearly: 5,
+    },
+    priceId: {
+      monthly: 'price_1KmD1lFJFAGDCGYEbWBkY4hc',
+      yearly: 'price_1KmD1HFJFAGDCGYEFWTjIuIG',
+    },
+    benefits: [
+      'Coming soon!',
+    ],
+  },
+  [SubscriptionLevel.PREMIUM]: {
+    price: {
+      monthly: 10,
+      yearly: 9,
+    },
+    priceId: {
+      monthly: 'price_1KmDFiFJFAGDCGYEpyo3kTjC',
+      yearly: 'price_1KmDDdFJFAGDCGYEsP4hBTO5',
+    },
+    benefits: [
+      'Coming soon!',
+    ],
+  },
+};
 
-export enum SubscriptionLevel {
-  FREE = 'Free',
-  STANDARD = 'Standard',
-  PREMIUM = 'Premium',
-}
+export default function Subscription() {
+  const [isYearly, setIsYearly] = useState(true);
 
-interface SubscriptionProps {
-  level: SubscriptionLevel;
-  benefits: string[];
-  price?: string;
-  priceId?: string;
-}
-
-export default function Subscription({
-  level, benefits, price, priceId,
-}: SubscriptionProps) {
   return (
-    <Box
-      component='form'
-      action={`https://${settings.apiDomainName}/subscription/create-checkout-session`}
-      method='POST'
-      sx={{
-        backgroundColor: 'white',
-        margin: 2,
-        padding: 4,
-        minWidth: '15rem',
-        width: { xs: '80vw', md: '20rem' },
-        height: '40rem',
-        display: 'flex',
-        flexDirection: 'column',
-        flexWrap: 'no-wrap',
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-        border: '1px solid grey',
-        borderRadius: 2,
-      }}
-    >
-      <Typography variant='h3' fontWeight='bold'>{level}</Typography>
-      <Box sx={{ minHeight: '20rem', marginY: 4 }}>
+    <>
+      <FormGroup sx={{ display: 'inline-flex' }}>
+        <FormControlLabel
+          control={
+            <Switch checked={isYearly} onChange={() => setIsYearly((y) => !y)} color='secondary' inputProps={{ 'aria-label': 'select yearly subscription' }} />
+          }
+          label='Billed annually'
+          sx={{ color: 'white' }}
+        />
+      </FormGroup>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: { xs: 'column', md: 'row' },
+          flexWrap: 'no-wrap',
+          justifyContent: 'space-around',
+          alignItems: 'center',
+        }}
+      >
         {
-          benefits.map((benefit) => (
-            <Typography variant='body1'>
-              <FontAwesomeIcon icon={faCheck} />
-              &nbsp;&nbsp;&nbsp;
-              {benefit}
-            </Typography>
+          Object.entries(SUBSCRIPTIONS).map(([level, { price, priceId, benefits }]) => (
+            <SubscriptionTile
+              level={level as SubscriptionLevel}
+              price={price && `${isYearly ? price.yearly : price.monthly}$ / month`}
+              priceId={priceId && (isYearly ? priceId.yearly : priceId.monthly)}
+              benefits={benefits}
+            />
           ))
         }
       </Box>
-
-      {priceId && <Divider variant='middle' flexItem sx={{ marginTop: 'auto' }} />}
-      <Typography variant='h5' fontWeight='bold' sx={{ marginY: 2 }}>{price}</Typography>
-
-      <Input type='hidden' name='priceId' value={priceId} />
-      <Button
-        type='submit'
-        variant='contained'
-        size='large'
-        color='secondary'
-        fullWidth
-        sx={{
-          fontWeight: 'bold',
-          marginTop: 'auto',
-        }}
-      >
-        {priceId ? 'Sign up' : 'Create account'}
-      </Button>
-    </Box>
+    </>
   );
 }

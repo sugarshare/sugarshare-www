@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 
 import {
-  faShieldHalved, faGlobe, faEyeSlash, faTruckFast, faWindowRestore, faCalendarDays, faHandHoldingDollar, faTree,
+  faWeightHanging, faGlobe, faEyeSlash, faTruckFast, faWindowRestore, faCalendarCheck, faHandHoldingDollar, faTree,
 } from '@fortawesome/free-solid-svg-icons';
 
 import settings from './settings';
@@ -15,7 +15,7 @@ import Landing from './components/Landing';
 import GridList from './components/GridList';
 import InstallTile from './components/InstallTile';
 import PropertyTile from './components/PropertyTile';
-import Subscription, { SubscriptionLevel } from './components/Subscription';
+import Subscription from './components/Subscription';
 
 
 export default function App() {
@@ -46,19 +46,19 @@ export default function App() {
                 secondaryText='You get a link that you can share with anybody you want, wherever they are.'
               />,
               <PropertyTile
-                icon={faCalendarDays}
+                icon={faCalendarCheck}
                 primaryText='Customize expiry'
                 secondaryText='You can set how long files are available &mdash; one day, one week, one month, ...forever.'
+              />,
+              <PropertyTile
+                icon={faWeightHanging}
+                primaryText='No size limit'
+                secondaryText={'You won\'t get the frustrating "Your file is too large..."'}
               />,
               <PropertyTile
                 icon={faEyeSlash}
                 primaryText='Encrypted storage'
                 secondaryText='Nobody other than you and your collaborators can see the files you are sharing.'
-              />,
-              <PropertyTile
-                icon={faShieldHalved}
-                primaryText='Secure TLS'
-                secondaryText='Files are securely transmitted with TLS encryption.'
               />,
               <PropertyTile
                 icon={faWindowRestore}
@@ -84,44 +84,7 @@ export default function App() {
       <Container id='pricing' maxWidth={false} disableGutters sx={{ backgroundColor: 'text.primary', minHeight: '100vh', paddingY: 10 }}>
         <Container maxWidth='lg'>
           <Typography variant='h3' fontWeight='bold' sx={{ marginY: 4, color: 'white' }}>Pricing</Typography>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: { xs: 'column', md: 'row' },
-              flexWrap: 'no-wrap',
-              justifyContent: 'space-around',
-              alignItems: 'center',
-            }}
-          >
-            <Subscription
-              level={SubscriptionLevel.FREE}
-              benefits={[
-                'Send 2 GB per file',
-                'Set expiry up to 7 days',
-                'Encrypted storage',
-                'Fast global network',
-              ]}
-            />
-            <Subscription
-              level={SubscriptionLevel.STANDARD}
-              price='6$ / month'
-              priceId='price_xxx'
-              benefits={[
-                'Send 15 GB per file',
-                'Set expiry up to 30 days',
-              ]}
-            />
-            <Subscription
-              level={SubscriptionLevel.PREMIUM}
-              price='11$ / month'
-              priceId='price_xxx'
-              benefits={[
-                'Lorem ipsum',
-                'Lorem ipsum',
-                'Lorem ipsum',
-              ]}
-            />
-          </Box>
+          <Subscription />
         </Container>
       </Container>
 
