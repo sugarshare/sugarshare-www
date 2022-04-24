@@ -23,13 +23,33 @@ interface SubscriptionProps {
   priceId: string | null;
 }
 
+const PAID_SUBSCRIBE_URL = () => `https://${settings.apiDomainName}/subscription/create-checkout-session`;
+
+const FREE_SUBSCRIBE_URL = () => {
+  const params = {
+    client_id: 'mh81fe4s02g87iedt0pimthp4',
+    response_type: 'code',
+    scope: ['openid', 'email', 'profile'].join(' '),
+    redirect_uri: `https://${settings.siteDomainName}`,
+  };
+
+  const cognitoHostedUIUrl = new URL('signup', `https://${settings.authDomainName}`);
+  Object.entries(params).forEach(([key, value]) => cognitoHostedUIUrl.searchParams.set(key, value));
+
+  return cognitoHostedUIUrl.href;
+};
+
 export default function Subscription({
   level, benefits, price, priceId,
 }: SubscriptionProps) {
   return (
     <Box
       component='form'
-      action={`https://${settings.apiDomainName}/subscription/create-checkout-session`}
+      action={
+        price
+          ? PAID_SUBSCRIBE_URL()
+          : FREE_SUBSCRIBE_URL()
+      }
       method='POST'
       sx={{
         backgroundColor: 'white',
