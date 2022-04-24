@@ -30,7 +30,7 @@ const FREE_SUBSCRIBE_URL = () => {
     client_id: 'mh81fe4s02g87iedt0pimthp4',
     response_type: 'code',
     scope: ['openid', 'email', 'profile'].join(' '),
-    redirect_uri: `https://${settings.siteDomainName}/`,
+    redirect_uri: `https://${settings.siteDomainName}/get`,
   };
 
   const cognitoHostedUIUrl = new URL('signup', `https://${settings.authDomainName}`);
