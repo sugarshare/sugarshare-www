@@ -47,7 +47,7 @@ export default function Subscription({
     margin: 2,
     padding: 4,
     minWidth: '15rem',
-    width: { xs: '80vw', md: '20rem' },
+    width: { xs: '80vw', md: '25rem' },
     height: '40rem',
     display: 'flex',
     flexDirection: 'column',
