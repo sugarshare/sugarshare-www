@@ -62,7 +62,7 @@ export default function Subscription() {
       <Box
         sx={{
           display: 'flex',
-          flexDirection: { xs: 'column', md: 'row' },
+          flexDirection: { xs: 'column-reverse', md: 'row' },
           flexWrap: 'no-wrap',
           justifyContent: 'space-around',
           alignItems: 'center',
