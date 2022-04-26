@@ -116,7 +116,7 @@ export default function App() {
             <Typography variant='h5' component='span'>
               With SugarShare, you can upload your files to a secure and temporary location in the cloud, and get a
               link in return which you can share with anybody. The files stay in their location for a chosen duration
-              (e.g. 24 hours) before expiring, and can only be accessed via the provided link &mdash; i.e. by you
+              (for example 24 hours) before expiring, and can only be accessed via the provided link &mdash; i.e. by you
               and your collaborators.
             </Typography>
           </Box>
