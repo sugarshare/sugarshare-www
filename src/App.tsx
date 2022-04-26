@@ -123,7 +123,7 @@ export default function App() {
         </Container>
       </Container>
 
-      <Container id='contact' maxWidth={false} disableGutters sx={{ paddingTop: 10 }}>
+      <Container id='contact' maxWidth={false} disableGutters sx={{ paddingY: 5 }}>
         <Container maxWidth='lg'>
           <Box sx={{ marginY: 10 }}>
             <Typography variant='h3' fontWeight='bold' sx={{ marginY: 4 }}>Contact</Typography>
@@ -133,8 +133,8 @@ export default function App() {
             </Link>
           </Box>
         </Container>
-        <Footer />
       </Container>
+      <Footer />
     </>
   );
 }
