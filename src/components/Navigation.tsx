@@ -106,13 +106,14 @@ export default function Navigation() {
               </Box>
 
               <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                {/* {pages.map((page) => ( */}
                 {Object.entries(pages).map(([page, { href }]) => (
                   <Button
                     key={page}
                     href={href}
                     onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: 'white', display: 'block' }}
+                    sx={{
+                      marginY: 2, marginX: 1, color: 'white', display: 'block', fontWeight: 'bold', fontSize: '1em',
+                    }}
                   >
                     {page}
                   </Button>
