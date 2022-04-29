@@ -6,6 +6,10 @@ import MenuItem from '@mui/material/MenuItem';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import CardMembershipIcon from '@mui/icons-material/CardMembership';
+import EmailIcon from '@mui/icons-material/Email';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LockIcon from '@mui/icons-material/Lock';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
@@ -83,6 +87,13 @@ export default function SignUp() {
         onChange={handleChange('subscriptionLevel')}
         margin='normal'
         fullWidth
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position='start'>
+              <CardMembershipIcon />
+            </InputAdornment>
+          ),
+        }}
       >
         {
           Object.keys(SUBSCRIPTIONS).map((plan) => (
@@ -100,6 +111,13 @@ export default function SignUp() {
         margin='normal'
         required
         fullWidth
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position='start'>
+              <EmailIcon />
+            </InputAdornment>
+          ),
+        }}
       />
       <TextField
         variant='outlined'
@@ -110,6 +128,13 @@ export default function SignUp() {
         onChange={handleChange('username')}
         margin='normal'
         fullWidth
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position='start'>
+              <AccountCircleIcon />
+            </InputAdornment>
+          ),
+        }}
       />
       <TextField
         variant='outlined'
@@ -124,6 +149,11 @@ export default function SignUp() {
         required
         fullWidth
         InputProps={{
+          startAdornment: (
+            <InputAdornment position='start'>
+              <LockIcon />
+            </InputAdornment>
+          ),
           endAdornment: (
             <InputAdornment position='end'>
               <IconButton
