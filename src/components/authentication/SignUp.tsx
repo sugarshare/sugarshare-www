@@ -3,25 +3,74 @@ import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import BaseAuthentication from 'components/authentication/BaseAuthentication';
 import { SUBSCRIPTIONS } from 'components/Subscription';
-// TODO replace this
 import { SubscriptionLevel } from 'components/SubscriptionTile';
 
-export default function SignUp() {
-  const [subscription, setSubscription] = useState(SubscriptionLevel.STANDARD);
+/**
+ * Make sure same username do NOT trigger failure
+ */
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    // TODO validation
-    event.preventDefault();
-    console.log(event);
+interface SignUpState {
+  subscriptionLevel: SubscriptionLevel;
+  username: string;
+  email: string;
+  password: string;
+  showPassword: boolean;
+}
+
+const PASSWORD_PATTERN = /.{8,}/; // At least 8 of any characters except newline
+
+const INITIAL_STATE: SignUpState = {
+  subscriptionLevel: SubscriptionLevel.STANDARD,
+  username: '',
+  email: '',
+  password: '',
+  showPassword: false,
+};
+
+export default function SignUp() {
+  const [signUpState, setSignUpState] = useState<SignUpState>(INITIAL_STATE);
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
+
+  const handleChange = (prop: keyof SignUpState) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    // When in password error state, help user by showing when password is valid
+    if (prop === 'password' && !isPasswordValid) {
+      setIsPasswordValid(PASSWORD_PATTERN.test(event.target.value));
+    }
+
+    setSignUpState({
+      ...signUpState,
+      [prop]: event.target.value,
+    });
   };
 
-  const handleSelectPlan = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleShowPassword = () => {
+    setSignUpState({
+      ...signUpState,
+      showPassword: !signUpState.showPassword,
+    });
+  };
+
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    setSubscription(event.target.value as SubscriptionLevel);
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!PASSWORD_PATTERN.test(signUpState.password)) {
+      setIsPasswordValid(false);
+      return;
+    }
+
+    setIsPasswordValid(true);
   };
 
   return (
@@ -30,8 +79,8 @@ export default function SignUp() {
         select
         id='plan'
         label='Plan'
-        value={subscription}
-        onChange={handleSelectPlan}
+        value={signUpState.subscriptionLevel}
+        onChange={handleChange('subscriptionLevel')}
         margin='normal'
         fullWidth
       >
@@ -46,25 +95,48 @@ export default function SignUp() {
         id='email'
         type='email'
         label='Email'
+        value={signUpState.email}
+        onChange={handleChange('email')}
         margin='normal'
+        required
         fullWidth
       />
       <TextField
         variant='outlined'
         id='username'
         type='text'
-        label='Name (optional)'
+        label='Name'
+        value={signUpState.username}
+        onChange={handleChange('username')}
         margin='normal'
         fullWidth
       />
       <TextField
         variant='outlined'
         id='password'
-        type='password'
+        type={signUpState.showPassword ? 'text' : 'password'}
         label='Password'
         helperText='Must be 8 characters long at least'
+        value={signUpState.password}
+        onChange={handleChange('password')}
+        error={!isPasswordValid}
         margin='normal'
+        required
         fullWidth
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position='end'>
+              <IconButton
+                aria-label='toggle password visibility'
+                onClick={handleShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge='end'
+              >
+                {signUpState.showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
       />
 
       <Typography variant='caption' sx={{ marginY: 2 }}>
