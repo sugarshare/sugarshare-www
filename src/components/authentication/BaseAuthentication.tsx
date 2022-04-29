@@ -31,6 +31,7 @@ export default function BaseAuthentication({
         sx={{
           backgroundColor: 'white',
           padding: 4,
+          marginBottom: 4,
           minWidth: '15rem',
           width: { xs: '80vw', md: '27rem' },
           minHeight: '30rem',
