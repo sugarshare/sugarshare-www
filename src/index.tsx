@@ -8,13 +8,14 @@ import '@fontsource/poppins';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 
-import theme from './theme';
-import App from './App';
-import FileFrame from './components/FileFrame';
-import Terms from './components/Terms';
-import Privacy from './components/Privacy';
-import ErrorDisplay from './components/ErrorDisplay';
-import reportWebVitals from './reportWebVitals';
+import theme from 'theme';
+import App from 'App';
+import SignUp from 'components/authentication/SignUp';
+import FileFrame from 'components/FileFrame';
+import Terms from 'components/Terms';
+import Privacy from 'components/Privacy';
+import ErrorDisplay from 'components/ErrorDisplay';
+import reportWebVitals from 'reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -24,6 +25,7 @@ ReactDOM.render(
         <Routes>
           <Route path='/' element={<App />} />
           <Route path=':fileId' element={<FileFrame />} />
+          <Route path='signup' element={<SignUp />} />
           <Route path='get' element={<Navigate replace to='/#products' />} />
           <Route path='contact' element={<Navigate replace to='/#contact' />} />
           <Route path='terms' element={<Terms />} />

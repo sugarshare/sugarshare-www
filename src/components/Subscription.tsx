@@ -6,7 +6,7 @@ import Switch from '@mui/material/Switch';
 
 import SubscriptionTile, { SubscriptionLevel } from './SubscriptionTile';
 
-const SUBSCRIPTIONS = {
+export const SUBSCRIPTIONS = {
   [SubscriptionLevel.FREE]: {
     price: null,
     priceId: null,
