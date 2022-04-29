@@ -22,8 +22,9 @@ export default function BaseAuthentication({
       }}
     >
       <Box sx={{ marginY: 4 }}>
-        <Logo width='30vh' />
+        <Logo width='35vh' />
       </Box>
+
       <Box
         component='form'
         autoComplete='on'
