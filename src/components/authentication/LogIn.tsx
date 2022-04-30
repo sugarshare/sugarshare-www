@@ -10,7 +10,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import BaseAuthentication from 'components/authentication/BaseAuthentication';
+import AuthenticationForm from 'components/authentication/AuthenticationForm';
 
 interface LogInState {
   email: string;
@@ -52,7 +52,7 @@ export default function LogIn() {
   };
 
   return (
-    <BaseAuthentication handleSubmit={handleSubmit}>
+    <AuthenticationForm handleSubmit={handleSubmit}>
       <TextField
         variant='outlined'
         id='email'
@@ -126,6 +126,6 @@ export default function LogIn() {
         <Link href='/signup' color='inherit' title='Sign up'>Sign up</Link>
         .
       </Typography>
-    </BaseAuthentication>
+    </AuthenticationForm>
   );
 }

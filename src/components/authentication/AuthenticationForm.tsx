@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 
 import Logo from 'components/Logo';
 
-export default function BaseAuthentication({
+export default function AuthenticationForm({
   children, handleSubmit,
 }: { children: React.ReactNode, handleSubmit: React.FormEventHandler }) {
   return (

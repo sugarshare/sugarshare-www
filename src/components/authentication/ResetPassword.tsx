@@ -10,7 +10,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import BaseAuthentication from 'components/authentication/BaseAuthentication';
+import AuthenticationForm from 'components/authentication/AuthenticationForm';
 
 interface ResetPasswordState {
   email: string;
@@ -37,7 +37,7 @@ export default function ResetPassword() {
   };
 
   return (
-    <BaseAuthentication handleSubmit={handleSubmit}>
+    <AuthenticationForm handleSubmit={handleSubmit}>
       <TextField
         variant='outlined'
         id='email'
@@ -65,7 +65,6 @@ export default function ResetPassword() {
         fullWidth
         sx={{
           marginY: 2,
-          marginTop: 'auto',
           borderRadius: 2,
         }}
       >
@@ -77,6 +76,6 @@ export default function ResetPassword() {
         <Link href='/signup' color='inherit' title='Sign up'>Sign up</Link>
         .
       </Typography>
-    </BaseAuthentication>
+    </AuthenticationForm>
   );
 }

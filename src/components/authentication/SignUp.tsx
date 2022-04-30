@@ -13,7 +13,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import BaseAuthentication from 'components/authentication/BaseAuthentication';
+import AuthenticationForm from 'components/authentication/AuthenticationForm';
 import { SUBSCRIPTIONS } from 'components/Subscription';
 import { SubscriptionLevel } from 'components/SubscriptionTile';
 
@@ -78,7 +78,7 @@ export default function SignUp() {
   };
 
   return (
-    <BaseAuthentication handleSubmit={handleSubmit}>
+    <AuthenticationForm handleSubmit={handleSubmit}>
       <TextField
         select
         id='plan'
@@ -196,6 +196,6 @@ export default function SignUp() {
         <Link href='/login' color='inherit' title='Log in'>Log in</Link>
         .
       </Typography>
-    </BaseAuthentication>
+    </AuthenticationForm>
   );
 }
