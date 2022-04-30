@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSearchParams } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -16,8 +17,12 @@ import GridList from './components/GridList';
 import InstallTile from './components/InstallTile';
 import PropertyTile from './components/PropertyTile';
 import Subscription from './components/Subscription';
+import NotificationSnackbar from './components/NotificationSnackbar';
 
 export default function App() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const userSub = searchParams.get('user');
+
   return (
     <>
       <Container maxWidth={false} disableGutters>
@@ -135,6 +140,8 @@ export default function App() {
         </Container>
       </Container>
       <Footer />
+
+      {userSub && <NotificationSnackbar message='A confirmation link has been sent to your email. Glad to have you onboard ;) ' />}
     </>
   );
 }

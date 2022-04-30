@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
@@ -39,6 +40,8 @@ export default function SignUp() {
   const [signUpState, setSignUpState] = useState<SignUpState>(INITIAL_STATE);
   const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [isEmailValid, setIsEmailValid] = useState(true);
+
+  const navigate = useNavigate();
 
   const handleChange = (prop: keyof SignUpState) => (event: React.ChangeEvent<HTMLInputElement>) => {
     // When in email error state, reset when user edits email
@@ -82,6 +85,7 @@ export default function SignUp() {
 
     try {
       const userSub = await AuthenticationClient.signUp({ email, password });
+      navigate(`/?user=${userSub}`);
     } catch (error) {
       if (error instanceof UsernameExistsException) {
         setIsEmailValid(false);
