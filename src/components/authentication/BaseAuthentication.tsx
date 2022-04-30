@@ -35,7 +35,7 @@ export default function BaseAuthentication({
           marginBottom: 4,
           minWidth: '15rem',
           width: { xs: '80vw', md: '27rem' },
-          minHeight: '30rem',
+          minHeight: '15rem',
           display: 'flex',
           flexDirection: 'column',
           flexWrap: 'no-wrap',

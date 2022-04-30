@@ -10,7 +10,7 @@ import { ThemeProvider } from '@mui/material/styles';
 
 import theme from 'theme';
 import App from 'App';
-import SignUp from 'components/authentication/SignUp';
+import { SignUp, LogIn, ResetPassword } from 'components/authentication';
 import FileFrame from 'components/FileFrame';
 import Terms from 'components/Terms';
 import Privacy from 'components/Privacy';
@@ -26,6 +26,8 @@ ReactDOM.render(
           <Route path='/' element={<App />} />
           <Route path=':fileId' element={<FileFrame />} />
           <Route path='signup' element={<SignUp />} />
+          <Route path='login' element={<LogIn />} />
+          <Route path='resetpassword' element={<ResetPassword />} />
           <Route path='get' element={<Navigate replace to='/#products' />} />
           <Route path='contact' element={<Navigate replace to='/#contact' />} />
           <Route path='terms' element={<Terms />} />
