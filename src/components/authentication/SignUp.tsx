@@ -82,10 +82,13 @@ export default function SignUp() {
     setIsPasswordValid(true);
 
     const { email, password } = signUpState;
-
     try {
       const userSub = await AuthenticationClient.signUp({ email, password });
-      navigate(`/?user=${userSub}`);
+      navigate(
+        userSub
+          ? `/?user=${userSub}`
+          : '/',
+      );
     } catch (error) {
       if (error instanceof UsernameExistsException) {
         setIsEmailValid(false);
