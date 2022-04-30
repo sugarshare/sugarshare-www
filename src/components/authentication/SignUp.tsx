@@ -8,10 +8,12 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CardMembershipIcon from '@mui/icons-material/CardMembership';
 import EmailIcon from '@mui/icons-material/Email';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+
+import AuthenticationClient from 'libs/authentication';
+import { UsernameExistsException } from 'libs/errors';
 
 import AuthenticationForm from 'components/authentication/AuthenticationForm';
 import { SUBSCRIPTIONS } from 'components/Subscription';
@@ -36,8 +38,14 @@ const INITIAL_STATE: SignUpState = {
 export default function SignUp() {
   const [signUpState, setSignUpState] = useState<SignUpState>(INITIAL_STATE);
   const [isPasswordValid, setIsPasswordValid] = useState(true);
+  const [isEmailValid, setIsEmailValid] = useState(true);
 
   const handleChange = (prop: keyof SignUpState) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    // When in email error state, reset when user edits email
+    if (prop === 'email') {
+      setIsEmailValid(true);
+    }
+
     // When in password error state, help user by showing when password is valid
     if (prop === 'password' && !isPasswordValid) {
       setIsPasswordValid(PASSWORD_PATTERN.test(event.target.value));
@@ -60,7 +68,7 @@ export default function SignUp() {
     event.preventDefault();
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!PASSWORD_PATTERN.test(signUpState.password)) {
@@ -69,6 +77,19 @@ export default function SignUp() {
     }
 
     setIsPasswordValid(true);
+
+    const { email, password } = signUpState;
+
+    try {
+      const userSub = await AuthenticationClient.signUp({ email, password });
+    } catch (error) {
+      if (error instanceof UsernameExistsException) {
+        setIsEmailValid(false);
+      } else {
+        // TODO track these error in Rollbar
+        console.error(error);
+      }
+    }
   };
 
   return (
@@ -102,6 +123,8 @@ export default function SignUp() {
         label='Email'
         value={signUpState.email}
         onChange={handleChange('email')}
+        error={!isEmailValid}
+        helperText={!isEmailValid && 'An account with this email already exists. Try log in instead?'}
         margin='normal'
         required
         fullWidth
