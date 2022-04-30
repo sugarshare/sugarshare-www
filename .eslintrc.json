@@ -25,6 +25,8 @@
         "jsx-quotes": ["error", "prefer-single"],
         "no-unused-vars": ["warn"],
         "no-shadow": ["off"],
+        "consistent-return": ["off"],
+        "max-classes-per-file": ["off"],
         "@typescript-eslint/no-shadow": ["error"],
         "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
         "react/jsx-props-no-spreading": ["off"],
