@@ -17,13 +17,8 @@ import AuthenticationForm from 'components/authentication/AuthenticationForm';
 import { SUBSCRIPTIONS } from 'components/Subscription';
 import { SubscriptionLevel } from 'components/SubscriptionTile';
 
-/**
- * Make sure same username do NOT trigger failure
- */
-
 interface SignUpState {
   subscriptionLevel: SubscriptionLevel;
-  username: string;
   email: string;
   password: string;
   showPassword: boolean;
@@ -33,7 +28,6 @@ const PASSWORD_PATTERN = /.{8,}/; // At least 8 of any characters except newline
 
 const INITIAL_STATE: SignUpState = {
   subscriptionLevel: SubscriptionLevel.STANDARD,
-  username: '',
   email: '',
   password: '',
   showPassword: false,
@@ -121,30 +115,13 @@ export default function SignUp() {
       />
       <TextField
         variant='outlined'
-        id='username'
-        type='text'
-        label='Name'
-        value={signUpState.username}
-        onChange={handleChange('username')}
-        margin='normal'
-        fullWidth
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position='start'>
-              <AccountCircleIcon />
-            </InputAdornment>
-          ),
-        }}
-      />
-      <TextField
-        variant='outlined'
         id='password'
         type={signUpState.showPassword ? 'text' : 'password'}
         label='Password'
-        helperText='Must be 8 characters long at least'
         value={signUpState.password}
         onChange={handleChange('password')}
         error={!isPasswordValid}
+        helperText='Must be 8 characters long at least'
         margin='normal'
         required
         fullWidth
