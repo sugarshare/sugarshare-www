@@ -11,6 +11,12 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import AuthenticationForm from 'components/authentication/AuthenticationForm';
+import AuthenticationClient from 'libs/authentication';
+import {
+  UserNotFoundException,
+  UserNotConfirmedException,
+  NotAuthorizedException,
+} from 'libs/errors';
 
 interface LogInState {
   email: string;
@@ -24,10 +30,20 @@ const INITIAL_STATE: LogInState = {
   showPassword: false,
 };
 
+const INITIAL_ERROR_STATE = {
+  isEmailError: false,
+  isPasswordError: false,
+  emailMessage: '',
+  passwordMessage: '',
+};
+
 export default function LogIn() {
   const [logInState, setLogInState] = useState<LogInState>(INITIAL_STATE);
+  const [errorState, setErrorState] = useState(INITIAL_ERROR_STATE);
 
   const handleChange = (prop: keyof LogInState) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    setErrorState(INITIAL_ERROR_STATE);
+
     setLogInState({
       ...logInState,
       [prop]: event.target.value,
@@ -45,10 +61,30 @@ export default function LogIn() {
     event.preventDefault();
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // TODO
+    const { email, password } = logInState;
+    try {
+      const user = await AuthenticationClient.logIn({ email, password });
+    } catch (error) {
+      if (error instanceof UserNotConfirmedException) {
+        setErrorState({
+          ...errorState,
+          isEmailError: true,
+          emailMessage: 'We need to confirm your email. Please check your inbox for a confirmation link.',
+        });
+      } else if (error instanceof UserNotFoundException || error instanceof NotAuthorizedException) {
+        setErrorState({
+          ...errorState,
+          isEmailError: true,
+          isPasswordError: true,
+          passwordMessage: 'Email or password invalid(s)',
+        });
+      } else {
+        console.error(error);
+      }
+    }
   };
 
   return (
@@ -60,6 +96,8 @@ export default function LogIn() {
         label='Email'
         value={logInState.email}
         onChange={handleChange('email')}
+        error={errorState.isEmailError}
+        helperText={errorState.isEmailError && errorState.emailMessage}
         margin='normal'
         required
         fullWidth
@@ -78,7 +116,8 @@ export default function LogIn() {
         label='Password'
         value={logInState.password}
         onChange={handleChange('password')}
-        // error={!isPasswordValid}
+        error={errorState.isPasswordError}
+        helperText={errorState.isPasswordError && errorState.passwordMessage}
         margin='normal'
         required
         fullWidth

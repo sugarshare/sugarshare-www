@@ -1,6 +1,14 @@
 class UsernameExistsException extends Error {}
 
+class UserNotFoundException extends Error {}
+
+class UserNotConfirmedException extends Error {}
+
+class NotAuthorizedException extends Error {}
+
 export {
-  // eslint-disable-next-line import/prefer-default-export
   UsernameExistsException,
+  UserNotFoundException,
+  UserNotConfirmedException,
+  NotAuthorizedException,
 };
