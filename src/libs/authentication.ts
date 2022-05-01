@@ -17,11 +17,15 @@ Amplify.configure({
   Auth: authenticationSettings,
 });
 
-interface AuthenticationInput {
+interface SignUpInput {
   email: string;
   password: string;
 }
 
+interface LogInInput {
+  email: string;
+  password: string;
+}
 
 interface ResetPasswordInput {
   email: string;
@@ -39,7 +43,7 @@ export default class AuthenticationClient {
     return PASSWORD_PATTERN.test(password);
   }
 
-  static async signUp({ email, password }: AuthenticationInput): Promise<string | undefined> {
+  static async signUp({ email, password }: SignUpInput): Promise<string | undefined> {
     try {
       const { userSub } = await Auth.signUp({
         username: email,
@@ -52,7 +56,7 @@ export default class AuthenticationClient {
     }
   }
 
-  static async logIn({ email, password }: AuthenticationInput): Promise<string | undefined> {
+  static async logIn({ email, password }: LogInInput): Promise<string | undefined> {
     try {
       const user = await Auth.signIn({ username: email, password });
     } catch (error) {
