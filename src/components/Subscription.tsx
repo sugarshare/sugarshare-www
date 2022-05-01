@@ -4,7 +4,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 
-import SubscriptionTile, { SubscriptionLevel } from './SubscriptionTile';
+import SubscriptionTile, { SubscriptionLevel } from 'components/SubscriptionTile';
 
 export const SUBSCRIPTIONS = {
   [SubscriptionLevel.FREE]: {

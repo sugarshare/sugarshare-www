@@ -9,15 +9,15 @@ import {
   faWeightHanging, faGlobe, faEyeSlash, faTruckFast, faWindowRestore, faCalendarCheck, faHandHoldingDollar, faTree,
 } from '@fortawesome/free-solid-svg-icons';
 
-import settings from './settings';
-import Navigation from './components/Navigation';
-import Footer from './components/Footer';
-import Landing from './components/Landing';
-import GridList from './components/GridList';
-import InstallTile from './components/InstallTile';
-import PropertyTile from './components/PropertyTile';
-import Subscription from './components/Subscription';
-import NotificationSnackbar from './components/NotificationSnackbar';
+import settings from 'settings';
+import Navigation from 'components/Navigation';
+import Footer from 'components/Footer';
+import Landing from 'components/Landing';
+import GridList from 'components/GridList';
+import InstallTile from 'components/InstallTile';
+import PropertyTile from 'components/PropertyTile';
+import Subscription from 'components/Subscription';
+import NotificationSnackbar from 'components/NotificationSnackbar';
 
 export default function App() {
   const [searchParams, setSearchParams] = useSearchParams();

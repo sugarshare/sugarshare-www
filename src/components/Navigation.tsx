@@ -12,7 +12,7 @@ import Link from '@mui/material/Link';
 import Button from '@mui/material/Button';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 
-import Logo from './Logo';
+import Logo from 'components/Logo';
 
 const pages = {
   Products: {

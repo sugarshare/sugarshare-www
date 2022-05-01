@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 
-import settings from '../settings';
+import settings from 'settings';
 
 export default function FileFrame() {
   const { fileId } = useParams();

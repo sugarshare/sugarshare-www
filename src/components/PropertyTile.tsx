@@ -2,7 +2,7 @@ import React from 'react';
 import Typography from '@mui/material/Typography';
 import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome';
 
-import BaseTile from './BaseTile';
+import BaseTile from 'components/BaseTile';
 
 interface PropertyTileProps {
   icon: FontAwesomeIconProps['icon'],

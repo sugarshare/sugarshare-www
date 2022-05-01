@@ -8,7 +8,7 @@ import Divider from '@mui/material/Divider';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import settings from '../settings';
+import settings from 'settings';
 
 export enum SubscriptionLevel {
   FREE = 'Free',

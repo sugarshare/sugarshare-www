@@ -3,8 +3,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 
-import Logo from './Logo';
-import settings from '../settings';
+import Logo from 'components/Logo';
+import settings from 'settings';
 
 interface ErrorDisplayProps {
   codeOrText: string;

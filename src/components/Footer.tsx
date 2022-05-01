@@ -1,7 +1,6 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
-import Divider from '@mui/material/Divider';
 import GitHubIcon from '@mui/icons-material/GitHub';
 
 export default function Footer() {
