@@ -64,6 +64,8 @@ export default function LogIn() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    setErrorState(INITIAL_ERROR_STATE);
+
     const { email, password } = logInState;
     try {
       const user = await AuthenticationClient.logIn({ email, password });
@@ -79,6 +81,7 @@ export default function LogIn() {
           ...errorState,
           isEmailError: true,
           isPasswordError: true,
+          emailMessage: '',
           passwordMessage: 'Email and/or password is incorrect.',
         });
       } else {
