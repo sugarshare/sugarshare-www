@@ -6,6 +6,10 @@ import {
   UserNotFoundException,
   UserNotConfirmedException,
   NotAuthorizedException,
+  CodeMismatchException,
+  ExpiredCodeException,
+  InvalidParameterException,
+  LimitExceededException,
 } from 'libs/errors';
 import { authentication as authenticationSettings } from 'settings';
 
@@ -16,6 +20,17 @@ Amplify.configure({
 interface AuthenticationInput {
   email: string;
   password: string;
+}
+
+
+interface ResetPasswordInput {
+  email: string;
+}
+
+interface ResetPasswordCodeInput {
+  email: string;
+  code: string;
+  newPassword: string;
 }
 
 export default class AuthenticationClient {
@@ -40,8 +55,22 @@ export default class AuthenticationClient {
   static async logIn({ email, password }: AuthenticationInput): Promise<string | undefined> {
     try {
       const user = await Auth.signIn({ username: email, password });
-      console.log(user);
-      return user;
+    } catch (error) {
+      AuthenticationClient.handleError(error);
+    }
+  }
+
+  static async resetPassword({ email }: ResetPasswordInput): Promise<void> {
+    try {
+      await Auth.forgotPassword(email);
+    } catch (error) {
+      AuthenticationClient.handleError(error);
+    }
+  }
+
+  static async resetPasswordCode({ email, code, newPassword }: ResetPasswordCodeInput): Promise<void> {
+    try {
+      await Auth.forgotPasswordSubmit(email, code, newPassword);
     } catch (error) {
       AuthenticationClient.handleError(error);
     }
@@ -63,6 +92,14 @@ export default class AuthenticationClient {
         throw new NotAuthorizedException();
       case 'UserNotFoundException':
         throw new UserNotFoundException();
+      case 'CodeMismatchException':
+        throw new CodeMismatchException();
+      case 'ExpiredCodeException':
+        throw new ExpiredCodeException();
+      case 'InvalidParameterException':
+        throw new InvalidParameterException();
+      case 'LimitExceededException':
+        throw new LimitExceededException();
       default:
         throw error;
     }

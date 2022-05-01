@@ -27,6 +27,7 @@
         "no-shadow": ["off"],
         "consistent-return": ["off"],
         "max-classes-per-file": ["off"],
+        "no-nested-ternary": ["warn"],
         "@typescript-eslint/no-shadow": ["error"],
         "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
         "react/jsx-props-no-spreading": ["off"],

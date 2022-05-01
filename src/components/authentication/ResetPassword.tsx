@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import EmailIcon from '@mui/icons-material/Email';
-import LockIcon from '@mui/icons-material/Lock';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import AuthenticationForm from 'components/authentication/AuthenticationForm';
+import AuthenticationClient from 'libs/authentication';
+import { UserNotFoundException, InvalidParameterException } from 'libs/errors';
 
 interface ResetPasswordState {
   email: string;
@@ -23,6 +22,8 @@ const INITIAL_STATE: ResetPasswordState = {
 export default function ResetPassword() {
   const [resetPasswordState, setResetPasswordState] = useState<ResetPasswordState>(INITIAL_STATE);
 
+  const navigate = useNavigate();
+
   const handleChange = (prop: keyof ResetPasswordState) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setResetPasswordState({
       ...resetPasswordState,
@@ -30,10 +31,22 @@ export default function ResetPassword() {
     });
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     // TODO
+
+    const { email } = resetPasswordState;
+    try {
+      await AuthenticationClient.resetPassword({ email });
+      navigate(`/newpassword?email=${email}`);
+    } catch (error) {
+      if (error instanceof UserNotFoundException || error instanceof InvalidParameterException) {
+        navigate(`/newpassword?email=${email}`);
+      } else {
+        console.error(error);
+      }
+    }
   };
 
   return (
@@ -43,8 +56,8 @@ export default function ResetPassword() {
         id='email'
         type='email'
         label='Email'
-        helperText='We will send you a link to reset your password'
         value={resetPasswordState.email}
+        helperText='We will send you a link to reset your password'
         onChange={handleChange('email')}
         margin='normal'
         required
