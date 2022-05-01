@@ -14,7 +14,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import AuthenticationClient from 'libs/authentication';
-import { UsernameExistsException } from 'libs/errors';
+import { UsernameExistsException, InvalidPasswordException } from 'libs/errors';
 
 import AuthenticationForm from 'components/authentication/AuthenticationForm';
 import { SUBSCRIPTIONS } from 'components/Subscription';
@@ -92,6 +92,8 @@ export default function SignUp() {
     } catch (error) {
       if (error instanceof UsernameExistsException) {
         setIsEmailValid(false);
+      } else if (error instanceof InvalidPasswordException) {
+        setIsPasswordValid(false);
       } else {
         // TODO track these error in Rollbar
         console.error(error);
@@ -131,7 +133,7 @@ export default function SignUp() {
         value={signUpState.email}
         onChange={handleChange('email')}
         error={!isEmailValid}
-        helperText={!isEmailValid && 'An account with this email already exists. Try log in instead?'}
+        helperText={!isEmailValid && 'An account with this email already exists. Try to log in or reset your password instead.'}
         margin='normal'
         required
         fullWidth

@@ -2,6 +2,7 @@ import { Amplify, Auth } from 'aws-amplify';
 
 import {
   UsernameExistsException,
+  InvalidPasswordException,
   UserNotFoundException,
   UserNotConfirmedException,
   NotAuthorizedException,
@@ -49,6 +50,8 @@ export default class AuthenticationClient {
     switch (error.name) {
       case 'UsernameExistsException':
         throw new UsernameExistsException();
+      case 'InvalidPasswordException':
+        throw new InvalidPasswordException();
       case 'UserNotConfirmedException':
         throw new UserNotConfirmedException();
       case 'NotAuthorizedException':

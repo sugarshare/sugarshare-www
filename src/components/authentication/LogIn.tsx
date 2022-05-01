@@ -79,7 +79,7 @@ export default function LogIn() {
           ...errorState,
           isEmailError: true,
           isPasswordError: true,
-          passwordMessage: 'Email or password invalid(s)',
+          passwordMessage: 'Email and/or password is incorrect.',
         });
       } else {
         console.error(error);
