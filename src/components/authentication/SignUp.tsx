@@ -27,8 +27,6 @@ interface SignUpState {
   showPassword: boolean;
 }
 
-const PASSWORD_PATTERN = /.{8,}/; // At least 8 of any characters except newline
-
 const INITIAL_STATE: SignUpState = {
   subscriptionLevel: SubscriptionLevel.STANDARD,
   email: '',
@@ -44,14 +42,12 @@ export default function SignUp() {
   const navigate = useNavigate();
 
   const handleChange = (prop: keyof SignUpState) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    // When in email error state, reset when user edits email
     if (prop === 'email') {
+      // When in email error state, reset when user edits email
       setIsEmailValid(true);
-    }
-
-    // When in password error state, help user by showing when password is valid
-    if (prop === 'password' && !isPasswordValid) {
-      setIsPasswordValid(PASSWORD_PATTERN.test(event.target.value));
+    } else if (prop === 'password' && !isPasswordValid) {
+      // When in password error state, help user by showing when password is valid
+      setIsPasswordValid(AuthenticationClient.isPasswordValid(event.target.value));
     }
 
     setSignUpState({
@@ -74,12 +70,13 @@ export default function SignUp() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!PASSWORD_PATTERN.test(signUpState.password)) {
+    if (!AuthenticationClient.isPasswordValid(signUpState.password)) {
       setIsPasswordValid(false);
       return;
     }
 
     setIsPasswordValid(true);
+    setIsEmailValid(true);
 
     const { email, password } = signUpState;
     try {

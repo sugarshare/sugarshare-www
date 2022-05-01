@@ -19,6 +19,11 @@ interface AuthenticationInput {
 }
 
 export default class AuthenticationClient {
+  static isPasswordValid(password: string) {
+    const PASSWORD_PATTERN = /.{8,}/; // At least 8 of any characters except newline
+    return PASSWORD_PATTERN.test(password);
+  }
+
   static async signUp({ email, password }: AuthenticationInput): Promise<string | undefined> {
     try {
       const { userSub } = await Auth.signUp({
