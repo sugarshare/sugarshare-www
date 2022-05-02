@@ -39,13 +39,9 @@ const INITIAL_STATE: ResetPasswordCodeState = {
 };
 
 const INITIAL_ERROR_STATE = {
-  isEmailError: false,
   isCodeError: false,
   isPasswordError: false,
   isMaximumAttemptsExceededError: false,
-  emailMessage: '',
-  codeMessage: '',
-  passwordMessage: '',
 };
 
 export default function ResetPasswordCode() {
@@ -62,10 +58,12 @@ export default function ResetPasswordCode() {
   const navigate = useNavigate();
 
   const handleChange = (prop: keyof ResetPasswordCodeState) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (prop === 'email') {
-      //
-    } else if (prop === 'code') {
-      //
+    if (prop === 'code') {
+      // When in code error state, reset error when user updates the code
+      setErrorState({
+        ...errorState,
+        isCodeError: false,
+      });
     } else if (prop === 'newPassword' && errorState.isPasswordError) {
       // When in password error state, help user by showing when password is valid
       setErrorState({
