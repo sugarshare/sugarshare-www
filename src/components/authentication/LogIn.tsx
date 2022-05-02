@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
@@ -10,6 +11,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
+import NotificationSnackbar from 'components/NotificationSnackbar';
 import AuthenticationForm from 'components/authentication/AuthenticationForm';
 import AuthenticationClient from 'libs/authentication';
 import {
@@ -38,7 +40,15 @@ const INITIAL_ERROR_STATE = {
 };
 
 export default function LogIn() {
-  const [logInState, setLogInState] = useState<LogInState>(INITIAL_STATE);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const emailParameter = searchParams.get('email');
+  const passwordReset = searchParams.get('passwordreset');
+
+  const [logInState, setLogInState] = useState<LogInState>({
+    ...INITIAL_STATE,
+    email: emailParameter ?? '',
+  });
+
   const [errorState, setErrorState] = useState(INITIAL_ERROR_STATE);
 
   const handleChange = (prop: keyof LogInState) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -168,6 +178,8 @@ export default function LogIn() {
         <Link href='/signup' color='inherit' title='Sign up'>Sign up</Link>
         .
       </Typography>
+
+      {passwordReset && <NotificationSnackbar message='Your password has been reset successfully!' />}
     </AuthenticationForm>
   );
 }

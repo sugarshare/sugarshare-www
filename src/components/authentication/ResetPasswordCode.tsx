@@ -229,11 +229,11 @@ export default function ResetPasswordCode() {
         Submit
       </Button>
 
-      {/* <Typography variant='caption'>
+      <Typography variant='caption'>
         Create an account instead?&nbsp;
         <Link href='/signup' color='inherit' title='Sign up'>Sign up</Link>
         .
-      </Typography> */}
+      </Typography>
     </AuthenticationForm>
   );
 }
