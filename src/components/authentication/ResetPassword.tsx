@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -13,10 +13,12 @@ import { UserNotFoundException, InvalidParameterException } from 'libs/errors';
 
 interface ResetPasswordState {
   email: string;
+  isLoading: boolean;
 }
 
 const INITIAL_STATE: ResetPasswordState = {
   email: '',
+  isLoading: false,
 };
 
 export default function ResetPassword() {
@@ -35,6 +37,10 @@ export default function ResetPassword() {
     event.preventDefault();
 
     // TODO
+    setResetPasswordState({
+      ...resetPasswordState,
+      isLoading: true,
+    });
 
     const { email } = resetPasswordState;
     try {
@@ -46,6 +52,11 @@ export default function ResetPassword() {
       } else {
         console.error(error);
       }
+    } finally {
+      setResetPasswordState({
+        ...resetPasswordState,
+        isLoading: false,
+      });
     }
   };
 
@@ -71,18 +82,20 @@ export default function ResetPassword() {
         }}
       />
 
-      <Button
+      <LoadingButton
         variant='contained'
         type='submit'
         size='large'
         fullWidth
+        loading={resetPasswordState.isLoading}
+        loadingPosition='end'
         sx={{
           marginY: 2,
           borderRadius: 2,
         }}
       >
         Submit
-      </Button>
+      </LoadingButton>
 
       <Typography variant='caption'>
         Create an account instead?&nbsp;

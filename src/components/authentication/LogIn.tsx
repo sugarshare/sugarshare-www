@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -24,12 +24,14 @@ interface LogInState {
   email: string;
   password: string;
   showPassword: boolean;
+  isLoading: boolean;
 }
 
 const INITIAL_STATE: LogInState = {
   email: '',
   password: '',
   showPassword: false,
+  isLoading: false,
 };
 
 const INITIAL_ERROR_STATE = {
@@ -75,6 +77,10 @@ export default function LogIn() {
     event.preventDefault();
 
     setErrorState(INITIAL_ERROR_STATE);
+    setLogInState({
+      ...logInState,
+      isLoading: true,
+    });
 
     const { email, password } = logInState;
     try {
@@ -97,6 +103,11 @@ export default function LogIn() {
       } else {
         console.error(error);
       }
+    } finally {
+      setLogInState({
+        ...logInState,
+        isLoading: false,
+      });
     }
   };
 
@@ -159,11 +170,13 @@ export default function LogIn() {
         <Link href='/resetpassword' color='inherit' title='Forgot your password'>Forgot your password?</Link>
       </Typography>
 
-      <Button
+      <LoadingButton
         variant='contained'
         type='submit'
         size='large'
         fullWidth
+        loading={logInState.isLoading}
+        loadingPosition='end'
         sx={{
           marginY: 2,
           marginTop: 'auto',
@@ -171,7 +184,7 @@ export default function LogIn() {
         }}
       >
         Log In
-      </Button>
+      </LoadingButton>
 
       <Typography variant='caption'>
         Create an account instead?&nbsp;

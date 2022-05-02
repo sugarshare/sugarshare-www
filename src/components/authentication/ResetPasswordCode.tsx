@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -27,6 +27,7 @@ interface ResetPasswordCodeState {
   code: string;
   newPassword: string;
   showPassword: boolean;
+  isLoading: boolean;
 }
 
 const INITIAL_STATE: ResetPasswordCodeState = {
@@ -34,6 +35,7 @@ const INITIAL_STATE: ResetPasswordCodeState = {
   code: '',
   newPassword: '',
   showPassword: false,
+  isLoading: false,
 };
 
 const INITIAL_ERROR_STATE = {
@@ -101,6 +103,10 @@ export default function ResetPasswordCode() {
     }
 
     setErrorState(INITIAL_ERROR_STATE);
+    setResetPasswordCodeState({
+      ...resetPasswordCodeState,
+      isLoading: true,
+    });
 
     const { email, code, newPassword } = resetPasswordCodeState;
     try {
@@ -127,6 +133,11 @@ export default function ResetPasswordCode() {
       } else {
         console.error(error);
       }
+    } finally {
+      setResetPasswordCodeState({
+        ...resetPasswordCodeState,
+        isLoading: false,
+      });
     }
   };
 
@@ -216,18 +227,20 @@ export default function ResetPasswordCode() {
         }}
       />
 
-      <Button
+      <LoadingButton
         variant='contained'
         type='submit'
         size='large'
         fullWidth
+        loading={resetPasswordCodeState.isLoading}
+        loadingPosition='end'
         sx={{
           marginY: 2,
           borderRadius: 2,
         }}
       >
         Submit
-      </Button>
+      </LoadingButton>
 
       <Typography variant='caption'>
         Create an account instead?&nbsp;

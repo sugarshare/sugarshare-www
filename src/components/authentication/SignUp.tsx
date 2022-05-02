@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
@@ -25,6 +25,7 @@ interface SignUpState {
   email: string;
   password: string;
   showPassword: boolean;
+  isLoading: boolean;
 }
 
 const INITIAL_STATE: SignUpState = {
@@ -32,6 +33,7 @@ const INITIAL_STATE: SignUpState = {
   email: '',
   password: '',
   showPassword: false,
+  isLoading: false,
 };
 
 export default function SignUp() {
@@ -77,6 +79,10 @@ export default function SignUp() {
 
     setIsPasswordValid(true);
     setIsEmailValid(true);
+    setSignUpState({
+      ...signUpState,
+      isLoading: true,
+    });
 
     const { email, password } = signUpState;
     try {
@@ -95,6 +101,11 @@ export default function SignUp() {
         // TODO track these error in Rollbar
         console.error(error);
       }
+    } finally {
+      setSignUpState({
+        ...signUpState,
+        isLoading: false,
+      });
     }
   };
 
@@ -183,11 +194,13 @@ export default function SignUp() {
         .
       </Typography>
 
-      <Button
+      <LoadingButton
         variant='contained'
         type='submit'
         size='large'
         fullWidth
+        loading={signUpState.isLoading}
+        loadingPosition='end'
         sx={{
           marginY: 2,
           marginTop: 'auto',
@@ -195,7 +208,7 @@ export default function SignUp() {
         }}
       >
         Sign up
-      </Button>
+      </LoadingButton>
 
       <Typography variant='caption'>
         Already have an account?&nbsp;
