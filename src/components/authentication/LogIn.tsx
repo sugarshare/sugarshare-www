@@ -46,7 +46,7 @@ export default function LogIn() {
   const emailParameter = searchParams.get('email');
   const passwordReset = searchParams.get('passwordreset');
 
-  const [logInState, setLogInState] = useState<LogInState>({
+  const [state, setState] = useState<LogInState>({
     ...INITIAL_STATE,
     email: emailParameter ?? '',
   });
@@ -56,16 +56,16 @@ export default function LogIn() {
   const handleChange = (prop: keyof LogInState) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setErrorState(INITIAL_ERROR_STATE);
 
-    setLogInState({
-      ...logInState,
+    setState({
+      ...state,
       [prop]: event.target.value,
     });
   };
 
   const handleShowPassword = () => {
-    setLogInState({
-      ...logInState,
-      showPassword: !logInState.showPassword,
+    setState({
+      ...state,
+      showPassword: !state.showPassword,
     });
   };
 
@@ -77,12 +77,12 @@ export default function LogIn() {
     event.preventDefault();
 
     setErrorState(INITIAL_ERROR_STATE);
-    setLogInState({
-      ...logInState,
+    setState({
+      ...state,
       isLoading: true,
     });
 
-    const { email, password } = logInState;
+    const { email, password } = state;
     try {
       const user = await AuthenticationClient.logIn({ email, password });
     } catch (error) {
@@ -104,8 +104,8 @@ export default function LogIn() {
         console.error(error);
       }
     } finally {
-      setLogInState({
-        ...logInState,
+      setState({
+        ...state,
         isLoading: false,
       });
     }
@@ -118,7 +118,7 @@ export default function LogIn() {
         id='email'
         type='email'
         label='Email'
-        value={logInState.email}
+        value={state.email}
         onChange={handleChange('email')}
         error={errorState.isEmailError}
         helperText={errorState.isEmailError && errorState.emailMessage}
@@ -136,9 +136,9 @@ export default function LogIn() {
       <TextField
         variant='outlined'
         id='password'
-        type={logInState.showPassword ? 'text' : 'password'}
+        type={state.showPassword ? 'text' : 'password'}
         label='Password'
-        value={logInState.password}
+        value={state.password}
         onChange={handleChange('password')}
         error={errorState.isPasswordError}
         helperText={errorState.isPasswordError && errorState.passwordMessage}
@@ -159,7 +159,7 @@ export default function LogIn() {
                 onMouseDown={handleMouseDownPassword}
                 edge='end'
               >
-                {logInState.showPassword ? <VisibilityOff /> : <Visibility />}
+                {state.showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
             </InputAdornment>
           ),
@@ -175,7 +175,7 @@ export default function LogIn() {
         type='submit'
         size='large'
         fullWidth
-        loading={logInState.isLoading}
+        loading={state.isLoading}
         loadingPosition='end'
         sx={{
           marginY: 2,

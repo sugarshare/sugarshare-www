@@ -36,32 +36,42 @@ const INITIAL_STATE: SignUpState = {
   isLoading: false,
 };
 
+const INITIAL_ERROR_STATE = {
+  isEmailError: false,
+  isPasswordError: false,
+};
+
 export default function SignUp() {
-  const [signUpState, setSignUpState] = useState<SignUpState>(INITIAL_STATE);
-  const [isPasswordValid, setIsPasswordValid] = useState(true);
-  const [isEmailValid, setIsEmailValid] = useState(true);
+  const [state, setState] = useState<SignUpState>(INITIAL_STATE);
+  const [errorState, setErrorState] = useState(INITIAL_ERROR_STATE);
 
   const navigate = useNavigate();
 
   const handleChange = (prop: keyof SignUpState) => (event: React.ChangeEvent<HTMLInputElement>) => {
     if (prop === 'email') {
       // When in email error state, reset when user edits email
-      setIsEmailValid(true);
-    } else if (prop === 'password' && !isPasswordValid) {
-      // When in password error state, help user by showing when password is valid
-      setIsPasswordValid(AuthenticationClient.isPasswordValid(event.target.value));
+      setErrorState({
+        ...errorState,
+        isEmailError: false,
+      });
+    } else if (prop === 'password' && errorState.isPasswordError) {
+      // When in password error state, help user by showing when password becomes valid
+      setErrorState({
+        ...errorState,
+        isPasswordError: !AuthenticationClient.isPasswordValid(event.target.value),
+      });
     }
 
-    setSignUpState({
-      ...signUpState,
+    setState({
+      ...state,
       [prop]: event.target.value,
     });
   };
 
   const handleShowPassword = () => {
-    setSignUpState({
-      ...signUpState,
-      showPassword: !signUpState.showPassword,
+    setState({
+      ...state,
+      showPassword: !state.showPassword,
     });
   };
 
@@ -72,19 +82,21 @@ export default function SignUp() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!AuthenticationClient.isPasswordValid(signUpState.password)) {
-      setIsPasswordValid(false);
+    if (!AuthenticationClient.isPasswordValid(state.password)) {
+      setErrorState({
+        ...errorState,
+        isPasswordError: true,
+      });
       return;
     }
 
-    setIsPasswordValid(true);
-    setIsEmailValid(true);
-    setSignUpState({
-      ...signUpState,
+    setErrorState(INITIAL_ERROR_STATE);
+    setState({
+      ...state,
       isLoading: true,
     });
 
-    const { email, password } = signUpState;
+    const { email, password } = state;
     try {
       const userSub = await AuthenticationClient.signUp({ email, password });
       navigate(
@@ -94,16 +106,21 @@ export default function SignUp() {
       );
     } catch (error) {
       if (error instanceof UsernameExistsException) {
-        setIsEmailValid(false);
+        setErrorState({
+          ...errorState,
+          isEmailError: true,
+        });
       } else if (error instanceof InvalidPasswordException) {
-        setIsPasswordValid(false);
+        setErrorState({
+          ...errorState,
+          isPasswordError: true,
+        });
       } else {
-        // TODO track these error in Rollbar
         console.error(error);
       }
     } finally {
-      setSignUpState({
-        ...signUpState,
+      setState({
+        ...state,
         isLoading: false,
       });
     }
@@ -115,7 +132,7 @@ export default function SignUp() {
         select
         id='plan'
         label='Plan'
-        value={signUpState.subscriptionLevel}
+        value={state.subscriptionLevel}
         onChange={handleChange('subscriptionLevel')}
         margin='normal'
         fullWidth
@@ -138,10 +155,10 @@ export default function SignUp() {
         id='email'
         type='email'
         label='Email'
-        value={signUpState.email}
+        value={state.email}
         onChange={handleChange('email')}
-        error={!isEmailValid}
-        helperText={!isEmailValid && 'An account with this email already exists. Try to log in or reset your password instead.'}
+        error={errorState.isEmailError}
+        helperText={errorState.isEmailError && 'An account with this email already exists. Try to log in or reset your password instead.'}
         margin='normal'
         required
         fullWidth
@@ -156,11 +173,11 @@ export default function SignUp() {
       <TextField
         variant='outlined'
         id='password'
-        type={signUpState.showPassword ? 'text' : 'password'}
+        type={state.showPassword ? 'text' : 'password'}
         label='Password'
-        value={signUpState.password}
+        value={state.password}
         onChange={handleChange('password')}
-        error={!isPasswordValid}
+        error={errorState.isPasswordError}
         helperText='Must be 8 characters long at least'
         margin='normal'
         required
@@ -179,7 +196,7 @@ export default function SignUp() {
                 onMouseDown={handleMouseDownPassword}
                 edge='end'
               >
-                {signUpState.showPassword ? <VisibilityOff /> : <Visibility />}
+                {state.showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
             </InputAdornment>
           ),
@@ -199,7 +216,7 @@ export default function SignUp() {
         type='submit'
         size='large'
         fullWidth
-        loading={signUpState.isLoading}
+        loading={state.isLoading}
         loadingPosition='end'
         sx={{
           marginY: 2,

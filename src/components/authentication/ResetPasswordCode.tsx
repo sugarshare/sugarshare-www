@@ -52,7 +52,7 @@ export default function ResetPasswordCode() {
   const [searchParams, setSearchParams] = useSearchParams();
   const emailParameter = searchParams.get('email');
 
-  const [resetPasswordCodeState, setResetPasswordCodeState] = useState<ResetPasswordCodeState>({
+  const [state, setState] = useState<ResetPasswordCodeState>({
     ...INITIAL_STATE,
     email: emailParameter ?? '',
   });
@@ -74,16 +74,16 @@ export default function ResetPasswordCode() {
       });
     }
 
-    setResetPasswordCodeState({
-      ...resetPasswordCodeState,
+    setState({
+      ...state,
       [prop]: event.target.value,
     });
   };
 
   const handleShowPassword = () => {
-    setResetPasswordCodeState({
-      ...resetPasswordCodeState,
-      showPassword: !resetPasswordCodeState.showPassword,
+    setState({
+      ...state,
+      showPassword: !state.showPassword,
     });
   };
 
@@ -94,7 +94,7 @@ export default function ResetPasswordCode() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!AuthenticationClient.isPasswordValid(resetPasswordCodeState.newPassword)) {
+    if (!AuthenticationClient.isPasswordValid(state.newPassword)) {
       setErrorState({
         ...errorState,
         isPasswordError: true,
@@ -103,12 +103,12 @@ export default function ResetPasswordCode() {
     }
 
     setErrorState(INITIAL_ERROR_STATE);
-    setResetPasswordCodeState({
-      ...resetPasswordCodeState,
+    setState({
+      ...state,
       isLoading: true,
     });
 
-    const { email, code, newPassword } = resetPasswordCodeState;
+    const { email, code, newPassword } = state;
     try {
       await AuthenticationClient.resetPasswordCode({ email, code, newPassword });
       navigate(`/login?email=${email}&passwordreset=true`);
@@ -134,8 +134,8 @@ export default function ResetPasswordCode() {
         console.error(error);
       }
     } finally {
-      setResetPasswordCodeState({
-        ...resetPasswordCodeState,
+      setState({
+        ...state,
         isLoading: false,
       });
     }
@@ -148,7 +148,7 @@ export default function ResetPasswordCode() {
         id='email'
         type='email'
         label='Email'
-        value={resetPasswordCodeState.email}
+        value={state.email}
         onChange={handleChange('email')}
         error={errorState.isMaximumAttemptsExceededError}
         margin='normal'
@@ -168,7 +168,7 @@ export default function ResetPasswordCode() {
         id='code'
         type='text'
         label='Reset code'
-        value={resetPasswordCodeState.code}
+        value={state.code}
         onChange={handleChange('code')}
         error={errorState.isCodeError || errorState.isMaximumAttemptsExceededError}
         helperText={
@@ -193,9 +193,9 @@ export default function ResetPasswordCode() {
       <TextField
         variant='outlined'
         id='password'
-        type={resetPasswordCodeState.showPassword ? 'text' : 'password'}
+        type={state.showPassword ? 'text' : 'password'}
         label='New password'
-        value={resetPasswordCodeState.newPassword}
+        value={state.newPassword}
         onChange={handleChange('newPassword')}
         error={errorState.isPasswordError || errorState.isMaximumAttemptsExceededError}
         helperText={
@@ -220,7 +220,7 @@ export default function ResetPasswordCode() {
                 onMouseDown={handleMouseDownPassword}
                 edge='end'
               >
-                {resetPasswordCodeState.showPassword ? <VisibilityOff /> : <Visibility />}
+                {state.showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
             </InputAdornment>
           ),
@@ -232,7 +232,7 @@ export default function ResetPasswordCode() {
         type='submit'
         size='large'
         fullWidth
-        loading={resetPasswordCodeState.isLoading}
+        loading={state.isLoading}
         loadingPosition='end'
         sx={{
           marginY: 2,

@@ -22,13 +22,13 @@ const INITIAL_STATE: ResetPasswordState = {
 };
 
 export default function ResetPassword() {
-  const [resetPasswordState, setResetPasswordState] = useState<ResetPasswordState>(INITIAL_STATE);
+  const [state, setState] = useState<ResetPasswordState>(INITIAL_STATE);
 
   const navigate = useNavigate();
 
   const handleChange = (prop: keyof ResetPasswordState) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    setResetPasswordState({
-      ...resetPasswordState,
+    setState({
+      ...state,
       [prop]: event.target.value,
     });
   };
@@ -37,12 +37,12 @@ export default function ResetPassword() {
     event.preventDefault();
 
     // TODO
-    setResetPasswordState({
-      ...resetPasswordState,
+    setState({
+      ...state,
       isLoading: true,
     });
 
-    const { email } = resetPasswordState;
+    const { email } = state;
     try {
       await AuthenticationClient.resetPassword({ email });
       navigate(`/newpassword?email=${email}`);
@@ -53,8 +53,8 @@ export default function ResetPassword() {
         console.error(error);
       }
     } finally {
-      setResetPasswordState({
-        ...resetPasswordState,
+      setState({
+        ...state,
         isLoading: false,
       });
     }
@@ -67,7 +67,7 @@ export default function ResetPassword() {
         id='email'
         type='email'
         label='Email'
-        value={resetPasswordState.email}
+        value={state.email}
         helperText='We will send you a link to reset your password'
         onChange={handleChange('email')}
         margin='normal'
@@ -87,7 +87,7 @@ export default function ResetPassword() {
         type='submit'
         size='large'
         fullWidth
-        loading={resetPasswordState.isLoading}
+        loading={state.isLoading}
         loadingPosition='end'
         sx={{
           marginY: 2,
