@@ -146,7 +146,7 @@ export default function LogIn() {
       />
 
       <Typography variant='caption' sx={{ marginY: 2 }}>
-        <Link href='/passwordreset' color='inherit' title='Forgot your password'>Forgot your password?</Link>
+        <Link href='/resetpassword' color='inherit' title='Forgot your password'>Forgot your password?</Link>
       </Typography>
 
       <Button
