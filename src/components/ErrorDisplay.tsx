@@ -52,7 +52,7 @@ export default function ErrorDisplay({ codeOrText }: ErrorDisplayProps) {
       </Typography>
 
       <Typography variant='body1' sx={{ marginY: 8 }}>
-        &#8617; Go to&nbsp;
+        &#8617; Go back to&nbsp;
         <Link href='/' variant='body1' color='inherit' title={settings.siteDomainName}>main site</Link>
         .
       </Typography>
