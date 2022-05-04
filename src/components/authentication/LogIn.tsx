@@ -176,7 +176,6 @@ export default function LogIn() {
         size='large'
         fullWidth
         loading={state.isLoading}
-        loadingPosition='end'
         sx={{
           marginY: 2,
           marginTop: 'auto',

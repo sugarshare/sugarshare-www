@@ -217,7 +217,6 @@ export default function SignUp() {
         size='large'
         fullWidth
         loading={state.isLoading}
-        loadingPosition='end'
         sx={{
           marginY: 2,
           marginTop: 'auto',

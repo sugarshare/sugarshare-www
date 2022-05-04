@@ -36,7 +36,6 @@ export default function ResetPassword() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // TODO
     setState({
       ...state,
       isLoading: true,
@@ -88,7 +87,6 @@ export default function ResetPassword() {
         size='large'
         fullWidth
         loading={state.isLoading}
-        loadingPosition='end'
         sx={{
           marginY: 2,
           borderRadius: 2,

@@ -231,7 +231,6 @@ export default function ResetPasswordCode() {
         size='large'
         fullWidth
         loading={state.isLoading}
-        loadingPosition='end'
         sx={{
           marginY: 2,
           borderRadius: 2,
