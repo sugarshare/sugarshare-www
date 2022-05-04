@@ -109,10 +109,10 @@ export default function ResetPasswordCode() {
     const { email, code, newPassword } = state;
     try {
       await AuthenticationClient.resetPasswordCode({ email, code, newPassword });
-      navigate(`/login?email=${email}&passwordreset=true`);
+      navigate(`/login?email=${email}&ispasswordreset=true`);
     } catch (error) {
       if (error instanceof UserNotFoundException) {
-        navigate(`/login?email=${email}&passwordreset=true`);
+        navigate(`/login?email=${email}&ispasswordreset=true`);
       } else if (error instanceof InvalidPasswordException) {
         setErrorState({
           ...errorState,

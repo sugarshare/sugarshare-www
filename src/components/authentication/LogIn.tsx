@@ -44,7 +44,7 @@ const INITIAL_ERROR_STATE = {
 export default function LogIn() {
   const [searchParams, setSearchParams] = useSearchParams();
   const emailParameter = searchParams.get('email');
-  const passwordReset = searchParams.get('passwordreset');
+  const isPasswordReset = searchParams.get('ispasswordreset');
 
   const [state, setState] = useState<LogInState>({
     ...INITIAL_STATE,
@@ -191,7 +191,7 @@ export default function LogIn() {
         .
       </Typography>
 
-      {passwordReset && <NotificationSnackbar message='Your password has been reset successfully!' />}
+      {isPasswordReset && <NotificationSnackbar message='Your password has been reset successfully!' />}
     </AuthenticationForm>
   );
 }
