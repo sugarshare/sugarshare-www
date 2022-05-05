@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
@@ -45,6 +45,7 @@ export default function LogIn() {
   const [searchParams, setSearchParams] = useSearchParams();
   const emailParameter = searchParams.get('email');
   const isPasswordReset = searchParams.get('ispasswordreset');
+  const isExtension = searchParams.get('isextension');
 
   const [state, setState] = useState<LogInState>({
     ...INITIAL_STATE,
@@ -52,6 +53,8 @@ export default function LogIn() {
   });
 
   const [errorState, setErrorState] = useState(INITIAL_ERROR_STATE);
+
+  const navigate = useNavigate();
 
   const handleChange = (prop: keyof LogInState) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setErrorState(INITIAL_ERROR_STATE);
@@ -84,7 +87,13 @@ export default function LogIn() {
 
     const { email, password } = state;
     try {
-      const user = await AuthenticationClient.logIn({ email, password });
+      // User credentials are stored automatically
+      await AuthenticationClient.logIn({ email, password });
+      if (isExtension) {
+        window.close();
+      } else {
+        navigate('');
+      }
     } catch (error) {
       if (error instanceof UserNotConfirmedException) {
         setErrorState({

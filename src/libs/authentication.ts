@@ -56,9 +56,9 @@ export default class AuthenticationClient {
     }
   }
 
-  static async logIn({ email, password }: LogInInput): Promise<string | undefined> {
+  static async logIn({ email, password }: LogInInput): Promise<void> {
     try {
-      const user = await Auth.signIn({ username: email, password });
+      await Auth.signIn({ username: email, password });
     } catch (error) {
       AuthenticationClient.handleError(error);
     }

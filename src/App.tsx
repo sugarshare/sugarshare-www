@@ -141,7 +141,7 @@ export default function App() {
       </Container>
       <Footer />
 
-      {userSub && <NotificationSnackbar message='A confirmation link has been sent to your email. Glad to have you onboard ;) ' />}
+      {userSub && <NotificationSnackbar message='A confirmation link has been sent to your email. Glad to have you onboard ;)' />}
     </>
   );
 }
