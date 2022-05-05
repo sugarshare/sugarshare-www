@@ -37,6 +37,10 @@ interface ResetPasswordCodeInput {
   newPassword: string;
 }
 
+interface SignOutInput {
+  global?: boolean;
+}
+
 export default class AuthenticationClient {
   static isPasswordValid(password: string) {
     const PASSWORD_PATTERN = /.{8,}/; // At least 8 of any characters except newline
@@ -77,6 +81,22 @@ export default class AuthenticationClient {
       await Auth.forgotPasswordSubmit(email, code, newPassword);
     } catch (error) {
       AuthenticationClient.handleError(error);
+    }
+  }
+
+  static async signOut({ global = false }: SignOutInput = {}) {
+    try {
+      await Auth.signOut({ global });
+    } catch (error) {
+      // TODO Test this
+    }
+  }
+
+  static async deleteUser() {
+    try {
+      await Auth.deleteUser();
+    } catch (error) {
+      // TODO
     }
   }
 
