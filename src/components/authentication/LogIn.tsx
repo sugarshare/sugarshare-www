@@ -92,7 +92,7 @@ export default function LogIn() {
       if (isExtension) {
         window.close();
       } else {
-        navigate('');
+        navigate('/');
       }
     } catch (error) {
       if (error instanceof UserNotConfirmedException) {
