@@ -27,6 +27,12 @@ interface LogInInput {
   password: string;
 }
 
+interface LogInOutput {
+  accessToken: string;
+  idToken: string;
+  refreshToken: string;
+}
+
 interface ResetPasswordInput {
   email: string;
 }
@@ -60,9 +66,16 @@ export default class AuthenticationClient {
     }
   }
 
-  static async logIn({ email, password }: LogInInput): Promise<void> {
+  static async logIn({ email, password }: LogInInput): Promise<LogInOutput | undefined> {
     try {
       await Auth.signIn({ username: email, password });
+      const session = await Auth.currentSession();
+
+      return {
+        accessToken: session.getAccessToken().getJwtToken(),
+        idToken: session.getIdToken().getJwtToken(),
+        refreshToken: session.getRefreshToken().getToken(),
+      };
     } catch (error) {
       AuthenticationClient.handleError(error);
     }
