@@ -119,7 +119,7 @@ export default function LogIn() {
           isEmailError: true,
           isPasswordError: true,
           emailMessage: '',
-          passwordMessage: 'Email and/or password is incorrect.',
+          passwordMessage: 'Incorrect email and/or password',
         }));
       } else if (error instanceof NetworkError) {
         setErrorState((curr) => ({

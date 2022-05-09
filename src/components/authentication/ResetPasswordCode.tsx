@@ -175,13 +175,11 @@ export default function ResetPasswordCode() {
         label='Reset code'
         value={state.code}
         onChange={handleChange('code')}
-        error={errorState.isCodeError || errorState.isMaximumAttemptsExceededError}
+        error={errorState.isCodeError}
         helperText={
           errorState.isCodeError
-            ? 'This code is expired or invalid. Please try again to reset your password.'
-            : errorState.isMaximumAttemptsExceededError
-              ? null
-              : 'We sent a password reset code to your email inbox'
+            ? 'This code is invalid or expired. Please verify your code or try again to reset your password.'
+            : 'We sent a password reset code to your email inbox'
         }
         margin='normal'
         required
@@ -202,12 +200,8 @@ export default function ResetPasswordCode() {
         label='New password'
         value={state.newPassword}
         onChange={handleChange('newPassword')}
-        error={errorState.isPasswordError || errorState.isMaximumAttemptsExceededError}
-        helperText={
-          errorState.isMaximumAttemptsExceededError
-            ? 'Maximum number of attempts exceeded. Please wait and retry later.'
-            : 'Must be 8 characters long at least'
-        }
+        error={errorState.isPasswordError}
+        helperText='Must be 8 characters long at least'
         margin='normal'
         required
         fullWidth
@@ -252,6 +246,7 @@ export default function ResetPasswordCode() {
         .
       </Typography>
 
+      {errorState.isMaximumAttemptsExceededError && <NotificationSnackbar message='Maximum number of attempts exceeded. Please wait and retry later.' severity='error' />}
       {errorState.isNetworkError && <NotificationSnackbar message='Something is wrong with the network. Please check your internet connection.' severity='error' />}
     </AuthenticationForm>
   );
