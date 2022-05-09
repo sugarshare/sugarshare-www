@@ -16,6 +16,8 @@ class InvalidParameterException extends Error {}
 
 class LimitExceededException extends Error {}
 
+class NetworkError extends Error {}
+
 export {
   UsernameExistsException,
   InvalidPasswordException,
@@ -26,4 +28,5 @@ export {
   ExpiredCodeException,
   InvalidParameterException,
   LimitExceededException,
+  NetworkError,
 };

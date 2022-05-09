@@ -7,9 +7,10 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Typography from '@mui/material/Typography';
 import EmailIcon from '@mui/icons-material/Email';
 
+import NotificationSnackbar from 'components/NotificationSnackbar';
 import AuthenticationForm from 'components/authentication/AuthenticationForm';
 import AuthenticationClient from 'libs/authentication';
-import { UserNotFoundException, InvalidParameterException } from 'libs/errors';
+import { UserNotFoundException, InvalidParameterException, NetworkError } from 'libs/errors';
 
 interface ResetPasswordState {
   email: string;
@@ -21,8 +22,13 @@ const INITIAL_STATE: ResetPasswordState = {
   isLoading: false,
 };
 
+const INITIAL_ERROR_STATE = {
+  isNetworkError: false,
+};
+
 export default function ResetPassword() {
   const [state, setState] = useState<ResetPasswordState>(INITIAL_STATE);
+  const [errorState, setErrorState] = useState(INITIAL_ERROR_STATE);
 
   const navigate = useNavigate();
 
@@ -48,6 +54,11 @@ export default function ResetPassword() {
     } catch (error) {
       if (error instanceof UserNotFoundException || error instanceof InvalidParameterException) {
         navigate(`/newpassword?email=${email}`);
+      } else if (error instanceof NetworkError) {
+        setErrorState((curr) => ({
+          ...curr,
+          isNetworkError: true,
+        }));
       } else {
         console.error(error);
       }
@@ -100,6 +111,8 @@ export default function ResetPassword() {
         <Link href='/signup' color='inherit' title='Sign up'>Sign up</Link>
         .
       </Typography>
+
+      {errorState.isNetworkError && <NotificationSnackbar message='Something is wrong with the network. Please check your internet connection.' severity='error' />}
     </AuthenticationForm>
   );
 }

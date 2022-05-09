@@ -12,6 +12,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
+import NotificationSnackbar from 'components/NotificationSnackbar';
 import AuthenticationForm from 'components/authentication/AuthenticationForm';
 import AuthenticationClient from 'libs/authentication';
 import {
@@ -20,6 +21,7 @@ import {
   CodeMismatchException,
   ExpiredCodeException,
   LimitExceededException,
+  NetworkError,
 } from 'libs/errors';
 
 interface ResetPasswordCodeState {
@@ -42,6 +44,7 @@ const INITIAL_ERROR_STATE = {
   isCodeError: false,
   isPasswordError: false,
   isMaximumAttemptsExceededError: false,
+  isNetworkError: false,
 };
 
 export default function ResetPasswordCode() {
@@ -128,6 +131,11 @@ export default function ResetPasswordCode() {
           ...curr,
           isMaximumAttemptsExceededError: true,
         }));
+      } else if (error instanceof NetworkError) {
+        setErrorState((curr) => ({
+          ...curr,
+          isNetworkError: true,
+        }));
       } else {
         console.error(error);
       }
@@ -148,7 +156,6 @@ export default function ResetPasswordCode() {
         label='Email'
         value={state.email}
         onChange={handleChange('email')}
-        error={errorState.isMaximumAttemptsExceededError}
         margin='normal'
         required
         fullWidth
@@ -244,6 +251,8 @@ export default function ResetPasswordCode() {
         <Link href='/signup' color='inherit' title='Sign up'>Sign up</Link>
         .
       </Typography>
+
+      {errorState.isNetworkError && <NotificationSnackbar message='Something is wrong with the network. Please check your internet connection.' severity='error' />}
     </AuthenticationForm>
   );
 }

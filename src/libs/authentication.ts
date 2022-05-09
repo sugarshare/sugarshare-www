@@ -10,6 +10,7 @@ import {
   ExpiredCodeException,
   InvalidParameterException,
   LimitExceededException,
+  NetworkError,
 } from 'libs/errors';
 import { authentication as authenticationSettings } from 'settings';
 
@@ -116,6 +117,10 @@ export default class AuthenticationClient {
   static handleError(error: unknown) {
     if (!(error instanceof Error)) {
       throw error;
+    }
+
+    if (/network/i.test(error.message)) {
+      throw new NetworkError();
     }
 
     switch (error.name) {

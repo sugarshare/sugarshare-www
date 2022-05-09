@@ -18,6 +18,7 @@ import {
   UserNotFoundException,
   UserNotConfirmedException,
   NotAuthorizedException,
+  NetworkError,
 } from 'libs/errors';
 
 interface LogInState {
@@ -37,6 +38,7 @@ const INITIAL_STATE: LogInState = {
 const INITIAL_ERROR_STATE = {
   isEmailError: false,
   isPasswordError: false,
+  isNetworkError: false,
   emailMessage: '',
   passwordMessage: '',
 };
@@ -118,6 +120,11 @@ export default function LogIn() {
           isPasswordError: true,
           emailMessage: '',
           passwordMessage: 'Email and/or password is incorrect.',
+        }));
+      } else if (error instanceof NetworkError) {
+        setErrorState((curr) => ({
+          ...curr,
+          isNetworkError: true,
         }));
       } else {
         console.error(error);
@@ -211,6 +218,7 @@ export default function LogIn() {
       </Typography>
 
       {isPasswordReset && <NotificationSnackbar message='Your password has been reset successfully!' />}
+      {errorState.isNetworkError && <NotificationSnackbar message='Something is wrong with the network. Please check your internet connection.' severity='error' />}
     </AuthenticationForm>
   );
 }

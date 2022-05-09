@@ -14,8 +14,9 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import AuthenticationClient from 'libs/authentication';
-import { UsernameExistsException, InvalidPasswordException } from 'libs/errors';
+import { UsernameExistsException, InvalidPasswordException, NetworkError } from 'libs/errors';
 
+import NotificationSnackbar from 'components/NotificationSnackbar';
 import AuthenticationForm from 'components/authentication/AuthenticationForm';
 import { SUBSCRIPTIONS } from 'components/Subscription';
 import { SubscriptionLevel } from 'components/SubscriptionTile';
@@ -39,6 +40,7 @@ const INITIAL_STATE: SignUpState = {
 const INITIAL_ERROR_STATE = {
   isEmailError: false,
   isPasswordError: false,
+  isNetworkError: false,
 };
 
 export default function SignUp() {
@@ -114,6 +116,11 @@ export default function SignUp() {
         setErrorState((curr) => ({
           ...curr,
           isPasswordError: true,
+        }));
+      } else if (error instanceof NetworkError) {
+        setErrorState((curr) => ({
+          ...curr,
+          isNetworkError: true,
         }));
       } else {
         console.error(error);
@@ -231,6 +238,8 @@ export default function SignUp() {
         <Link href='/login' color='inherit' title='Log in'>Log in</Link>
         .
       </Typography>
+
+      {errorState.isNetworkError && <NotificationSnackbar message='Something is wrong with the network. Please check your internet connection.' severity='error' />}
     </AuthenticationForm>
   );
 }

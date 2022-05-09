@@ -11,9 +11,10 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>((
 
 interface NotificationSnackbarInput {
   message: string;
+  severity?: 'info' | 'success' | 'warning' | 'error';
 }
 
-export default function NotificationSnackbar({ message }: NotificationSnackbarInput) {
+export default function NotificationSnackbar({ message, severity = 'info' }: NotificationSnackbarInput) {
   const [open, setOpen] = useState(true);
 
   const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
@@ -42,7 +43,7 @@ export default function NotificationSnackbar({ message }: NotificationSnackbarIn
       )}
     >
       <Alert
-        severity='info'
+        severity={severity}
         onClose={handleClose}
         sx={{ width: '100%' }}
       >
