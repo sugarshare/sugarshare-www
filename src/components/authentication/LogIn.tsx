@@ -95,8 +95,8 @@ export default function LogIn() {
       if (redirectUri) {
         const params = {
           a: tokens?.accessToken ?? '',
-          i: tokens?.idToken ?? '',
           r: tokens?.refreshToken ?? '',
+          i: tokens?.idToken ?? '',
         };
 
         const url = new URL('', redirectUri);
