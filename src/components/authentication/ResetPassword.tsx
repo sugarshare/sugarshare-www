@@ -27,19 +27,19 @@ export default function ResetPassword() {
   const navigate = useNavigate();
 
   const handleChange = (prop: keyof ResetPasswordState) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState({
-      ...state,
+    setState((curr) => ({
+      ...curr,
       [prop]: event.target.value,
-    });
+    }));
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setState({
-      ...state,
+    setState((curr) => ({
+      ...curr,
       isLoading: true,
-    });
+    }));
 
     const { email } = state;
     try {
@@ -52,10 +52,10 @@ export default function ResetPassword() {
         console.error(error);
       }
     } finally {
-      setState({
-        ...state,
+      setState((curr) => ({
+        ...curr,
         isLoading: false,
-      });
+      }));
     }
   };
 

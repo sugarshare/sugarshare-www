@@ -50,29 +50,29 @@ export default function SignUp() {
   const handleChange = (prop: keyof SignUpState) => (event: React.ChangeEvent<HTMLInputElement>) => {
     if (prop === 'email') {
       // When in email error state, reset when user edits email
-      setErrorState({
-        ...errorState,
+      setErrorState((curr) => ({
+        ...curr,
         isEmailError: false,
-      });
+      }));
     } else if (prop === 'password' && errorState.isPasswordError) {
       // When in password error state, help user by showing when password becomes valid
-      setErrorState({
-        ...errorState,
+      setErrorState((curr) => ({
+        ...curr,
         isPasswordError: !AuthenticationClient.isPasswordValid(event.target.value),
-      });
+      }));
     }
 
-    setState({
-      ...state,
+    setState((curr) => ({
+      ...curr,
       [prop]: event.target.value,
-    });
+    }));
   };
 
   const handleShowPassword = () => {
-    setState({
-      ...state,
+    setState((curr) => ({
+      ...curr,
       showPassword: !state.showPassword,
-    });
+    }));
   };
 
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -83,18 +83,18 @@ export default function SignUp() {
     event.preventDefault();
 
     if (!AuthenticationClient.isPasswordValid(state.password)) {
-      setErrorState({
-        ...errorState,
+      setErrorState((curr) => ({
+        ...curr,
         isPasswordError: true,
-      });
+      }));
       return;
     }
 
     setErrorState(INITIAL_ERROR_STATE);
-    setState({
-      ...state,
+    setState((curr) => ({
+      ...curr,
       isLoading: true,
-    });
+    }));
 
     const { email, password } = state;
     try {
@@ -106,23 +106,23 @@ export default function SignUp() {
       );
     } catch (error) {
       if (error instanceof UsernameExistsException) {
-        setErrorState({
-          ...errorState,
+        setErrorState((curr) => ({
+          ...curr,
           isEmailError: true,
-        });
+        }));
       } else if (error instanceof InvalidPasswordException) {
-        setErrorState({
-          ...errorState,
+        setErrorState((curr) => ({
+          ...curr,
           isPasswordError: true,
-        });
+        }));
       } else {
         console.error(error);
       }
     } finally {
-      setState({
-        ...state,
+      setState((curr) => ({
+        ...curr,
         isLoading: false,
-      });
+      }));
     }
   };
 

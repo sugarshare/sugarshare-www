@@ -59,17 +59,17 @@ export default function LogIn() {
   const handleChange = (prop: keyof LogInState) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setErrorState(INITIAL_ERROR_STATE);
 
-    setState({
-      ...state,
+    setState((curr) => ({
+      ...curr,
       [prop]: event.target.value,
-    });
+    }));
   };
 
   const handleShowPassword = () => {
-    setState({
-      ...state,
-      showPassword: !state.showPassword,
-    });
+    setState((curr) => ({
+      ...curr,
+      showPassword: !curr.showPassword,
+    }));
   };
 
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -80,10 +80,10 @@ export default function LogIn() {
     event.preventDefault();
 
     setErrorState(INITIAL_ERROR_STATE);
-    setState({
-      ...state,
+    setState((curr) => ({
+      ...curr,
       isLoading: true,
-    });
+    }));
 
     const { email, password } = state;
     try {
@@ -106,27 +106,27 @@ export default function LogIn() {
       }
     } catch (error) {
       if (error instanceof UserNotConfirmedException) {
-        setErrorState({
-          ...errorState,
+        setErrorState((curr) => ({
+          ...curr,
           isEmailError: true,
           emailMessage: 'We need to confirm your email. Please check your inbox for a confirmation link.',
-        });
+        }));
       } else if (error instanceof UserNotFoundException || error instanceof NotAuthorizedException) {
-        setErrorState({
-          ...errorState,
+        setErrorState((curr) => ({
+          ...curr,
           isEmailError: true,
           isPasswordError: true,
           emailMessage: '',
           passwordMessage: 'Email and/or password is incorrect.',
-        });
+        }));
       } else {
         console.error(error);
       }
     } finally {
-      setState({
-        ...state,
+      setState((curr) => ({
+        ...curr,
         isLoading: false,
-      });
+      }));
     }
   };
 
