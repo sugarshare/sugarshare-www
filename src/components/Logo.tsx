@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from '@mui/material/Link';
 
-import settings from '../settings';
+import settings from 'settings';
 
 interface LogoProps {
   width: string | number;

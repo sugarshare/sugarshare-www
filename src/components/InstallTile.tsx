@@ -7,7 +7,7 @@ import {
   IconDefinition, faChrome, faFirefoxBrowser, faEdge, faOpera,
 } from '@fortawesome/free-brands-svg-icons';
 
-import BaseTile from './BaseTile';
+import BaseTile from 'components/BaseTile';
 
 type CompatibleBrowser = 'Chrome' | 'Firefox' | 'Microsoft Edge' | 'Opera' | 'Brave' | 'Vivaldi';
 

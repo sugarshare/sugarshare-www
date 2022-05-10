@@ -1,7 +1,6 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
-import Divider from '@mui/material/Divider';
 import GitHubIcon from '@mui/icons-material/GitHub';
 
 export default function Footer() {
@@ -24,7 +23,7 @@ export default function Footer() {
         &copy;&nbsp;
         {`SugarShare, ${new Date().getFullYear()}`}
       </span>
-      <Link href='/terms' underline='hover' color='inherit' aria-label='go to terms and conditions'>Terms</Link>
+      <Link href='/terms' underline='hover' color='inherit' aria-label='go to terms of service'>Terms</Link>
       <Link href='/privacy' underline='hover' color='inherit' aria-label='go to privacy policy'>Privacy</Link>
       <Link href='#contact' underline='hover' color='inherit' aria-label='go to contact'>Contact</Link>
       <Link href='https://github.com/sugarshare' target='_blank' underline='hover' color='inherit' aria-label='go to github'>
