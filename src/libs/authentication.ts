@@ -11,6 +11,7 @@ import {
   InvalidParameterException,
   LimitExceededException,
   NetworkError,
+  NoCurrentUserError,
 } from 'libs/errors';
 import { authentication as authenticationSettings } from 'settings';
 
@@ -102,7 +103,7 @@ export default class AuthenticationClient {
     try {
       await Auth.signOut({ global });
     } catch (error) {
-      // TODO Test this
+      AuthenticationClient.handleError(error);
     }
   }
 
@@ -110,7 +111,7 @@ export default class AuthenticationClient {
     try {
       await Auth.deleteUser();
     } catch (error) {
-      // TODO
+      AuthenticationClient.handleError(error);
     }
   }
 
@@ -121,6 +122,10 @@ export default class AuthenticationClient {
 
     if (/network/i.test(error.message)) {
       throw new NetworkError();
+    }
+
+    if (/No current user/i.test(error.message)) {
+      throw new NoCurrentUserError();
     }
 
     switch (error.name) {

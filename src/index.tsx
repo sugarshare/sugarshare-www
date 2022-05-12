@@ -11,6 +11,8 @@ import { ThemeProvider } from '@mui/material/styles';
 
 import theme from 'theme';
 import App from 'App';
+import UserAccount from 'pages/UserAccount';
+
 import FileFrame from 'components/FileFrame';
 import Terms from 'components/Terms';
 import Privacy from 'components/Privacy';
@@ -33,6 +35,7 @@ ReactDOM.render(
           <Route path='resetpassword' element={<ResetPassword />} />
           <Route path='newpassword' element={<ResetPasswordCode />} />
           <Route path='resetpasswordcode' element={<ResetPasswordCode />} />
+          <Route path='account' element={<UserAccount />} />
           <Route path='get' element={<Navigate replace to='/#products' />} />
           <Route path='contact' element={<Navigate replace to='/#contact' />} />
           <Route path='terms' element={<Terms />} />
