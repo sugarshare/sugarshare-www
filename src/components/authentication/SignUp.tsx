@@ -19,10 +19,11 @@ import { UsernameExistsException, InvalidPasswordException, NetworkError } from 
 import NotificationSnackbar from 'components/NotificationSnackbar';
 import AuthenticationForm from 'components/authentication/AuthenticationForm';
 import { SUBSCRIPTIONS } from 'components/Subscription';
-import { SubscriptionLevel } from 'components/SubscriptionTile';
+import { SubscriptionTier } from 'components/SubscriptionTile';
+
 
 interface SignUpState {
-  subscriptionLevel: SubscriptionLevel;
+  subscriptionTier: SubscriptionTier;
   email: string;
   password: string;
   showPassword: boolean;
@@ -30,7 +31,7 @@ interface SignUpState {
 }
 
 const INITIAL_STATE: SignUpState = {
-  subscriptionLevel: SubscriptionLevel.STANDARD,
+  subscriptionTier: SubscriptionTier.STANDARD,
   email: '',
   password: '',
   showPassword: false,
@@ -98,9 +99,9 @@ export default function SignUp() {
       isLoading: true,
     }));
 
-    const { email, password } = state;
+    const { email, password, subscriptionTier } = state;
     try {
-      const userSub = await AuthenticationClient.signUp({ email, password });
+      const userSub = await AuthenticationClient.signUp({ email, password, subscriptionTier });
       navigate(
         userSub
           ? `/?user=${userSub}`
@@ -139,8 +140,8 @@ export default function SignUp() {
         select
         id='plan'
         label='Plan'
-        value={state.subscriptionLevel}
-        onChange={handleChange('subscriptionLevel')}
+        value={state.subscriptionTier}
+        onChange={handleChange('subscriptionTier')}
         margin='normal'
         fullWidth
         InputProps={{

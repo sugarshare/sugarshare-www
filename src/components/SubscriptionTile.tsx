@@ -10,14 +10,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import settings from 'settings';
 
-export enum SubscriptionLevel {
+export enum SubscriptionTier {
   FREE = 'Free',
   STANDARD = 'Standard',
   PREMIUM = 'Premium',
 }
 
 interface SubscriptionProps {
-  level: SubscriptionLevel;
+  tier: SubscriptionTier;
   benefits: string[];
   price: string | null;
   priceId: string | null;
@@ -40,7 +40,7 @@ const FREE_SUBSCRIBE_URL = () => {
 };
 
 export default function Subscription({
-  level, benefits, price, priceId,
+  tier, benefits, price, priceId,
 }: SubscriptionProps) {
   const sx = {
     backgroundColor: 'white',
@@ -60,7 +60,7 @@ export default function Subscription({
 
   const content = (
     <>
-      <Typography variant='h3' fontWeight='bold'>{level}</Typography>
+      <Typography variant='h3' fontWeight='bold'>{tier}</Typography>
       <Box sx={{ minHeight: '20rem', marginY: 4 }}>
         {
           benefits.map((benefit) => (

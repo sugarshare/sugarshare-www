@@ -13,6 +13,7 @@ import {
   NetworkError,
   NoCurrentUserError,
 } from 'libs/errors';
+import { SubscriptionTier } from 'components/SubscriptionTile';
 import { authentication as authenticationSettings } from 'settings';
 
 Amplify.configure({
@@ -22,6 +23,7 @@ Amplify.configure({
 interface SignUpInput {
   email: string;
   password: string;
+  subscriptionTier: SubscriptionTier;
 }
 
 interface LogInInput {
@@ -55,11 +57,14 @@ export default class AuthenticationClient {
     return PASSWORD_PATTERN.test(password);
   }
 
-  static async signUp({ email, password }: SignUpInput): Promise<string | undefined> {
+  static async signUp({ email, password, subscriptionTier }: SignUpInput): Promise<string | undefined> {
     try {
       const { userSub } = await Auth.signUp({
         username: email,
         password,
+        attributes: {
+          'custom:subscriptionTier': subscriptionTier.toLowerCase(),
+        },
       });
 
       return userSub;
