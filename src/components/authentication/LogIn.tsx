@@ -47,6 +47,7 @@ export default function LogIn() {
   const [searchParams, setSearchParams] = useSearchParams();
   const emailParameter = searchParams.get('email');
   const isPasswordReset = searchParams.get('ispasswordreset');
+  const context = searchParams.get('context');
   const redirectUri = searchParams.get('redirect_uri');
 
   const [state, setState] = useState<LogInState>({
@@ -92,7 +93,7 @@ export default function LogIn() {
       // User credentials are stored automatically
       const tokens = await AuthenticationClient.logIn({ email, password });
 
-      if (redirectUri) {
+      if (context === 'extension' && redirectUri) {
         const params = {
           a: tokens?.accessToken ?? '',
           r: tokens?.refreshToken ?? '',
@@ -103,6 +104,8 @@ export default function LogIn() {
         Object.entries(params).forEach(([key, value]) => url.searchParams.set(key, value));
 
         window.location.href = url.href;
+      } else if (redirectUri) {
+        navigate(redirectUri, { replace: true });
       } else {
         navigate('/');
       }
