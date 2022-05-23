@@ -1,3 +1,4 @@
+import type { CognitoUser } from 'amazon-cognito-identity-js';
 import { Amplify, Auth } from 'aws-amplify';
 
 import {
@@ -118,6 +119,10 @@ export default class AuthenticationClient {
     } catch (error) {
       AuthenticationClient.handleError(error);
     }
+  }
+
+  static getUser(): Promise<CognitoUser> {
+    return Auth.currentAuthenticatedUser();
   }
 
   static handleError(error: unknown) {

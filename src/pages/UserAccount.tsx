@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -8,8 +8,29 @@ import Navigation from 'components/Navigation';
 import AuthenticationClient from 'libs/authentication';
 import { NoCurrentUserError } from 'libs/errors';
 
+ interface UserAccountState {
+  email: string;
+  password: string;
+  showPassword: boolean;
+  isLoading: boolean;
+}
+
+const INITIAL_STATE: UserAccountState = {
+  email: '',
+  password: '',
+  showPassword: false,
+  isLoading: false,
+};
+
+const INITIAL_ERROR_STATE = {
+  isEmailError: false,
+  isPasswordError: false,
+  isNetworkError: false,
+};
 
 export default function UserAccount() {
+  const [state, setState] = useState<UserAccountState>(INITIAL_STATE);
+
   const navigate = useNavigate();
 
   const handleDeleteAccount = async (event: React.SyntheticEvent) => {
@@ -37,6 +58,25 @@ export default function UserAccount() {
       console.error(error);
     }
   };
+
+  useEffect(
+    () => {
+      AuthenticationClient.getUser()
+        .then((user) => {
+          setState((curr) => ({
+            ...curr,
+            email: user.getUsername(),
+          }));
+        })
+        .catch(() => {
+          // In case user is not logged in
+          navigate('/login?redirect_uri=/account');
+        });
+    },
+    [
+      // TODO check if user changed or logged in with different account
+    ],
+  );
 
   return (
     <Container maxWidth='lg'>
