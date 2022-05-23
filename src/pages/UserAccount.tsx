@@ -5,13 +5,19 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
 import Navigation from 'components/Navigation';
+import ConfirmationDialog from 'components/ConfirmationDialog';
+
 import AuthenticationClient from 'libs/authentication';
 import { NoCurrentUserError } from 'libs/errors';
+
+import settings from 'settings';
 
  interface UserAccountState {
   email: string;
   password: string;
   showPassword: boolean;
+  isDeleteAccountConfirmationDialogOpen: boolean;
+  isDeleteAccountConfirmed: boolean;
   isLoading: boolean;
 }
 
@@ -19,6 +25,8 @@ const INITIAL_STATE: UserAccountState = {
   email: '',
   password: '',
   showPassword: false,
+  isDeleteAccountConfirmationDialogOpen: false,
+  isDeleteAccountConfirmed: false,
   isLoading: false,
 };
 
@@ -33,19 +41,21 @@ export default function UserAccount() {
 
   const navigate = useNavigate();
 
+  const handleDeleteAccountConfirmationDialogResult = (result: boolean): React.MouseEventHandler<HTMLButtonElement> => (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    event.preventDefault();
+    setState((curr) => ({ ...curr, isDeleteAccountConfirmationDialogOpen: false, isDeleteAccountConfirmed: result }));
+  };
+
   const handleDeleteAccount = async (event: React.SyntheticEvent) => {
     event.preventDefault();
 
-    try {
-      await AuthenticationClient.deleteUser();
-      navigate('/?isdeleted=true');
-    } catch (error) {
-      if (error instanceof NoCurrentUserError) {
-        // An error is thrown by the lib if user is not logged in
-      } else {
-        console.error(error);
-      }
-    }
+    // Open confirmation dialog. The user input will be used to check if account should be deleted
+    setState((curr) => ({
+      ...curr,
+      isDeleteAccountConfirmationDialogOpen: true,
+    }));
   };
 
   const handleLogOut = async (event: React.SyntheticEvent) => {
@@ -77,6 +87,28 @@ export default function UserAccount() {
       // TODO check if user changed or logged in with different account
     ],
   );
+
+  useEffect(
+    () => {
+      if (state.isDeleteAccountConfirmed) {
+        AuthenticationClient.deleteUser()
+          .then(() => {
+            navigate('/?isdeleted=true');
+          })
+          .catch((error) => {
+            if (error instanceof NoCurrentUserError) {
+              // An error is thrown by the lib if user is not logged in
+            } else {
+              console.log(error);
+            }
+          });
+      }
+    },
+    [
+      state.isDeleteAccountConfirmed,
+    ],
+  );
+
 
   return (
     <Container maxWidth='lg'>
@@ -112,6 +144,14 @@ export default function UserAccount() {
           Delete account
         </Button>
       </Box>
+
+      <ConfirmationDialog
+        title='Your account is about to be deleted'
+        description={`We would love to hear your feedback at ${settings.defaultEmailAddress}`}
+        open={state.isDeleteAccountConfirmationDialogOpen}
+        handleClose={handleDeleteAccountConfirmationDialogResult}
+      />
+
     </Container>
   );
 }
