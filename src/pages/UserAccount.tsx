@@ -1,8 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Drawer from '@mui/material/Drawer';
+import Toolbar from '@mui/material/Toolbar';
+import List from '@mui/material/List';
+import Typography from '@mui/material/Typography';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 
 import Navigation from 'components/Navigation';
 import ConfirmationDialog from 'components/ConfirmationDialog';
@@ -112,45 +124,81 @@ export default function UserAccount() {
 
   return (
     <Container maxWidth='lg'>
-      <Navigation />
+      <CssBaseline />
 
-      <Box
-        sx={{
-          marginY: 4,
-          display: 'flex',
-          flexDirection: 'column',
-          flexWrap: 'no-wrap',
-          // alignItems: 'center',
-        }}
-      >
-        <Button
-          variant='outlined'
-          color='warning'
-          onClick={handleLogOut}
+      <Navigation sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} />
+
+      <Box sx={{ display: 'flex' }}>
+        <Drawer
+          variant='permanent'
           sx={{
-            marginY: 1,
+            flexShrink: 0,
+            width: '12rem',
+            '& .MuiDrawer-paper': { width: '12rem', boxSizing: 'border-box' },
           }}
         >
-          Log out
-        </Button>
-        <Button
-          variant='outlined'
-          color='error'
-          onClick={handleDeleteAccount}
+          <Toolbar />
+          <Box sx={{ overflow: 'auto' }}>
+            <List>
+              <ListItem key='account' disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <AccountCircleIcon />
+                  </ListItemIcon>
+                  <ListItemText primary='Account' />
+                </ListItemButton>
+              </ListItem>
+
+              <ListItem key='files' disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <FormatListBulletedIcon />
+                  </ListItemIcon>
+                  <ListItemText primary='My Files' />
+                </ListItemButton>
+              </ListItem>
+            </List>
+          </Box>
+        </Drawer>
+
+        <Box
           sx={{
-            marginY: 1,
+            marginY: 4,
+            flexGrow: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            flexWrap: 'no-wrap',
+            // alignItems: 'center',
           }}
         >
-          Delete account
-        </Button>
-      </Box>
+          <Button
+            variant='outlined'
+            color='warning'
+            onClick={handleLogOut}
+            sx={{
+              marginY: 1,
+            }}
+          >
+            Log out
+          </Button>
+          <Button
+            variant='outlined'
+            color='error'
+            onClick={handleDeleteAccount}
+            sx={{
+              marginY: 1,
+            }}
+          >
+            Delete account
+          </Button>
+        </Box>
 
-      <ConfirmationDialog
-        title='Your account is about to be deleted'
-        description={`We would love to hear your feedback at ${settings.defaultEmailAddress}`}
-        open={state.isDeleteAccountConfirmationDialogOpen}
-        handleClose={handleDeleteAccountConfirmationDialogResult}
-      />
+        <ConfirmationDialog
+          title='Your account is about to be deleted'
+          description={`We would love to hear your feedback at ${settings.defaultEmailAddress}`}
+          open={state.isDeleteAccountConfirmationDialogOpen}
+          handleClose={handleDeleteAccountConfirmationDialogResult}
+        />
 
     </Container>
   );
