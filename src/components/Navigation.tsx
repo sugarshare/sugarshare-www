@@ -1,4 +1,6 @@
 import React from 'react';
+
+import type { SxProps, Theme } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -13,6 +15,10 @@ import Button from '@mui/material/Button';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 
 import Logo from 'components/Logo';
+
+interface NavigationInput {
+  sx?: SxProps<Theme>;
+}
 
 const pages = {
   Products: {
@@ -40,7 +46,7 @@ function ElevationScroll({ children }: { children: React.ReactElement }) {
   });
 }
 
-export default function Navigation() {
+export default function Navigation({ sx }: NavigationInput) {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -55,7 +61,7 @@ export default function Navigation() {
     <>
       <CssBaseline />
       <ElevationScroll>
-        <AppBar color='secondary'>
+        <AppBar color='secondary' sx={{ ...sx }}>
           <Container maxWidth='xl'>
             <Toolbar disableGutters>
 
