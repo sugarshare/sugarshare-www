@@ -26,26 +26,14 @@ import settings from 'settings';
 
  interface UserAccountState {
   email: string;
-  password: string;
-  showPassword: boolean;
   isDeleteAccountConfirmationDialogOpen: boolean;
   isDeleteAccountConfirmed: boolean;
-  isLoading: boolean;
 }
 
 const INITIAL_STATE: UserAccountState = {
   email: '',
-  password: '',
-  showPassword: false,
   isDeleteAccountConfirmationDialogOpen: false,
   isDeleteAccountConfirmed: false,
-  isLoading: false,
-};
-
-const INITIAL_ERROR_STATE = {
-  isEmailError: false,
-  isPasswordError: false,
-  isNetworkError: false,
 };
 
 export default function UserAccount() {
@@ -121,7 +109,6 @@ export default function UserAccount() {
       state.isDeleteAccountConfirmed,
     ],
   );
-
 
   return (
     <Container maxWidth='lg'>
@@ -203,7 +190,7 @@ export default function UserAccount() {
           open={state.isDeleteAccountConfirmationDialogOpen}
           handleClose={handleDeleteAccountConfirmationDialogResult}
         />
-
+      </Box>
     </Container>
   );
 }
