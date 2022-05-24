@@ -85,9 +85,10 @@ export default function UserAccount() {
     () => {
       AuthenticationClient.getUser()
         .then((user) => {
+          const { attributes: { email } } = user;
           setState((curr) => ({
             ...curr,
-            email: user.getUsername(),
+            email,
           }));
         })
         .catch(() => {
@@ -171,6 +172,9 @@ export default function UserAccount() {
             // alignItems: 'center',
           }}
         >
+          <Typography variant='h5'>Account</Typography>
+          <Typography variant='subtitle1'>{state.email}</Typography>
+
           <Button
             variant='outlined'
             color='warning'

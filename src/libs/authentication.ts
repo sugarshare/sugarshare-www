@@ -121,7 +121,7 @@ export default class AuthenticationClient {
     }
   }
 
-  static getUser(): Promise<CognitoUser> {
+  static getUser(): Promise<CognitoUser | any> {
     return Auth.currentAuthenticatedUser();
   }
 
