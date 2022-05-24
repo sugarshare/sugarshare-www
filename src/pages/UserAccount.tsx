@@ -121,8 +121,8 @@ export default function UserAccount() {
           variant='permanent'
           sx={{
             flexShrink: 0,
-            width: '12rem',
-            '& .MuiDrawer-paper': { width: '12rem', boxSizing: 'border-box' },
+            width: '15rem',
+            '& .MuiDrawer-paper': { width: '15rem', boxSizing: 'border-box' },
           }}
         >
           <Toolbar />
@@ -167,7 +167,7 @@ export default function UserAccount() {
             color='warning'
             onClick={handleLogOut}
             sx={{
-              marginY: 1,
+              marginY: 2,
             }}
           >
             Log out
@@ -177,7 +177,7 @@ export default function UserAccount() {
             color='error'
             onClick={handleDeleteAccount}
             sx={{
-              marginY: 1,
+              marginY: 2,
             }}
           >
             Delete account
