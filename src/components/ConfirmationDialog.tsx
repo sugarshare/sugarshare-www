@@ -12,7 +12,8 @@ interface ConfirmationDialogInput {
   agreeText?: string;
   disagreeText?: string;
   open: boolean;
-  handleClose: (result: boolean) => React.MouseEventHandler<HTMLButtonElement>;
+  handleConfirm: React.MouseEventHandler<HTMLButtonElement>;
+  handleClose: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export default function ConfirmationDialog({
@@ -21,13 +22,14 @@ export default function ConfirmationDialog({
   agreeText = 'Confirm',
   disagreeText = 'Cancel',
   open,
+  handleConfirm,
   handleClose,
 }: ConfirmationDialogInput) {
   return (
     <div>
       <Dialog
         open={open}
-        onClose={handleClose(false)}
+        onClose={handleClose}
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
       >
@@ -40,8 +42,8 @@ export default function ConfirmationDialog({
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose(false)}>{disagreeText}</Button>
-          <Button onClick={handleClose(true)} autoFocus>
+          <Button onClick={handleClose}>{disagreeText}</Button>
+          <Button onClick={handleConfirm} autoFocus>
             {agreeText}
           </Button>
         </DialogActions>
