@@ -62,16 +62,16 @@ export default function LogIn() {
   const handleChange = (prop: keyof LogInState) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setErrorState(INITIAL_ERROR_STATE);
 
-    setState((curr) => ({
-      ...curr,
+    setState((prevState) => ({
+      ...prevState,
       [prop]: event.target.value,
     }));
   };
 
   const handleShowPassword = () => {
-    setState((curr) => ({
-      ...curr,
-      showPassword: !curr.showPassword,
+    setState((prevState) => ({
+      ...prevState,
+      showPassword: !prevState.showPassword,
     }));
   };
 
@@ -83,8 +83,8 @@ export default function LogIn() {
     event.preventDefault();
 
     setErrorState(INITIAL_ERROR_STATE);
-    setState((curr) => ({
-      ...curr,
+    setState((prevState) => ({
+      ...prevState,
       isLoading: true,
     }));
 
@@ -111,30 +111,30 @@ export default function LogIn() {
       }
     } catch (error) {
       if (error instanceof UserNotConfirmedException) {
-        setErrorState((curr) => ({
-          ...curr,
+        setErrorState((prevState) => ({
+          ...prevState,
           isEmailError: true,
           emailMessage: 'We need to confirm your email. Please check your inbox for a confirmation link.',
         }));
       } else if (error instanceof UserNotFoundException || error instanceof NotAuthorizedException) {
-        setErrorState((curr) => ({
-          ...curr,
+        setErrorState((prevState) => ({
+          ...prevState,
           isEmailError: true,
           isPasswordError: true,
           emailMessage: '',
           passwordMessage: 'Incorrect email and/or password',
         }));
       } else if (error instanceof NetworkError) {
-        setErrorState((curr) => ({
-          ...curr,
+        setErrorState((prevState) => ({
+          ...prevState,
           isNetworkError: true,
         }));
       } else {
         console.error(error);
       }
     } finally {
-      setState((curr) => ({
-        ...curr,
+      setState((prevState) => ({
+        ...prevState,
         isLoading: false,
       }));
     }

@@ -69,8 +69,8 @@ export default function UserAccount() {
       AuthenticationClient.getUser()
         .then((user) => {
           const { attributes: { email } } = user;
-          setState((curr) => ({
-            ...curr,
+          setState((prevState) => ({
+            ...prevState,
             email,
           }));
         })

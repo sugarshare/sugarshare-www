@@ -33,8 +33,8 @@ export default function ResetPassword() {
   const navigate = useNavigate();
 
   const handleChange = (prop: keyof ResetPasswordState) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState((curr) => ({
-      ...curr,
+    setState((prevState) => ({
+      ...prevState,
       [prop]: event.target.value,
     }));
   };
@@ -42,8 +42,8 @@ export default function ResetPassword() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setState((curr) => ({
-      ...curr,
+    setState((prevState) => ({
+      ...prevState,
       isLoading: true,
     }));
 
@@ -55,16 +55,16 @@ export default function ResetPassword() {
       if (error instanceof UserNotFoundException || error instanceof InvalidParameterException) {
         navigate(`/newpassword?email=${email}`);
       } else if (error instanceof NetworkError) {
-        setErrorState((curr) => ({
-          ...curr,
+        setErrorState((prevState) => ({
+          ...prevState,
           isNetworkError: true,
         }));
       } else {
         console.error(error);
       }
     } finally {
-      setState((curr) => ({
-        ...curr,
+      setState((prevState) => ({
+        ...prevState,
         isLoading: false,
       }));
     }
