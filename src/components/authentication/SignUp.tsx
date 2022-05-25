@@ -19,10 +19,11 @@ import { UsernameExistsException, InvalidPasswordException, NetworkError } from 
 import NotificationSnackbar from 'components/NotificationSnackbar';
 import AuthenticationForm from 'components/authentication/AuthenticationForm';
 import { SUBSCRIPTIONS } from 'components/Subscription';
-import { SubscriptionLevel } from 'components/SubscriptionTile';
+import { SubscriptionTier } from 'components/SubscriptionTile';
+
 
 interface SignUpState {
-  subscriptionLevel: SubscriptionLevel;
+  subscriptionTier: SubscriptionTier;
   email: string;
   password: string;
   showPassword: boolean;
@@ -30,7 +31,7 @@ interface SignUpState {
 }
 
 const INITIAL_STATE: SignUpState = {
-  subscriptionLevel: SubscriptionLevel.STANDARD,
+  subscriptionTier: SubscriptionTier.STANDARD,
   email: '',
   password: '',
   showPassword: false,
@@ -52,27 +53,27 @@ export default function SignUp() {
   const handleChange = (prop: keyof SignUpState) => (event: React.ChangeEvent<HTMLInputElement>) => {
     if (prop === 'email') {
       // When in email error state, reset when user edits email
-      setErrorState((curr) => ({
-        ...curr,
+      setErrorState((prevState) => ({
+        ...prevState,
         isEmailError: false,
       }));
     } else if (prop === 'password' && errorState.isPasswordError) {
       // When in password error state, help user by showing when password becomes valid
-      setErrorState((curr) => ({
-        ...curr,
+      setErrorState((prevState) => ({
+        ...prevState,
         isPasswordError: !AuthenticationClient.isPasswordValid(event.target.value),
       }));
     }
 
-    setState((curr) => ({
-      ...curr,
+    setState((prevState) => ({
+      ...prevState,
       [prop]: event.target.value,
     }));
   };
 
   const handleShowPassword = () => {
-    setState((curr) => ({
-      ...curr,
+    setState((prevState) => ({
+      ...prevState,
       showPassword: !state.showPassword,
     }));
   };
@@ -85,22 +86,22 @@ export default function SignUp() {
     event.preventDefault();
 
     if (!AuthenticationClient.isPasswordValid(state.password)) {
-      setErrorState((curr) => ({
-        ...curr,
+      setErrorState((prevState) => ({
+        ...prevState,
         isPasswordError: true,
       }));
       return;
     }
 
     setErrorState(INITIAL_ERROR_STATE);
-    setState((curr) => ({
-      ...curr,
+    setState((prevState) => ({
+      ...prevState,
       isLoading: true,
     }));
 
-    const { email, password } = state;
+    const { email, password, subscriptionTier } = state;
     try {
-      const userSub = await AuthenticationClient.signUp({ email, password });
+      const userSub = await AuthenticationClient.signUp({ email, password, subscriptionTier });
       navigate(
         userSub
           ? `/?user=${userSub}`
@@ -108,26 +109,26 @@ export default function SignUp() {
       );
     } catch (error) {
       if (error instanceof UsernameExistsException) {
-        setErrorState((curr) => ({
-          ...curr,
+        setErrorState((prevState) => ({
+          ...prevState,
           isEmailError: true,
         }));
       } else if (error instanceof InvalidPasswordException) {
-        setErrorState((curr) => ({
-          ...curr,
+        setErrorState((prevState) => ({
+          ...prevState,
           isPasswordError: true,
         }));
       } else if (error instanceof NetworkError) {
-        setErrorState((curr) => ({
-          ...curr,
+        setErrorState((prevState) => ({
+          ...prevState,
           isNetworkError: true,
         }));
       } else {
         console.error(error);
       }
     } finally {
-      setState((curr) => ({
-        ...curr,
+      setState((prevState) => ({
+        ...prevState,
         isLoading: false,
       }));
     }
@@ -139,8 +140,8 @@ export default function SignUp() {
         select
         id='plan'
         label='Plan'
-        value={state.subscriptionLevel}
-        onChange={handleChange('subscriptionLevel')}
+        value={state.subscriptionTier}
+        onChange={handleChange('subscriptionTier')}
         margin='normal'
         fullWidth
         InputProps={{

@@ -8,16 +8,16 @@ import Divider from '@mui/material/Divider';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import settings from 'settings';
+import settings, { authentication as authenticationSettings } from 'settings';
 
-export enum SubscriptionLevel {
+export enum SubscriptionTier {
   FREE = 'Free',
   STANDARD = 'Standard',
   PREMIUM = 'Premium',
 }
 
 interface SubscriptionProps {
-  level: SubscriptionLevel;
+  tier: SubscriptionTier;
   benefits: string[];
   price: string | null;
   priceId: string | null;
@@ -27,7 +27,7 @@ const PAID_SUBSCRIBE_URL = () => `https://${settings.apiDomainName}/subscription
 
 const FREE_SUBSCRIBE_URL = () => {
   const params = {
-    client_id: 'mh81fe4s02g87iedt0pimthp4',
+    client_id: authenticationSettings.userPoolWebClientId,
     response_type: 'code',
     scope: ['openid', 'email', 'profile'].join(' '),
     redirect_uri: `https://${settings.siteDomainName}/get`,
@@ -40,7 +40,7 @@ const FREE_SUBSCRIBE_URL = () => {
 };
 
 export default function Subscription({
-  level, benefits, price, priceId,
+  tier, benefits, price, priceId,
 }: SubscriptionProps) {
   const sx = {
     backgroundColor: 'white',
@@ -60,7 +60,7 @@ export default function Subscription({
 
   const content = (
     <>
-      <Typography variant='h3' fontWeight='bold'>{level}</Typography>
+      <Typography variant='h3' fontWeight='bold'>{tier}</Typography>
       <Box sx={{ minHeight: '20rem', marginY: 4 }}>
         {
           benefits.map((benefit) => (

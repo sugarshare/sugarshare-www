@@ -1,3 +1,4 @@
+import type { CognitoUser } from 'amazon-cognito-identity-js';
 import { Amplify, Auth } from 'aws-amplify';
 
 import {
@@ -11,7 +12,9 @@ import {
   InvalidParameterException,
   LimitExceededException,
   NetworkError,
+  NoCurrentUserError,
 } from 'libs/errors';
+import { SubscriptionTier } from 'components/SubscriptionTile';
 import { authentication as authenticationSettings } from 'settings';
 
 Amplify.configure({
@@ -21,6 +24,7 @@ Amplify.configure({
 interface SignUpInput {
   email: string;
   password: string;
+  subscriptionTier: SubscriptionTier;
 }
 
 interface LogInInput {
@@ -54,11 +58,14 @@ export default class AuthenticationClient {
     return PASSWORD_PATTERN.test(password);
   }
 
-  static async signUp({ email, password }: SignUpInput): Promise<string | undefined> {
+  static async signUp({ email, password, subscriptionTier }: SignUpInput): Promise<string | undefined> {
     try {
       const { userSub } = await Auth.signUp({
         username: email,
         password,
+        attributes: {
+          'custom:subscriptionTier': subscriptionTier.toLowerCase(),
+        },
       });
 
       return userSub;
@@ -102,7 +109,7 @@ export default class AuthenticationClient {
     try {
       await Auth.signOut({ global });
     } catch (error) {
-      // TODO Test this
+      AuthenticationClient.handleError(error);
     }
   }
 
@@ -110,8 +117,12 @@ export default class AuthenticationClient {
     try {
       await Auth.deleteUser();
     } catch (error) {
-      // TODO
+      AuthenticationClient.handleError(error);
     }
+  }
+
+  static getUser(): Promise<CognitoUser | any> {
+    return Auth.currentAuthenticatedUser();
   }
 
   static handleError(error: unknown) {
@@ -121,6 +132,10 @@ export default class AuthenticationClient {
 
     if (/network/i.test(error.message)) {
       throw new NetworkError();
+    }
+
+    if (/No current user/i.test(error.message)) {
+      throw new NoCurrentUserError();
     }
 
     switch (error.name) {

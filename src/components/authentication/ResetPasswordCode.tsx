@@ -63,27 +63,27 @@ export default function ResetPasswordCode() {
   const handleChange = (prop: keyof ResetPasswordCodeState) => (event: React.ChangeEvent<HTMLInputElement>) => {
     if (prop === 'code') {
       // When in code error state, reset error when user updates the code
-      setErrorState((curr) => ({
-        ...curr,
+      setErrorState((prevState) => ({
+        ...prevState,
         isCodeError: false,
       }));
     } else if (prop === 'newPassword' && errorState.isPasswordError) {
       // When in password error state, help user by showing when password is valid
-      setErrorState((curr) => ({
-        ...curr,
+      setErrorState((prevState) => ({
+        ...prevState,
         isPasswordError: !AuthenticationClient.isPasswordValid(event.target.value),
       }));
     }
 
-    setState((curr) => ({
-      ...curr,
+    setState((prevState) => ({
+      ...prevState,
       [prop]: event.target.value,
     }));
   };
 
   const handleShowPassword = () => {
-    setState((curr) => ({
-      ...curr,
+    setState((prevState) => ({
+      ...prevState,
       showPassword: !state.showPassword,
     }));
   };
@@ -96,16 +96,16 @@ export default function ResetPasswordCode() {
     event.preventDefault();
 
     if (!AuthenticationClient.isPasswordValid(state.newPassword)) {
-      setErrorState((curr) => ({
-        ...curr,
+      setErrorState((prevState) => ({
+        ...prevState,
         isPasswordError: true,
       }));
       return;
     }
 
     setErrorState(INITIAL_ERROR_STATE);
-    setState((curr) => ({
-      ...curr,
+    setState((prevState) => ({
+      ...prevState,
       isLoading: true,
     }));
 
@@ -117,31 +117,31 @@ export default function ResetPasswordCode() {
       if (error instanceof UserNotFoundException) {
         navigate(`/login?email=${email}&ispasswordreset=true`);
       } else if (error instanceof InvalidPasswordException) {
-        setErrorState((curr) => ({
-          ...curr,
+        setErrorState((prevState) => ({
+          ...prevState,
           isPasswordError: true,
         }));
       } else if (error instanceof CodeMismatchException || error instanceof ExpiredCodeException) {
-        setErrorState((curr) => ({
-          ...curr,
+        setErrorState((prevState) => ({
+          ...prevState,
           isCodeError: true,
         }));
       } else if (error instanceof LimitExceededException) {
-        setErrorState((curr) => ({
-          ...curr,
+        setErrorState((prevState) => ({
+          ...prevState,
           isMaximumAttemptsExceededError: true,
         }));
       } else if (error instanceof NetworkError) {
-        setErrorState((curr) => ({
-          ...curr,
+        setErrorState((prevState) => ({
+          ...prevState,
           isNetworkError: true,
         }));
       } else {
         console.error(error);
       }
     } finally {
-      setState((curr) => ({
-        ...curr,
+      setState((prevState) => ({
+        ...prevState,
         isLoading: false,
       }));
     }

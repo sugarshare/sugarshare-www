@@ -4,10 +4,10 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 
-import SubscriptionTile, { SubscriptionLevel } from 'components/SubscriptionTile';
+import SubscriptionTile, { SubscriptionTier } from 'components/SubscriptionTile';
 
 export const SUBSCRIPTIONS = {
-  [SubscriptionLevel.FREE]: {
+  [SubscriptionTier.FREE]: {
     price: null,
     priceId: null,
     benefits: [
@@ -17,7 +17,7 @@ export const SUBSCRIPTIONS = {
       'No payment method required',
     ],
   },
-  [SubscriptionLevel.STANDARD]: {
+  [SubscriptionTier.STANDARD]: {
     price: {
       monthly: 6,
       yearly: 5,
@@ -30,7 +30,7 @@ export const SUBSCRIPTIONS = {
       'Coming soon!',
     ],
   },
-  [SubscriptionLevel.PREMIUM]: {
+  [SubscriptionTier.PREMIUM]: {
     price: {
       monthly: 10,
       yearly: 9,
@@ -69,9 +69,9 @@ export default function Subscription() {
         }}
       >
         {
-          Object.entries(SUBSCRIPTIONS).map(([level, { price, priceId, benefits }]) => (
+          Object.entries(SUBSCRIPTIONS).map(([tier, { price, priceId, benefits }]) => (
             <SubscriptionTile
-              level={level as SubscriptionLevel}
+              tier={tier as SubscriptionTier}
               price={price && `${isYearly ? price.yearly : price.monthly}$ / month`}
               priceId={priceId && (isYearly ? priceId.yearly : priceId.monthly)}
               benefits={benefits}
