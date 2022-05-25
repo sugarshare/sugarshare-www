@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -86,8 +85,6 @@ export default function UserAccount() {
 
   return (
     <Container maxWidth='lg'>
-      <CssBaseline />
-
       <Navigation sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} />
 
       <Box sx={{ display: 'flex' }}>
