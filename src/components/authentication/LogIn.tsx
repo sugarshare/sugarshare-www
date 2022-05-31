@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import LoadingButton from '@mui/lab/LoadingButton';
+import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -44,7 +45,7 @@ const INITIAL_ERROR_STATE = {
 };
 
 export default function LogIn() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const emailParameter = searchParams.get('email');
   const isPasswordReset = searchParams.get('ispasswordreset');
   const context = searchParams.get('context');
@@ -56,6 +57,7 @@ export default function LogIn() {
   });
 
   const [errorState, setErrorState] = useState(INITIAL_ERROR_STATE);
+  const [resendConfirmation, setResendConfirmation] = useState(false);
 
   const navigate = useNavigate();
 
@@ -77,6 +79,26 @@ export default function LogIn() {
 
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+  };
+
+  const handleResendConfirmation = async () => {
+    const { email } = state;
+
+    try {
+      await AuthenticationClient.resendConfirmationEmail({ email });
+    } catch (error) {
+      if (error instanceof NetworkError) {
+        setErrorState((prevState) => ({
+          ...prevState,
+          isNetworkError: true,
+        }));
+      } else {
+        console.error(error);
+      }
+    } finally {
+      setResendConfirmation(false);
+      setErrorState(INITIAL_ERROR_STATE);
+    }
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -111,6 +133,7 @@ export default function LogIn() {
       }
     } catch (error) {
       if (error instanceof UserNotConfirmedException) {
+        setResendConfirmation(true);
         setErrorState((prevState) => ({
           ...prevState,
           isEmailError: true,
@@ -198,6 +221,19 @@ export default function LogIn() {
       <Typography variant='caption' sx={{ marginY: 2 }}>
         <Link href='/resetpassword' color='inherit' title='Forgot your password'>Forgot your password?</Link>
       </Typography>
+
+      {
+        resendConfirmation && (
+          <Button
+            variant='text'
+            size='small'
+            onClick={handleResendConfirmation}
+            sx={{ marginY: 2 }}
+          >
+            Resend confirmation email?
+          </Button>
+        )
+      }
 
       <LoadingButton
         variant='contained'
