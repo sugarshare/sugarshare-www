@@ -4,12 +4,12 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 
-import SubscriptionTile, { SubscriptionTier } from 'components/SubscriptionTile';
+import SubscriptionTile from 'components/SubscriptionTile';
+import { SubscriptionTier } from 'libs/subscription';
 
 export const SUBSCRIPTIONS = {
   [SubscriptionTier.FREE]: {
     price: null,
-    priceId: null,
     benefits: [
       'Send up to 3 GB per file',
       'Unlimited number of files',
@@ -22,10 +22,6 @@ export const SUBSCRIPTIONS = {
       monthly: 6,
       yearly: 5,
     },
-    priceId: {
-      monthly: 'price_1KmD1lFJFAGDCGYEbWBkY4hc',
-      yearly: 'price_1KmD1HFJFAGDCGYEFWTjIuIG',
-    },
     benefits: [
       'Coming soon!',
     ],
@@ -34,10 +30,6 @@ export const SUBSCRIPTIONS = {
     price: {
       monthly: 10,
       yearly: 9,
-    },
-    priceId: {
-      monthly: 'price_1KmDFiFJFAGDCGYEpyo3kTjC',
-      yearly: 'price_1KmDDdFJFAGDCGYEsP4hBTO5',
     },
     benefits: [
       'Coming soon!',
@@ -69,12 +61,12 @@ export default function Subscription() {
         }}
       >
         {
-          Object.entries(SUBSCRIPTIONS).map(([tier, { price, priceId, benefits }]) => (
+          Object.entries(SUBSCRIPTIONS).map(([tier, { price, benefits }]) => (
             <SubscriptionTile
               tier={tier as SubscriptionTier}
-              price={price && `${isYearly ? price.yearly : price.monthly}$ / month`}
-              priceId={priceId && (isYearly ? priceId.yearly : priceId.monthly)}
               benefits={benefits}
+              price={price && `${isYearly ? price.yearly : price.monthly}$ / month`}
+              isYearly={isYearly}
             />
           ))
         }

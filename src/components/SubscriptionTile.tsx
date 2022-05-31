@@ -8,13 +8,7 @@ import Divider from '@mui/material/Divider';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import settings, { authentication as authenticationSettings } from 'settings';
-
-export enum SubscriptionTier {
-  FREE = 'Free',
-  STANDARD = 'Standard',
-  PREMIUM = 'Premium',
-}
+import { SubscriptionTier } from 'libs/subscription';
 
 interface SubscriptionProps {
   tier: SubscriptionTier;

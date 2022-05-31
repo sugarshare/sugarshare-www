@@ -14,12 +14,12 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import AuthenticationClient from 'libs/authentication';
+import { SubscriptionTier, getPriceId } from 'libs/subscription';
 import { UsernameExistsException, InvalidPasswordException, NetworkError } from 'libs/errors';
 
 import NotificationSnackbar from 'components/NotificationSnackbar';
 import AuthenticationForm from 'components/authentication/AuthenticationForm';
 import { SUBSCRIPTIONS } from 'components/Subscription';
-import { SubscriptionTier } from 'components/SubscriptionTile';
 
 
 interface SignUpState {
