@@ -11,6 +11,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import LoginIcon from '@mui/icons-material/Login';
 
 import NotificationSnackbar from 'components/NotificationSnackbar';
 import AuthenticationForm from 'components/authentication/AuthenticationForm';
@@ -240,6 +241,7 @@ export default function LogIn() {
         type='submit'
         size='large'
         fullWidth
+        endIcon={<LoginIcon />}
         loading={state.isLoading}
         sx={{
           marginY: 2,
