@@ -1,6 +1,5 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
@@ -14,27 +13,26 @@ interface SubscriptionProps {
   tier: SubscriptionTier;
   benefits: string[];
   price: string | null;
-  priceId: string | null;
+  isYearly: boolean;
 }
 
-const PAID_SUBSCRIBE_URL = () => `https://${settings.apiDomainName}/subscription/create-checkout-session`;
+interface SubscriptionUrlParams {
+  tier: SubscriptionTier;
+  yearly: boolean;
+}
 
-const FREE_SUBSCRIBE_URL = () => {
-  const params = {
-    client_id: authenticationSettings.userPoolWebClientId,
-    response_type: 'code',
-    scope: ['openid', 'email', 'profile'].join(' '),
-    redirect_uri: `https://${settings.siteDomainName}/get`,
-  };
+/**
+ * Generate subscription URL
+ */
+const SUBSCRIPTION_URL = (params: SubscriptionUrlParams) => {
+  const searchParams = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => value && searchParams.set(key, value));
 
-  const cognitoHostedUIUrl = new URL('signup', `https://${settings.authDomainName}`);
-  Object.entries(params).forEach(([key, value]) => cognitoHostedUIUrl.searchParams.set(key, value));
-
-  return cognitoHostedUIUrl.href;
+  return `/signup?${searchParams.toString()}`;
 };
 
-export default function Subscription({
-  tier, benefits, price, priceId,
+export default function SubscriptionTile({
+  tier, benefits, price, isYearly,
 }: SubscriptionProps) {
   const sx = {
     backgroundColor: 'white',
@@ -69,42 +67,21 @@ export default function Subscription({
     </>
   );
 
-  if (price && priceId) {
-    return (
-      <Box
-        component='form'
-        action={PAID_SUBSCRIBE_URL()}
-        method='POST'
-        sx={sx}
-      >
-        {content}
-        <Divider variant='middle' flexItem sx={{ marginTop: 'auto' }} />
-        <Typography variant='h5' fontWeight='bold' sx={{ marginY: 2 }}>{price}</Typography>
-
-        <Input type='hidden' name='priceId' value={priceId} />
-        <Button
-          disabled // TODO remove once subscription is available
-          type='submit'
-          variant='contained'
-          size='large'
-          color='secondary'
-          fullWidth
-          sx={{
-            fontWeight: 'bold',
-            marginTop: 'auto',
-          }}
-        >
-          Join
-        </Button>
-      </Box>
-    );
-  }
-
   return (
     <Box sx={sx}>
       {content}
+
+      {
+        price && (
+          <>
+            <Divider variant='middle' flexItem sx={{ marginTop: 'auto' }} />
+            <Typography variant='h5' fontWeight='bold' sx={{ marginY: 2 }}>{price}</Typography>
+          </>
+        )
+      }
+
       <Button
-        href={FREE_SUBSCRIBE_URL()}
+        href={SUBSCRIPTION_URL({ tier, yearly: isYearly })}
         variant='contained'
         size='large'
         color='secondary'
@@ -114,7 +91,7 @@ export default function Subscription({
           marginTop: 'auto',
         }}
       >
-        Create account
+        {price ? 'Join' : 'Create account'}
       </Button>
     </Box>
   );

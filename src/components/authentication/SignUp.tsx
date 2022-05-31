@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
@@ -20,6 +20,8 @@ import { UsernameExistsException, InvalidPasswordException, NetworkError } from 
 import NotificationSnackbar from 'components/NotificationSnackbar';
 import AuthenticationForm from 'components/authentication/AuthenticationForm';
 import { SUBSCRIPTIONS } from 'components/Subscription';
+
+import settings from 'settings';
 
 
 interface SignUpState {
@@ -45,7 +47,19 @@ const INITIAL_ERROR_STATE = {
 };
 
 export default function SignUp() {
-  const [state, setState] = useState<SignUpState>(INITIAL_STATE);
+  const [searchParams] = useSearchParams();
+  const tier = searchParams.get('tier') as SubscriptionTier;
+  const isYearly = searchParams.get('yearly') === 'true';
+
+  let priceId: string | null = null;
+  if (tier) {
+    priceId = getPriceId(tier, isYearly);
+  }
+
+  const [state, setState] = useState<SignUpState>({
+    ...INITIAL_STATE,
+    ...(tier && { subscriptionTier: tier }),
+  });
   const [errorState, setErrorState] = useState(INITIAL_ERROR_STATE);
 
   const navigate = useNavigate();
@@ -231,7 +245,7 @@ export default function SignUp() {
           borderRadius: 2,
         }}
       >
-        Sign up
+        {priceId ? 'Continue' : 'Sign up'}
       </LoadingButton>
 
       <Typography variant='caption'>
