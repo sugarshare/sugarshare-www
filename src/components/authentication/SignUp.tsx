@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import LoadingButton from '@mui/lab/LoadingButton';
+import Box from '@mui/material/Box';
+import Input from '@mui/material/Input';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
@@ -63,6 +65,7 @@ export default function SignUp() {
   });
   const [errorState, setErrorState] = useState(INITIAL_ERROR_STATE);
 
+  const subscriptionFormRef = useRef<HTMLFormElement>(null);
   const navigate = useNavigate();
 
   const handleChange = (prop: keyof SignUpState) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -117,11 +120,12 @@ export default function SignUp() {
     const { email, password, subscriptionTier } = state;
     try {
       const userSub = await AuthenticationClient.signUp({ email, password, subscriptionTier });
-      navigate(
-        userSub
-          ? `/?user=${userSub}`
-          : '/',
-      );
+
+      if (!priceId) {
+        navigate(userSub ? `/?user=${userSub}` : '/');
+      } else {
+        subscriptionFormRef.current!.submit();
+      }
     } catch (error) {
       if (error instanceof UsernameExistsException) {
         setErrorState((prevState) => ({
@@ -150,113 +154,126 @@ export default function SignUp() {
   };
 
   return (
-    <AuthenticationForm handleSubmit={handleSubmit}>
-      <TextField
-        select
-        id='plan'
-        label='Plan'
-        value={state.subscriptionTier}
-        onChange={handleChange('subscriptionTier')}
-        margin='normal'
-        fullWidth
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position='start'>
-              <CardMembershipIcon />
-            </InputAdornment>
-          ),
-        }}
+    <>
+      <Box
+        hidden
+        component='form'
+        action={`https://${settings.apiDomainName}/subscription/create-checkout-session`}
+        method='POST'
+        ref={subscriptionFormRef}
       >
-        {
-          Object.keys(SUBSCRIPTIONS).map((plan) => (
-            <MenuItem key={plan} value={plan}>{plan}</MenuItem>
-          ))
-        }
-      </TextField>
-      <TextField
-        variant='outlined'
-        id='email'
-        type='email'
-        label='Email'
-        value={state.email}
-        onChange={handleChange('email')}
-        error={errorState.isEmailError}
-        helperText={errorState.isEmailError && 'An account with this email already exists. Try to log in or reset your password instead.'}
-        margin='normal'
-        required
-        fullWidth
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position='start'>
-              <EmailIcon />
-            </InputAdornment>
-          ),
-        }}
-      />
-      <TextField
-        variant='outlined'
-        id='password'
-        type={state.showPassword ? 'text' : 'password'}
-        label='Password'
-        value={state.password}
-        onChange={handleChange('password')}
-        error={errorState.isPasswordError}
-        helperText='Must be 8 characters long at least'
-        margin='normal'
-        required
-        fullWidth
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position='start'>
-              <LockIcon />
-            </InputAdornment>
-          ),
-          endAdornment: (
-            <InputAdornment position='end'>
-              <IconButton
-                aria-label='toggle password visibility'
-                onClick={handleShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge='end'
-              >
-                {state.showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-      />
+        <Input type='hidden' name='email' value={state.email} />
+        <Input type='hidden' name='priceId' value={priceId} />
+      </Box>
 
-      <Typography variant='caption' sx={{ marginY: 2 }}>
-        By creating an account, you agree to our&nbsp;
-        <Link href='/terms' target='_blank' color='inherit' title='Terms of Service' aria-label='go to terms of service'>Terms</Link>
-        &nbsp;and&nbsp;
-        <Link href='/privacy' target='_blank' color='inherit' title='Privacy policy' aria-label='go to privacy policy'>Privacy Policy</Link>
-        .
-      </Typography>
+      <AuthenticationForm handleSubmit={handleSubmit}>
+        <TextField
+          select
+          id='plan'
+          label='Plan'
+          value={state.subscriptionTier}
+          onChange={handleChange('subscriptionTier')}
+          margin='normal'
+          fullWidth
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position='start'>
+                <CardMembershipIcon />
+              </InputAdornment>
+            ),
+          }}
+        >
+          {
+            Object.keys(SUBSCRIPTIONS).map((plan) => (
+              <MenuItem key={plan} value={plan}>{plan}</MenuItem>
+            ))
+          }
+        </TextField>
+        <TextField
+          variant='outlined'
+          id='email'
+          type='email'
+          label='Email'
+          value={state.email}
+          onChange={handleChange('email')}
+          error={errorState.isEmailError}
+          helperText={errorState.isEmailError && 'An account with this email already exists. Try to log in or reset your password instead.'}
+          margin='normal'
+          required
+          fullWidth
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position='start'>
+                <EmailIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+        <TextField
+          variant='outlined'
+          id='password'
+          type={state.showPassword ? 'text' : 'password'}
+          label='Password'
+          value={state.password}
+          onChange={handleChange('password')}
+          error={errorState.isPasswordError}
+          helperText='Must be 8 characters long at least'
+          margin='normal'
+          required
+          fullWidth
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position='start'>
+                <LockIcon />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position='end'>
+                <IconButton
+                  aria-label='toggle password visibility'
+                  onClick={handleShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge='end'
+                >
+                  {state.showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
 
-      <LoadingButton
-        variant='contained'
-        type='submit'
-        size='large'
-        fullWidth
-        endIcon={priceId ? <ArrowForwardIcon /> : null}
-        loading={state.isLoading}
-        sx={{
-          marginY: 2,
-          marginTop: 'auto',
-          borderRadius: 2,
-        }}
-      >
-        {priceId ? 'Continue' : 'Sign up'}
-      </LoadingButton>
+        <Typography variant='caption' sx={{ marginY: 2 }}>
+          By creating an account, you agree to our&nbsp;
+          <Link href='/terms' target='_blank' color='inherit' title='Terms of Service' aria-label='go to terms of service'>Terms</Link>
+          &nbsp;and&nbsp;
+          <Link href='/privacy' target='_blank' color='inherit' title='Privacy policy' aria-label='go to privacy policy'>Privacy Policy</Link>
+          .
+        </Typography>
 
-      <Typography variant='caption'>
-        Already have an account?&nbsp;
-        <Link href='/login' color='inherit' title='Log in'>Log in</Link>
-        .
-      </Typography>
+        <LoadingButton
+          variant='contained'
+          type='submit'
+          size='large'
+          fullWidth
+          endIcon={priceId ? <ArrowForwardIcon /> : null}
+          loading={state.isLoading}
+          sx={{
+            marginY: 2,
+            marginTop: 'auto',
+            borderRadius: 2,
+          }}
+        >
+          {priceId ? 'Continue' : 'Sign up'}
+        </LoadingButton>
 
-      {errorState.isNetworkError && <NotificationSnackbar message='Something is wrong with the network. Please check your internet connection.' severity='error' />}
-    </AuthenticationForm>
+        <Typography variant='caption'>
+          Already have an account?&nbsp;
+          <Link href='/login' color='inherit' title='Log in'>Log in</Link>
+          .
+        </Typography>
+
+        {errorState.isNetworkError && <NotificationSnackbar message='Something is wrong with the network. Please check your internet connection.' severity='error' />}
+      </AuthenticationForm>
+    </>
   );
 }
