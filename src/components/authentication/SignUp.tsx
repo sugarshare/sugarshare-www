@@ -259,7 +259,7 @@ export default function SignUp() {
           type='submit'
           size='large'
           fullWidth
-          endIcon={state.priceId ? <ArrowForwardIcon /> : null}
+          endIcon={state.subscriptionTier === SubscriptionTier.FREE ? null : <ArrowForwardIcon />}
           loading={state.isLoading}
           sx={{
             marginY: 2,
@@ -267,7 +267,7 @@ export default function SignUp() {
             borderRadius: 2,
           }}
         >
-          {state.priceId ? 'Continue' : 'Sign up'}
+          {state.subscriptionTier === SubscriptionTier.FREE ? 'Sign up' : 'Continue'}
         </LoadingButton>
 
         <Typography variant='caption'>
