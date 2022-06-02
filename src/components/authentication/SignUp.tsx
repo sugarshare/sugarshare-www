@@ -26,19 +26,20 @@ import { SUBSCRIPTIONS } from 'components/Subscription';
 
 import settings from 'settings';
 
-
 interface SignUpState {
-  subscriptionTier: SubscriptionTier;
   email: string;
   password: string;
+  subscriptionTier: SubscriptionTier;
+  priceId: string | null;
   showPassword: boolean;
   isLoading: boolean;
 }
 
 const INITIAL_STATE: SignUpState = {
-  subscriptionTier: SubscriptionTier.STANDARD,
   email: '',
   password: '',
+  subscriptionTier: SubscriptionTier.STANDARD,
+  priceId: getPriceId(SubscriptionTier.STANDARD, false),
   showPassword: false,
   isLoading: false,
 };
@@ -54,16 +55,14 @@ export default function SignUp() {
   const tier = searchParams.get('tier') as SubscriptionTier;
   const isYearly = searchParams.get('yearly') === 'true';
 
-  let priceId: string | null = null;
-  if (tier) {
-    priceId = getPriceId(tier, isYearly);
-  }
-
+  const [errorState, setErrorState] = useState(INITIAL_ERROR_STATE);
   const [state, setState] = useState<SignUpState>({
     ...INITIAL_STATE,
-    ...(tier && { subscriptionTier: tier }),
+    ...(tier && {
+      subscriptionTier: tier,
+      priceId: getPriceId(tier, isYearly),
+    }),
   });
-  const [errorState, setErrorState] = useState(INITIAL_ERROR_STATE);
 
   const subscriptionFormRef = useRef<HTMLFormElement>(null);
   const navigate = useNavigate();
@@ -74,6 +73,11 @@ export default function SignUp() {
       setErrorState((prevState) => ({
         ...prevState,
         isEmailError: false,
+      }));
+    } else if (prop === 'subscriptionTier') {
+      setState((prevState) => ({
+        ...prevState,
+        priceId: getPriceId(event.target.value as SubscriptionTier, isYearly),
       }));
     } else if (prop === 'password' && errorState.isPasswordError) {
       // When in password error state, help user by showing when password becomes valid
@@ -121,7 +125,7 @@ export default function SignUp() {
     try {
       const userSub = await AuthenticationClient.signUp({ email, password, subscriptionTier });
 
-      if (!priceId) {
+      if (!state.priceId) {
         navigate(userSub ? `/?user=${userSub}` : '/');
       } else {
         subscriptionFormRef.current!.submit();
@@ -163,7 +167,7 @@ export default function SignUp() {
         ref={subscriptionFormRef}
       >
         <Input type='hidden' name='email' value={state.email} />
-        <Input type='hidden' name='priceId' value={priceId} />
+        <Input type='hidden' name='priceId' value={state.priceId} />
       </Box>
 
       <AuthenticationForm handleSubmit={handleSubmit}>
@@ -255,7 +259,7 @@ export default function SignUp() {
           type='submit'
           size='large'
           fullWidth
-          endIcon={priceId ? <ArrowForwardIcon /> : null}
+          endIcon={state.priceId ? <ArrowForwardIcon /> : null}
           loading={state.isLoading}
           sx={{
             marginY: 2,
@@ -263,7 +267,7 @@ export default function SignUp() {
             borderRadius: 2,
           }}
         >
-          {priceId ? 'Continue' : 'Sign up'}
+          {state.priceId ? 'Continue' : 'Sign up'}
         </LoadingButton>
 
         <Typography variant='caption'>
