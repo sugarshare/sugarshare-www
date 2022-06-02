@@ -50,9 +50,19 @@ const INITIAL_ERROR_STATE = {
   isNetworkError: false,
 };
 
+const parseTier = (rawTier: string | null): SubscriptionTier | null => {
+  if (!rawTier) {
+    return null;
+  }
+
+  return Object.entries(SubscriptionTier)
+    .find(([, v]: [string, SubscriptionTier]) => rawTier.toLowerCase() === v.toLowerCase())
+    ?.[1] ?? null;
+};
+
 export default function SignUp() {
-  const tier = searchParams.get('tier') as SubscriptionTier;
   const [searchParams, setSearchParams] = useSearchParams();
+  const tier = parseTier(searchParams.get('tier'));
   const isYearly = searchParams.get('yearly') === 'true';
 
   const [errorState, setErrorState] = useState(INITIAL_ERROR_STATE);
