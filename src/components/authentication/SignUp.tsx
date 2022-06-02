@@ -131,6 +131,11 @@ export default function SignUp() {
         subscriptionFormRef.current!.submit();
       }
     } catch (error) {
+      setState((prevState) => ({
+        ...prevState,
+        isLoading: false,
+      }));
+
       if (error instanceof UsernameExistsException) {
         setErrorState((prevState) => ({
           ...prevState,
@@ -149,11 +154,6 @@ export default function SignUp() {
       } else {
         console.error(error);
       }
-    } finally {
-      setState((prevState) => ({
-        ...prevState,
-        isLoading: false,
-      }));
     }
   };
 
