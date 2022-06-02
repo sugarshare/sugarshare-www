@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
@@ -51,8 +51,8 @@ const INITIAL_ERROR_STATE = {
 };
 
 export default function SignUp() {
-  const [searchParams] = useSearchParams();
   const tier = searchParams.get('tier') as SubscriptionTier;
+  const [searchParams, setSearchParams] = useSearchParams();
   const isYearly = searchParams.get('yearly') === 'true';
 
   const [errorState, setErrorState] = useState(INITIAL_ERROR_STATE);
@@ -73,11 +73,6 @@ export default function SignUp() {
       setErrorState((prevState) => ({
         ...prevState,
         isEmailError: false,
-      }));
-    } else if (prop === 'subscriptionTier') {
-      setState((prevState) => ({
-        ...prevState,
-        priceId: getPriceId(event.target.value as SubscriptionTier, isYearly),
       }));
     } else if (prop === 'password' && errorState.isPasswordError) {
       // When in password error state, help user by showing when password becomes valid
@@ -156,6 +151,26 @@ export default function SignUp() {
       }
     }
   };
+
+  useEffect(
+    () => {
+      setState((prevState) => ({
+        ...prevState,
+        priceId: getPriceId(state.subscriptionTier as SubscriptionTier, isYearly),
+      }));
+
+      setSearchParams(
+        new URLSearchParams({
+          tier: state.subscriptionTier,
+          yearly: isYearly.toString(),
+        }),
+        { replace: true },
+      );
+    },
+    [
+      state.subscriptionTier,
+    ],
+  );
 
   return (
     <>
