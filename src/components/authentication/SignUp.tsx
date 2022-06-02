@@ -192,7 +192,7 @@ export default function SignUp() {
         ref={subscriptionFormRef}
       >
         <Input type='hidden' name='email' value={state.email} />
-        <Input type='hidden' name='priceId' value={state.priceId} />
+        <Input type='hidden' name='priceId' value={state.priceId ?? ''} />
       </Box>
 
       <AuthenticationForm handleSubmit={handleSubmit}>
