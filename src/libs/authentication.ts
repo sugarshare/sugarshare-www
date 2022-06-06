@@ -38,6 +38,10 @@ interface LogInOutput {
   refreshToken: string;
 }
 
+interface ResendConfirmationInput {
+  email: string;
+}
+
 interface ResetPasswordInput {
   email: string;
 }
@@ -84,6 +88,14 @@ export default class AuthenticationClient {
         idToken: session.getIdToken().getJwtToken(),
         refreshToken: session.getRefreshToken().getToken(),
       };
+    } catch (error) {
+      AuthenticationClient.handleError(error);
+    }
+  }
+
+  static async resendConfirmationEmail({ email }: ResendConfirmationInput) {
+    try {
+      await Auth.resendSignUp(email);
     } catch (error) {
       AuthenticationClient.handleError(error);
     }
