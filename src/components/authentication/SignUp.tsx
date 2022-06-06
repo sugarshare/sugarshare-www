@@ -12,7 +12,6 @@ import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 import AuthenticationClient from 'libs/authentication';
 import { SubscriptionTier, parseTier } from 'libs/subscription';
@@ -252,7 +251,6 @@ export default function SignUp() {
         type='submit'
         size='large'
         fullWidth
-        endIcon={state.subscriptionTier === SubscriptionTier.FREE ? null : <ArrowForwardIcon />}
         loading={state.isLoading}
         sx={{
           marginY: 2,
@@ -260,7 +258,7 @@ export default function SignUp() {
           borderRadius: 2,
         }}
       >
-        {state.subscriptionTier === SubscriptionTier.FREE ? 'Sign up' : 'Continue'}
+        Sign up
       </LoadingButton>
 
       <Typography variant='caption'>
