@@ -20,8 +20,7 @@ import Subscription from 'components/Subscription';
 import NotificationSnackbar from 'components/NotificationSnackbar';
 
 export default function App() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const userSub = searchParams.get('user');
+  const [searchParams] = useSearchParams();
   const isDeleted = searchParams.get('isdeleted');
 
   return (

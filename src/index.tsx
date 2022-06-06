@@ -18,7 +18,7 @@ import Terms from 'components/Terms';
 import Privacy from 'components/Privacy';
 import ErrorDisplay from 'components/ErrorDisplay';
 import {
-  SignUp, LogIn, ResetPassword, ResetPasswordCode,
+  SignUp, SignUpConfirmation, LogIn, ResetPassword, ResetPasswordCode,
 } from 'components/authentication';
 
 ReactDOM.render(
@@ -30,6 +30,7 @@ ReactDOM.render(
           <Route path='/' element={<App />} />
           <Route path=':fileId' element={<FileFrame />} />
           <Route path='signup' element={<SignUp />} />
+          <Route path='confirmation' element={<SignUpConfirmation />} />
           <Route path='login' element={<LogIn />} />
           <Route path='forgotpassword' element={<ResetPassword />} />
           <Route path='resetpassword' element={<ResetPassword />} />

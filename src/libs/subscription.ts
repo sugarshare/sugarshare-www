@@ -19,6 +19,16 @@ const PRICE_ID = {
   },
 };
 
+export function parseTier(rawTier: string | null): SubscriptionTier | null {
+  if (!rawTier) {
+    return null;
+  }
+
+  return Object.entries(SubscriptionTier)
+    .find(([, v]: [string, SubscriptionTier]) => rawTier.toLowerCase() === v.toLowerCase())
+    ?.[1] ?? null;
+}
+
 export function getPriceId(tier: SubscriptionTier, isYearly: boolean): string | null {
   return isYearly === true
     ? PRICE_ID[tier].yearly

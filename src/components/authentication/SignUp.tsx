@@ -1,8 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import LoadingButton from '@mui/lab/LoadingButton';
-import Box from '@mui/material/Box';
-import Input from '@mui/material/Input';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
@@ -17,20 +15,18 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 import AuthenticationClient from 'libs/authentication';
-import { SubscriptionTier, getPriceId } from 'libs/subscription';
+import { SubscriptionTier, parseTier } from 'libs/subscription';
 import { UsernameExistsException, InvalidPasswordException, NetworkError } from 'libs/errors';
 
 import NotificationSnackbar from 'components/NotificationSnackbar';
 import AuthenticationForm from 'components/authentication/AuthenticationForm';
 import { SUBSCRIPTIONS } from 'components/Subscription';
 
-import settings from 'settings';
 
 interface SignUpState {
   email: string;
   password: string;
   subscriptionTier: SubscriptionTier;
-  priceId: string | null;
   showPassword: boolean;
   isLoading: boolean;
 }
@@ -39,7 +35,6 @@ const INITIAL_STATE: SignUpState = {
   email: '',
   password: '',
   subscriptionTier: SubscriptionTier.STANDARD,
-  priceId: getPriceId(SubscriptionTier.STANDARD, false),
   showPassword: false,
   isLoading: false,
 };
@@ -48,16 +43,6 @@ const INITIAL_ERROR_STATE = {
   isEmailError: false,
   isPasswordError: false,
   isNetworkError: false,
-};
-
-const parseTier = (rawTier: string | null): SubscriptionTier | null => {
-  if (!rawTier) {
-    return null;
-  }
-
-  return Object.entries(SubscriptionTier)
-    .find(([, v]: [string, SubscriptionTier]) => rawTier.toLowerCase() === v.toLowerCase())
-    ?.[1] ?? null;
 };
 
 export default function SignUp() {
@@ -70,11 +55,9 @@ export default function SignUp() {
     ...INITIAL_STATE,
     ...(tier && {
       subscriptionTier: tier,
-      priceId: getPriceId(tier, isYearly),
     }),
   });
 
-  const subscriptionFormRef = useRef<HTMLFormElement>(null);
   const navigate = useNavigate();
 
   const handleChange = (prop: keyof SignUpState) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -128,13 +111,15 @@ export default function SignUp() {
 
     const { email, password, subscriptionTier } = state;
     try {
-      const userSub = await AuthenticationClient.signUp({ email, password, subscriptionTier });
+      await AuthenticationClient.signUp({ email, password, subscriptionTier });
 
-      if (!state.priceId) {
-        navigate(userSub ? `/?user=${userSub}` : '/');
-      } else {
-        subscriptionFormRef.current!.submit();
-      }
+      const params = new URLSearchParams({
+        email,
+        tier: subscriptionTier,
+        yearly: isYearly.toString(),
+      });
+
+      navigate(`/confirmation?${params.toString()}`);
     } catch (error) {
       setState((prevState) => ({
         ...prevState,
@@ -164,11 +149,6 @@ export default function SignUp() {
 
   useEffect(
     () => {
-      setState((prevState) => ({
-        ...prevState,
-        priceId: getPriceId(state.subscriptionTier as SubscriptionTier, isYearly),
-      }));
-
       setSearchParams(
         new URLSearchParams({
           tier: state.subscriptionTier,
@@ -183,126 +163,113 @@ export default function SignUp() {
   );
 
   return (
-    <>
-      <Box
-        hidden
-        component='form'
-        action={`https://${settings.apiDomainName}/subscription/create-checkout-session`}
-        method='POST'
-        ref={subscriptionFormRef}
+    <AuthenticationForm handleSubmit={handleSubmit}>
+      <TextField
+        select
+        id='plan'
+        label='Plan'
+        value={state.subscriptionTier}
+        onChange={handleChange('subscriptionTier')}
+        margin='normal'
+        fullWidth
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position='start'>
+              <CardMembershipIcon />
+            </InputAdornment>
+          ),
+        }}
       >
-        <Input type='hidden' name='email' value={state.email} />
-        <Input type='hidden' name='priceId' value={state.priceId ?? ''} />
-      </Box>
+        {
+          Object.keys(SUBSCRIPTIONS).map((plan) => (
+            <MenuItem key={plan} value={plan}>{plan}</MenuItem>
+          ))
+        }
+      </TextField>
+      <TextField
+        variant='outlined'
+        id='email'
+        type='email'
+        label='Email'
+        value={state.email}
+        onChange={handleChange('email')}
+        error={errorState.isEmailError}
+        helperText={errorState.isEmailError && 'An account with this email already exists. Try to log in or reset your password instead.'}
+        margin='normal'
+        required
+        fullWidth
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position='start'>
+              <EmailIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
+      <TextField
+        variant='outlined'
+        id='password'
+        type={state.showPassword ? 'text' : 'password'}
+        label='Password'
+        value={state.password}
+        onChange={handleChange('password')}
+        error={errorState.isPasswordError}
+        helperText='Must be 8 characters long at least'
+        margin='normal'
+        required
+        fullWidth
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position='start'>
+              <LockIcon />
+            </InputAdornment>
+          ),
+          endAdornment: (
+            <InputAdornment position='end'>
+              <IconButton
+                aria-label='toggle password visibility'
+                onClick={handleShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge='end'
+              >
+                {state.showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+      />
 
-      <AuthenticationForm handleSubmit={handleSubmit}>
-        <TextField
-          select
-          id='plan'
-          label='Plan'
-          value={state.subscriptionTier}
-          onChange={handleChange('subscriptionTier')}
-          margin='normal'
-          fullWidth
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position='start'>
-                <CardMembershipIcon />
-              </InputAdornment>
-            ),
-          }}
-        >
-          {
-            Object.keys(SUBSCRIPTIONS).map((plan) => (
-              <MenuItem key={plan} value={plan}>{plan}</MenuItem>
-            ))
-          }
-        </TextField>
-        <TextField
-          variant='outlined'
-          id='email'
-          type='email'
-          label='Email'
-          value={state.email}
-          onChange={handleChange('email')}
-          error={errorState.isEmailError}
-          helperText={errorState.isEmailError && 'An account with this email already exists. Try to log in or reset your password instead.'}
-          margin='normal'
-          required
-          fullWidth
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position='start'>
-                <EmailIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
-        <TextField
-          variant='outlined'
-          id='password'
-          type={state.showPassword ? 'text' : 'password'}
-          label='Password'
-          value={state.password}
-          onChange={handleChange('password')}
-          error={errorState.isPasswordError}
-          helperText='Must be 8 characters long at least'
-          margin='normal'
-          required
-          fullWidth
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position='start'>
-                <LockIcon />
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <InputAdornment position='end'>
-                <IconButton
-                  aria-label='toggle password visibility'
-                  onClick={handleShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge='end'
-                >
-                  {state.showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
+      <Typography variant='caption' sx={{ marginY: 2 }}>
+        By creating an account, you agree to our&nbsp;
+        <Link href='/terms' target='_blank' color='inherit' title='Terms of Service' aria-label='go to terms of service'>Terms</Link>
+        &nbsp;and&nbsp;
+        <Link href='/privacy' target='_blank' color='inherit' title='Privacy policy' aria-label='go to privacy policy'>Privacy Policy</Link>
+        .
+      </Typography>
 
-        <Typography variant='caption' sx={{ marginY: 2 }}>
-          By creating an account, you agree to our&nbsp;
-          <Link href='/terms' target='_blank' color='inherit' title='Terms of Service' aria-label='go to terms of service'>Terms</Link>
-          &nbsp;and&nbsp;
-          <Link href='/privacy' target='_blank' color='inherit' title='Privacy policy' aria-label='go to privacy policy'>Privacy Policy</Link>
-          .
-        </Typography>
+      <LoadingButton
+        variant='contained'
+        type='submit'
+        size='large'
+        fullWidth
+        endIcon={state.subscriptionTier === SubscriptionTier.FREE ? null : <ArrowForwardIcon />}
+        loading={state.isLoading}
+        sx={{
+          marginY: 2,
+          marginTop: 'auto',
+          borderRadius: 2,
+        }}
+      >
+        {state.subscriptionTier === SubscriptionTier.FREE ? 'Sign up' : 'Continue'}
+      </LoadingButton>
 
-        <LoadingButton
-          variant='contained'
-          type='submit'
-          size='large'
-          fullWidth
-          endIcon={state.subscriptionTier === SubscriptionTier.FREE ? null : <ArrowForwardIcon />}
-          loading={state.isLoading}
-          sx={{
-            marginY: 2,
-            marginTop: 'auto',
-            borderRadius: 2,
-          }}
-        >
-          {state.subscriptionTier === SubscriptionTier.FREE ? 'Sign up' : 'Continue'}
-        </LoadingButton>
+      <Typography variant='caption'>
+        Already have an account?&nbsp;
+        <Link href='/login' color='inherit' title='Log in'>Log in</Link>
+        .
+      </Typography>
 
-        <Typography variant='caption'>
-          Already have an account?&nbsp;
-          <Link href='/login' color='inherit' title='Log in'>Log in</Link>
-          .
-        </Typography>
-
-        {errorState.isNetworkError && <NotificationSnackbar message='Something is wrong with the network. Please check your internet connection.' severity='error' />}
-      </AuthenticationForm>
-    </>
+      {errorState.isNetworkError && <NotificationSnackbar message='Something is wrong with the network. Please check your internet connection.' severity='error' />}
+    </AuthenticationForm>
   );
 }
