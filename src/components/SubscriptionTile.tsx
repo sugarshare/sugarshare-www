@@ -55,8 +55,12 @@ export default function SubscriptionTile({
       <Typography variant='h3' fontWeight='bold'>{tier}</Typography>
       <Box sx={{ minHeight: '20rem', marginY: 4 }}>
         {
-          benefits.map((benefit) => (
-            <Typography variant='body1' sx={{ lineHeight: 2 }}>
+          benefits.map((benefit, index) => (
+            <Typography
+              variant='body1'
+              sx={{ lineHeight: 2 }}
+              key={`benefit-item-${index}`}
+            >
               <FontAwesomeIcon icon={faCheck} />
               &nbsp;&nbsp;&nbsp;
               {benefit}

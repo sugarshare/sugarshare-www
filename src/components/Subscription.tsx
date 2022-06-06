@@ -61,12 +61,13 @@ export default function Subscription() {
         }}
       >
         {
-          Object.entries(SUBSCRIPTIONS).map(([tier, { price, benefits }]) => (
+          Object.entries(SUBSCRIPTIONS).map(([tier, { price, benefits }], index) => (
             <SubscriptionTile
               tier={tier as SubscriptionTier}
               benefits={benefits}
               price={price && `${isYearly ? price.yearly : price.monthly}$ / month`}
               isYearly={isYearly}
+              key={`tile-item-${index}`}
             />
           ))
         }
