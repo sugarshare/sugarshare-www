@@ -240,9 +240,9 @@ export default function SignUp() {
 
       <Typography variant='caption' sx={{ marginY: 2 }}>
         By creating an account, you agree to our&nbsp;
-        <Link href='/terms' target='_blank' color='inherit' title='Terms of Service' aria-label='go to terms of service'>Terms</Link>
+        <Link href='/terms' target='_blank' color='inherit' aria-label='go to terms of service'>Terms</Link>
         &nbsp;and&nbsp;
-        <Link href='/privacy' target='_blank' color='inherit' title='Privacy policy' aria-label='go to privacy policy'>Privacy Policy</Link>
+        <Link href='/privacy' target='_blank' color='inherit' aria-label='go to privacy policy'>Privacy Policy</Link>
         .
       </Typography>
 

@@ -220,7 +220,7 @@ export default function LogIn() {
       />
 
       <Typography variant='caption' sx={{ marginY: 2 }}>
-        <Link href='/resetpassword' color='inherit' title='Forgot your password'>Forgot your password?</Link>
+        <Link href='/resetpassword' color='inherit'>Forgot your password?</Link>
       </Typography>
 
       {
@@ -231,7 +231,7 @@ export default function LogIn() {
             onClick={handleResendConfirmation}
             sx={{ marginY: 2 }}
           >
-            Resend confirmation email?
+            Resend confirmation link?
           </Button>
         )
       }
