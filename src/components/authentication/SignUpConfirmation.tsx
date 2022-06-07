@@ -4,10 +4,13 @@ import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Input from '@mui/material/Input';
+import Button from '@mui/material/Button';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Typography from '@mui/material/Typography';
 
+import NotificationSnackbar from 'components/NotificationSnackbar';
 import AuthenticationBase from 'components/authentication/AuthenticationBase';
+import AuthenticationClient from 'libs/authentication';
 import { parseTier, getPriceId } from 'libs/subscription';
 
 import settings from 'settings';
@@ -35,6 +38,18 @@ export default function SignUpConfirmation() {
     ...(tier && { priceId: getPriceId(tier, isYearly) }),
     email,
   });
+  const [resendConfirmation, setResendConfirmation] = useState(false);
+
+  const handleResendConfirmation = async () => {
+    try {
+      setResendConfirmation(true);
+      await AuthenticationClient.resendConfirmationEmail({ email: state.email });
+    } catch (error) {
+      // Noop
+    } finally {
+      setTimeout(() => setResendConfirmation(false), 3000);
+    }
+  };
 
   return (
     <AuthenticationBase>
@@ -82,8 +97,11 @@ export default function SignUpConfirmation() {
             </Box>
           )
         }
+
+        <Button variant='text' size='small' onClick={handleResendConfirmation}>Resend confirmation link?</Button>
       </Box>
 
+      {resendConfirmation && <NotificationSnackbar message='A new confirmation link has been sent to your email' />}
     </AuthenticationBase>
   );
 }
