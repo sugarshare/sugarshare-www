@@ -7,6 +7,7 @@ import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Typography from '@mui/material/Typography';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 import NotificationSnackbar from 'components/NotificationSnackbar';
 import AuthenticationBase from 'components/authentication/AuthenticationBase';
@@ -87,6 +88,7 @@ export default function SignUpConfirmation() {
                 size='large'
                 fullWidth
                 loading={state.isLoading}
+                endIcon={<ArrowForwardIcon />}
                 sx={{
                   marginY: 2,
                   borderRadius: 2,
