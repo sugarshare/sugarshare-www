@@ -83,7 +83,7 @@ export default function SignUp() {
   const handleShowPassword = () => {
     setState((prevState) => ({
       ...prevState,
-      showPassword: !state.showPassword,
+      showPassword: !prevState.showPassword,
     }));
   };
 
