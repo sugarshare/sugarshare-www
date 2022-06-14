@@ -11,7 +11,9 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 import NotificationSnackbar from 'components/NotificationSnackbar';
 import AuthenticationBase from 'components/authentication/AuthenticationBase';
+
 import AuthenticationClient from 'libs/authentication';
+import { InvalidParameterException, LimitExceededException, NetworkError } from 'libs/errors';
 import { parseTier, getPriceId } from 'libs/subscription';
 
 import settings from 'settings';
@@ -28,27 +30,56 @@ const INITIAL_STATE: SignUpConfirmationState = {
   isLoading: false,
 };
 
+const INITIAL_ERROR_STATE = {
+  isUserAlreadyConfirmed: false,
+  isMaximumAttemptsExceededError: false,
+  isNetworkError: false,
+};
+
 export default function SignUpConfirmation() {
   const [searchParams] = useSearchParams();
   const email = searchParams.get('email') ?? '';
   const tier = parseTier(searchParams.get('tier'));
   const isYearly = searchParams.get('yearly') === 'true';
 
-  const [state] = useState<SignUpConfirmationState>({
+  const [state, setState] = useState<SignUpConfirmationState>({
     ...INITIAL_STATE,
     ...(tier && { priceId: getPriceId(tier, isYearly) }),
     email,
   });
+  const [errorState, setErrorState] = useState(INITIAL_ERROR_STATE);
   const [resendConfirmation, setResendConfirmation] = useState(false);
 
   const handleResendConfirmation = async () => {
     try {
-      setResendConfirmation(true);
       await AuthenticationClient.resendConfirmationEmail({ email: state.email });
+      setResendConfirmation(true);
     } catch (error) {
-      // Noop
+      if (error instanceof InvalidParameterException) {
+        setErrorState((prevState) => ({
+          ...prevState,
+          isUserAlreadyConfirmed: true,
+        }));
+      } else if (error instanceof LimitExceededException) {
+        setErrorState((prevState) => ({
+          ...prevState,
+          isMaximumAttemptsExceededError: true,
+        }));
+      } else if (error instanceof NetworkError) {
+        setErrorState((prevState) => ({
+          ...prevState,
+          isNetworkError: true,
+        }));
+      } else {
+        // Noop
+      }
     } finally {
       setTimeout(() => setResendConfirmation(false), 3000);
+
+      setState((prevState) => ({
+        ...prevState,
+        isLoading: false,
+      }));
     }
   };
 
@@ -110,6 +141,9 @@ export default function SignUpConfirmation() {
       </Box>
 
       {resendConfirmation && <NotificationSnackbar message='A new confirmation link has been sent to your email' />}
+      {errorState.isUserAlreadyConfirmed && <NotificationSnackbar message='Your email is already confirmed' />}
+      {errorState.isMaximumAttemptsExceededError && <NotificationSnackbar message='Attempt limit exceeded, please try after some time.' severity='error' />}
+      {errorState.isNetworkError && <NotificationSnackbar message='Something is wrong with the network. Please check your internet connection.' severity='error' />}
     </AuthenticationBase>
   );
 }
