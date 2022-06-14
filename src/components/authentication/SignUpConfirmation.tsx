@@ -76,6 +76,12 @@ export default function SignUpConfirmation() {
               component='form'
               action={`https://${settings.apiDomainName}/subscription/create-checkout-session`}
               method='POST'
+              onSubmit={() => {
+                setState((prevState) => ({
+                  ...prevState,
+                  isLoading: true,
+                }));
+              }}
               sx={{ width: '100%' }}
             >
               <Input type='hidden' name='priceId' value={state.priceId} />
