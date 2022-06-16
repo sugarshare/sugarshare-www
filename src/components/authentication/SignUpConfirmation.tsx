@@ -137,6 +137,24 @@ export default function SignUpConfirmation() {
           )
         }
 
+        {
+          !state.priceId && (
+            <Button
+              variant='contained'
+              size='large'
+              href='/account'
+              fullWidth
+              endIcon={<ArrowForwardIcon />}
+              sx={{
+                marginY: 2,
+                borderRadius: 2,
+              }}
+            >
+              Continue to your account page
+            </Button>
+          )
+        }
+
         <Button variant='text' size='small' onClick={handleResendConfirmation}>Resend confirmation link?</Button>
       </Box>
 
