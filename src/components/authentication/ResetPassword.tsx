@@ -108,7 +108,7 @@ export default function ResetPassword() {
 
       <Typography variant='caption'>
         Create an account instead?&nbsp;
-        <Link href='/signup' color='inherit' title='Sign up'>Sign up</Link>
+        <Link href='/signup' color='inherit'>Sign up</Link>
         .
       </Typography>
 

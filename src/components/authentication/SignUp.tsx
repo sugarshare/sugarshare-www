@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
@@ -14,26 +14,26 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import AuthenticationClient from 'libs/authentication';
+import { SubscriptionTier, parseTier } from 'libs/subscription';
 import { UsernameExistsException, InvalidPasswordException, NetworkError } from 'libs/errors';
 
 import NotificationSnackbar from 'components/NotificationSnackbar';
 import AuthenticationForm from 'components/authentication/AuthenticationForm';
 import { SUBSCRIPTIONS } from 'components/Subscription';
-import { SubscriptionTier } from 'components/SubscriptionTile';
 
 
 interface SignUpState {
-  subscriptionTier: SubscriptionTier;
   email: string;
   password: string;
+  subscriptionTier: SubscriptionTier;
   showPassword: boolean;
   isLoading: boolean;
 }
 
 const INITIAL_STATE: SignUpState = {
-  subscriptionTier: SubscriptionTier.STANDARD,
   email: '',
   password: '',
+  subscriptionTier: SubscriptionTier.STANDARD,
   showPassword: false,
   isLoading: false,
 };
@@ -45,8 +45,17 @@ const INITIAL_ERROR_STATE = {
 };
 
 export default function SignUp() {
-  const [state, setState] = useState<SignUpState>(INITIAL_STATE);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tier = parseTier(searchParams.get('tier'));
+  const isYearly = searchParams.get('yearly') === 'true';
+
   const [errorState, setErrorState] = useState(INITIAL_ERROR_STATE);
+  const [state, setState] = useState<SignUpState>({
+    ...INITIAL_STATE,
+    ...(tier && {
+      subscriptionTier: tier,
+    }),
+  });
 
   const navigate = useNavigate();
 
@@ -74,7 +83,7 @@ export default function SignUp() {
   const handleShowPassword = () => {
     setState((prevState) => ({
       ...prevState,
-      showPassword: !state.showPassword,
+      showPassword: !prevState.showPassword,
     }));
   };
 
@@ -101,13 +110,21 @@ export default function SignUp() {
 
     const { email, password, subscriptionTier } = state;
     try {
-      const userSub = await AuthenticationClient.signUp({ email, password, subscriptionTier });
-      navigate(
-        userSub
-          ? `/?user=${userSub}`
-          : '/',
-      );
+      await AuthenticationClient.signUp({ email, password, subscriptionTier });
+
+      const params = new URLSearchParams({
+        email,
+        tier: subscriptionTier,
+        yearly: isYearly.toString(),
+      });
+
+      navigate(`/confirmation?${params.toString()}`);
     } catch (error) {
+      setState((prevState) => ({
+        ...prevState,
+        isLoading: false,
+      }));
+
       if (error instanceof UsernameExistsException) {
         setErrorState((prevState) => ({
           ...prevState,
@@ -126,13 +143,23 @@ export default function SignUp() {
       } else {
         console.error(error);
       }
-    } finally {
-      setState((prevState) => ({
-        ...prevState,
-        isLoading: false,
-      }));
     }
   };
+
+  useEffect(
+    () => {
+      setSearchParams(
+        new URLSearchParams({
+          tier: state.subscriptionTier,
+          yearly: isYearly.toString(),
+        }),
+        { replace: true },
+      );
+    },
+    [
+      state.subscriptionTier,
+    ],
+  );
 
   return (
     <AuthenticationForm handleSubmit={handleSubmit}>
@@ -213,9 +240,9 @@ export default function SignUp() {
 
       <Typography variant='caption' sx={{ marginY: 2 }}>
         By creating an account, you agree to our&nbsp;
-        <Link href='/terms' target='_blank' color='inherit' title='Terms of Service' aria-label='go to terms of service'>Terms</Link>
+        <Link href='/terms' target='_blank' color='inherit' aria-label='go to terms of service'>Terms</Link>
         &nbsp;and&nbsp;
-        <Link href='/privacy' target='_blank' color='inherit' title='Privacy policy' aria-label='go to privacy policy'>Privacy Policy</Link>
+        <Link href='/privacy' target='_blank' color='inherit' aria-label='go to privacy policy'>Privacy Policy</Link>
         .
       </Typography>
 

@@ -14,7 +14,7 @@ import {
   NetworkError,
   NoCurrentUserError,
 } from 'libs/errors';
-import { SubscriptionTier } from 'components/SubscriptionTile';
+import { SubscriptionTier } from 'libs/subscription';
 import { authentication as authenticationSettings } from 'settings';
 
 Amplify.configure({

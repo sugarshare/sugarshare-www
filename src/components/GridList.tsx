@@ -13,8 +13,8 @@ export default function GridList({ list }: GridListProps) {
       justifyContent={{ xs: 'center', md: 'flex-start' }}
     >
       {
-        list.map((item) => (
-          <Grid item xs='auto'>{item}</Grid>
+        list.map((item, index) => (
+          <Grid item xs='auto' key={`grid-item-${index}`}>{item}</Grid>
         ))
       }
     </Grid>

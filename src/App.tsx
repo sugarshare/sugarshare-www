@@ -20,8 +20,7 @@ import Subscription from 'components/Subscription';
 import NotificationSnackbar from 'components/NotificationSnackbar';
 
 export default function App() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const userSub = searchParams.get('user');
+  const [searchParams] = useSearchParams();
   const isDeleted = searchParams.get('isdeleted');
 
   return (
@@ -142,7 +141,6 @@ export default function App() {
       </Container>
       <Footer />
 
-      {userSub && <NotificationSnackbar message='A confirmation link has been sent to your email. Glad to have you onboard ;)' />}
       {isDeleted && <NotificationSnackbar message='You account has been deleted. We hope to see you back soon!' />}
     </>
   );

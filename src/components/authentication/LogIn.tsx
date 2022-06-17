@@ -11,6 +11,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import LoginIcon from '@mui/icons-material/Login';
 
 import NotificationSnackbar from 'components/NotificationSnackbar';
 import AuthenticationForm from 'components/authentication/AuthenticationForm';
@@ -219,7 +220,7 @@ export default function LogIn() {
       />
 
       <Typography variant='caption' sx={{ marginY: 2 }}>
-        <Link href='/resetpassword' color='inherit' title='Forgot your password'>Forgot your password?</Link>
+        <Link href='/resetpassword' color='inherit'>Forgot your password?</Link>
       </Typography>
 
       {
@@ -230,7 +231,7 @@ export default function LogIn() {
             onClick={handleResendConfirmation}
             sx={{ marginY: 2 }}
           >
-            Resend confirmation email?
+            Resend confirmation link?
           </Button>
         )
       }
@@ -240,6 +241,7 @@ export default function LogIn() {
         type='submit'
         size='large'
         fullWidth
+        endIcon={<LoginIcon />}
         loading={state.isLoading}
         sx={{
           marginY: 2,

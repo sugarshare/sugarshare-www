@@ -246,7 +246,7 @@ export default function ResetPasswordCode() {
         .
       </Typography>
 
-      {errorState.isMaximumAttemptsExceededError && <NotificationSnackbar message='Maximum number of attempts exceeded. Please wait and retry later.' severity='error' />}
+      {errorState.isMaximumAttemptsExceededError && <NotificationSnackbar message='Attempt limit exceeded, please try after some time.' severity='error' />}
       {errorState.isNetworkError && <NotificationSnackbar message='Something is wrong with the network. Please check your internet connection.' severity='error' />}
     </AuthenticationForm>
   );
