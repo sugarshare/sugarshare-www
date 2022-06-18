@@ -89,7 +89,7 @@ export default function App() {
         </Container>
       </Container>
 
-      <Container id='pricing' maxWidth={false} disableGutters sx={{ backgroundColor: 'text.primary', minHeight: '100vh', paddingY: 10 }}>
+      <Container id='pricing' maxWidth={false} disableGutters sx={{ backgroundColor: 'text.primary', paddingY: 10 }}>
         <Container maxWidth='lg'>
           <Typography variant='h3' fontWeight='bold' sx={{ marginY: 4, color: 'white' }}>Pricing</Typography>
           <Subscription />
