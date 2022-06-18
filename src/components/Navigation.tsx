@@ -21,8 +21,8 @@ interface NavigationInput {
 }
 
 const pages = {
-  Products: {
-    href: '#products',
+  Install: {
+    href: '#install',
   },
   Pricing: {
     href: '#pricing',

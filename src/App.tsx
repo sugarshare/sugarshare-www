@@ -96,10 +96,10 @@ export default function App() {
         </Container>
       </Container>
 
-      <Container id='products' maxWidth={false} disableGutters sx={{ paddingY: 10 }}>
+      <Container id='install' maxWidth={false} disableGutters sx={{ paddingY: 10 }}>
         <Container maxWidth='lg'>
-          <Box sx={{ marginY: 10 }}>
-            <Typography variant='h3' fontWeight='bold' sx={{ marginY: 4 }}>Get it</Typography>
+          <Box sx={{ marginY: 4 }}>
+            <Typography variant='h3' fontWeight='bold' sx={{ marginY: 4 }}>Install</Typography>
             <GridList list={[
               <InstallTile link='/' browser='Chrome' />,
               <InstallTile link='/' browser='Firefox' isSoon />,
