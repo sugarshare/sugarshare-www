@@ -6,12 +6,22 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 
+import ErrorDisplay from 'components/ErrorDisplay';
 import settings from 'settings';
+
+const UUID_REGEX = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/g;
+const isUUID = (maybeUUID?: string): boolean => !!maybeUUID && UUID_REGEX.test(maybeUUID);
 
 export default function FileFrame() {
   const { fileId } = useParams();
 
   // TODO add check if file exists 404
+
+  if (!isUUID(fileId)) {
+    return (
+      <ErrorDisplay codeOrText='404' />
+    );
+  }
 
   return (
     <Container maxWidth={false} disableGutters>
