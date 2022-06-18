@@ -31,8 +31,12 @@ export default function App() {
         <Container maxWidth='lg'>
 
           <Box id='intro' sx={{ marginY: 10 }}>
-            <Typography variant='h4' fontWeight='bold' sx={{ marginBottom: 10 }}>
-              Create shareable links valid for 24 hours or more to transfer files privately and securely
+            <Typography variant='h4' fontWeight='bold' sx={{ marginBottom: 6 }}>
+              Share large files privately and securely.
+            </Typography>
+
+            <Typography variant='h5' fontWeight='bold' sx={{ marginBottom: 10 }}>
+              SugarShare helps you create shareable links valid for 24 hours (or more) to transfer large files
               with your collaborators and friends.
             </Typography>
           </Box>
@@ -85,17 +89,17 @@ export default function App() {
         </Container>
       </Container>
 
-      <Container id='pricing' maxWidth={false} disableGutters sx={{ backgroundColor: 'text.primary', minHeight: '100vh', paddingY: 10 }}>
+      <Container id='pricing' maxWidth={false} disableGutters sx={{ backgroundColor: 'text.primary', paddingY: 10 }}>
         <Container maxWidth='lg'>
           <Typography variant='h3' fontWeight='bold' sx={{ marginY: 4, color: 'white' }}>Pricing</Typography>
           <Subscription />
         </Container>
       </Container>
 
-      <Container id='products' maxWidth={false} disableGutters sx={{ paddingY: 10 }}>
+      <Container id='install' maxWidth={false} disableGutters sx={{ paddingY: 10 }}>
         <Container maxWidth='lg'>
-          <Box sx={{ marginY: 10 }}>
-            <Typography variant='h3' fontWeight='bold' sx={{ marginY: 4 }}>Get it</Typography>
+          <Box sx={{ marginY: 4 }}>
+            <Typography variant='h3' fontWeight='bold' sx={{ marginY: 4 }}>Install</Typography>
             <GridList list={[
               <InstallTile link='/' browser='Chrome' />,
               <InstallTile link='/' browser='Firefox' isSoon />,

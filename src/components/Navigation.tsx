@@ -1,6 +1,7 @@
 import React from 'react';
 
 import type { SxProps, Theme } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -14,6 +15,7 @@ import Link from '@mui/material/Link';
 import Button from '@mui/material/Button';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 
+import theme from 'theme';
 import Logo from 'components/Logo';
 
 interface NavigationInput {
@@ -21,17 +23,29 @@ interface NavigationInput {
 }
 
 const pages = {
-  Products: {
-    href: '#products',
+  Install: {
+    href: '/#install',
   },
   Pricing: {
-    href: '#pricing',
+    href: '/#pricing',
   },
   About: {
-    href: '#about',
+    href: '/#about',
   },
   Contact: {
-    href: '#contact',
+    href: '/#contact',
+  },
+};
+
+
+// Change primary color to white because MUI buttons only take a preset color
+const customTheme = {
+  ...theme,
+  palette: {
+    ...theme.palette,
+    primary: {
+      main: '#FFF',
+    },
   },
 };
 
@@ -58,7 +72,7 @@ export default function Navigation({ sx }: NavigationInput) {
   };
 
   return (
-    <>
+    <ThemeProvider theme={customTheme}>
       <CssBaseline />
       <ElevationScroll>
         <AppBar color='secondary' sx={{ ...sx }}>
@@ -118,7 +132,7 @@ export default function Navigation({ sx }: NavigationInput) {
                     href={href}
                     onClick={handleCloseNavMenu}
                     sx={{
-                      marginY: 2, marginX: 1, color: 'white', display: 'block', fontWeight: 'bold', fontSize: '1em',
+                      marginY: 2, marginX: 1, display: 'block', fontWeight: 'bold', fontSize: '1em',
                     }}
                   >
                     {page}
@@ -132,6 +146,6 @@ export default function Navigation({ sx }: NavigationInput) {
       {/* Insert an empty toolbar to offset for fixed placement
       Reference: https://mui.com/components/app-bar/#fixed-placement */}
       <Toolbar />
-    </>
+    </ThemeProvider>
   );
 }

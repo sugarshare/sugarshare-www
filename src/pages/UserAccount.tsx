@@ -75,25 +75,26 @@ export default function UserAccount() {
         })
         .catch(() => {
           // In case user is not logged in
-          navigate('/login?redirect_uri=/account');
+          navigate('/login?redirect_uri=/account', { replace: true });
         });
     },
-    [
-      // TODO check if user changed or logged in with different account
-    ],
+    [],
   );
 
   return (
     <Container maxWidth='lg'>
       <Navigation sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} />
 
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ marginY: 4, display: 'flex' }}>
         <Drawer
           variant='permanent'
           sx={{
             flexShrink: 0,
-            width: '15rem',
-            '& .MuiDrawer-paper': { width: '15rem', boxSizing: 'border-box' },
+            width: { xs: '10rem', md: '15rem' },
+            '& .MuiDrawer-paper': {
+              width: { xs: '10rem', md: '15rem' },
+              boxSizing: 'border-box',
+            },
           }}
         >
           <Toolbar />
@@ -127,7 +128,6 @@ export default function UserAccount() {
             display: 'flex',
             flexDirection: 'column',
             flexWrap: 'no-wrap',
-            // alignItems: 'center',
           }}
         >
           <Typography variant='h5'>Account</Typography>
