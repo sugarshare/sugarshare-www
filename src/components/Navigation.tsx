@@ -130,6 +130,75 @@ export default function Navigation({ sx }: NavigationInput) {
         <AppBar color='secondary' sx={{ ...sx }}>
           <Container maxWidth='xl'>
             <Toolbar disableGutters>
+              {/* Start - Medium to large devices */}
+              <Box sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}>
+                <Logo width='200px' />
+              </Box>
+
+              <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                {Object.entries(pages).map(([page, { href }]) => (
+                  <Button
+                    key={page}
+                    href={href}
+                    onClick={handleCloseNavMenu}
+                    sx={buttonSx}
+                  >
+                    {page}
+                  </Button>
+                ))}
+              </Box>
+
+              <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
+                {
+                  state.email && (
+                    <>
+                      <Tooltip title={state.email}>
+                        <IconButton onClick={handleOpenUserMenu} sx={{ padding: 0 }}>
+                          <Avatar sx={{ backgroundColor: '#1976d2' }}>{state.email[0].toUpperCase()}</Avatar>
+                        </IconButton>
+                      </Tooltip>
+                      <Menu
+                        keepMounted
+                        id='menu-user'
+                        anchorEl={anchorElUser}
+                        anchorOrigin={{
+                          vertical: 'bottom',
+                          horizontal: 'right',
+                        }}
+                        transformOrigin={{
+                          vertical: 'top',
+                          horizontal: 'right',
+                        }}
+                        open={Boolean(anchorElUser)}
+                        onClose={handleCloseUserMenu}
+                      >
+                        <MenuItem onClick={handleCloseUserMenu}>
+                          <Link variant='body1' href='/account' textAlign='center' color='inherit' underline='none'>My Account</Link>
+                        </MenuItem>
+                        <Divider />
+                        <MenuItem onClick={handleCloseUserMenu}>
+                          <Link variant='body1' onClick={handleLogOut} textAlign='center' color='inherit' underline='none'>Log out</Link>
+                        </MenuItem>
+                      </Menu>
+                    </>
+                  )
+                }
+                {
+                  !state.email && ([
+                    (
+                      <Button key='signup' href='/signup' variant='outlined' sx={buttonSx}>
+                        Join
+                      </Button>
+                    ),
+                    (
+                      <Button key='account' href='/account' variant='text' sx={buttonSx}>
+                        My Account
+                      </Button>
+                    ),
+                  ])
+                }
+              </Box>
+              {/* End - Medium to large devices */}
 
               {/* Start - Small devices */}
               <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -211,76 +280,6 @@ export default function Navigation({ sx }: NavigationInput) {
                 </Menu>
               </Box>
               {/* End - Small devices */}
-
-              {/* Start - Medium to large devices */}
-              <Box sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}>
-                <Logo width='200px' />
-              </Box>
-
-              <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                {Object.entries(pages).map(([page, { href }]) => (
-                  <Button
-                    key={page}
-                    href={href}
-                    onClick={handleCloseNavMenu}
-                    sx={buttonSx}
-                  >
-                    {page}
-                  </Button>
-                ))}
-              </Box>
-
-              <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
-                {
-                  state.email && (
-                    <>
-                      <Tooltip title={state.email}>
-                        <IconButton onClick={handleOpenUserMenu} sx={{ padding: 0 }}>
-                          <Avatar sx={{ backgroundColor: '#1976d2' }}>{state.email[0].toUpperCase()}</Avatar>
-                        </IconButton>
-                      </Tooltip>
-                      <Menu
-                        keepMounted
-                        id='menu-user'
-                        anchorEl={anchorElUser}
-                        anchorOrigin={{
-                          vertical: 'bottom',
-                          horizontal: 'right',
-                        }}
-                        transformOrigin={{
-                          vertical: 'top',
-                          horizontal: 'right',
-                        }}
-                        open={Boolean(anchorElUser)}
-                        onClose={handleCloseUserMenu}
-                      >
-                        <MenuItem onClick={handleCloseUserMenu}>
-                          <Link variant='body1' href='/account' textAlign='center' color='inherit' underline='none'>My Account</Link>
-                        </MenuItem>
-                        <Divider />
-                        <MenuItem onClick={handleCloseUserMenu}>
-                          <Link variant='body1' onClick={handleLogOut} textAlign='center' color='inherit' underline='none'>Log out</Link>
-                        </MenuItem>
-                      </Menu>
-                    </>
-                  )
-                }
-                {
-                  !state.email && ([
-                    (
-                      <Button key='signup' href='/signup' variant='outlined' sx={buttonSx}>
-                        Join
-                      </Button>
-                    ),
-                    (
-                      <Button key='account' href='/account' variant='text' sx={buttonSx}>
-                        My Account
-                      </Button>
-                    ),
-                  ])
-                }
-              </Box>
-              {/* End - Medium to large devices */}
             </Toolbar>
           </Container>
         </AppBar>
