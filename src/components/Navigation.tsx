@@ -22,16 +22,19 @@ interface NavigationInput {
 
 const pages = {
   Install: {
-    href: '#install',
+    href: '/#install',
   },
   Pricing: {
-    href: '#pricing',
+    href: '/#pricing',
   },
   About: {
-    href: '#about',
+    href: '/#about',
   },
   Contact: {
-    href: '#contact',
+    href: '/#contact',
+  },
+};
+
   },
 };
 
