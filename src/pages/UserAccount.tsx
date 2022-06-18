@@ -75,7 +75,7 @@ export default function UserAccount() {
         })
         .catch(() => {
           // In case user is not logged in
-          navigate('/login?redirect_uri=/account');
+          navigate('/login?redirect_uri=/account', { replace: true });
         });
     },
     [
