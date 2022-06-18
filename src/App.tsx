@@ -31,8 +31,12 @@ export default function App() {
         <Container maxWidth='lg'>
 
           <Box id='intro' sx={{ marginY: 10 }}>
-            <Typography variant='h4' fontWeight='bold' sx={{ marginBottom: 10 }}>
-              Create shareable links valid for 24 hours or more to transfer files privately and securely
+            <Typography variant='h4' fontWeight='bold' sx={{ marginBottom: 6 }}>
+              Share large files privately and securely.
+            </Typography>
+
+            <Typography variant='h5' fontWeight='bold' sx={{ marginBottom: 10 }}>
+              SugarShare helps you create shareable links valid for 24 hours (or more) to transfer large files
               with your collaborators and friends.
             </Typography>
           </Box>
