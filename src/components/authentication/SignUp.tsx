@@ -21,7 +21,6 @@ import NotificationSnackbar from 'components/NotificationSnackbar';
 import AuthenticationForm from 'components/authentication/AuthenticationForm';
 import { SUBSCRIPTIONS } from 'components/Subscription';
 
-
 interface SignUpState {
   email: string;
   password: string;
