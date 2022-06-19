@@ -139,7 +139,6 @@ export default function Navigation({ sx }: NavigationInput) {
                   <Button
                     key={page}
                     href={href}
-                    onClick={handleCloseNavMenu}
                     sx={buttonSx}
                   >
                     {page}
