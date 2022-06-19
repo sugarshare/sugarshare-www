@@ -33,6 +33,7 @@
         "react/jsx-props-no-spreading": ["off"],
         "react/require-default-props": ["off"],
         "react/no-array-index-key": ["off"],
+        "jsx-a11y/anchor-is-valid": ["warn"],
         "import/extensions": ["error", "never"],
         "import/no-unresolved": ["off"],
         "max-len": ["error", {
