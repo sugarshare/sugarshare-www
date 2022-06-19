@@ -269,12 +269,6 @@ export default function Navigation({ sx }: NavigationInput) {
                       ),
                     ])
                   }
-
-                  {/* {Object.entries(actions).map(([page, { href }]) => (
-                    <MenuItem key={page} onClick={handleCloseNavMenu}>
-                      <Link variant='body1' href={href} textAlign='center' color='inherit' underline='none'>{page}</Link>
-                    </MenuItem>
-                  ))} */}
                 </Menu>
               </Box>
               {/* End - Small devices */}
