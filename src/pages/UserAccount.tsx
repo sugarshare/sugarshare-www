@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import LoadingButton from '@mui/lab/LoadingButton';
 import Drawer from '@mui/material/Drawer';
 import Toolbar from '@mui/material/Toolbar';
+import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
+import Link from '@mui/material/Link';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import ListItem from '@mui/material/ListItem';
@@ -75,7 +76,13 @@ function CustomerPortalButton({ email }: { email: UserAccountState['email'] }) {
   );
 
   if (!href) {
-    return null;
+    return (
+      <Typography variant='body1' sx={{ marginY: 4 }}>
+        Want more storage and better features?&nbsp;
+        <Link href='/#pricing' color='inherit' title='Subscription plans'>Consider upgrading to a subscription plan</Link>
+        .
+      </Typography>
+    );
   }
 
   return (
