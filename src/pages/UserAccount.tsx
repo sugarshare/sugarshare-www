@@ -122,16 +122,27 @@ export default function UserAccount() {
           <Typography variant='h5'>Account</Typography>
           <Typography variant='subtitle1'>{state.email}</Typography>
 
-          <Button
-            variant='outlined'
-            color='error'
-            onClick={() => setOpenDeleteAccountDialog(true)}
-            sx={{
-              marginY: 2,
-            }}
+
+          <Box sx={{
+            border: 'dashed #d32f2f',
+            borderRadius: 2,
+            color: '#d32f2f',
+            padding: 2,
+            marginY: 2,
+          }}
           >
-            Delete account
-          </Button>
+            <Typography variant='body1'>Danger zone</Typography>
+            <Typography variant='subtitle2'>Any action in this zone is definitive.</Typography>
+            <Button
+              variant='outlined'
+              color='error'
+              onClick={() => setOpenDeleteAccountDialog(true)}
+              fullWidth
+              sx={{ marginY: 2 }}
+            >
+              Delete account
+            </Button>
+          </Box>
         </Box>
 
         <ConfirmationDialog
