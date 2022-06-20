@@ -137,6 +137,11 @@ export default class AuthenticationClient {
     return Auth.currentAuthenticatedUser();
   }
 
+  static async getIdToken(): Promise<string> {
+    const session = await Auth.currentSession();
+    return session.getIdToken().getJwtToken();
+  }
+
   static handleError(error: unknown) {
     if (!(error instanceof Error)) {
       throw error;
