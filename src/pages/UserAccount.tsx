@@ -52,17 +52,6 @@ export default function UserAccount() {
     }
   };
 
-  const handleLogOut = async (event: React.SyntheticEvent) => {
-    event.preventDefault();
-
-    try {
-      await AuthenticationClient.signOut();
-      navigate('/');
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(
     () => {
       AuthenticationClient.getUser()
@@ -133,16 +122,6 @@ export default function UserAccount() {
           <Typography variant='h5'>Account</Typography>
           <Typography variant='subtitle1'>{state.email}</Typography>
 
-          <Button
-            variant='outlined'
-            color='warning'
-            onClick={handleLogOut}
-            sx={{
-              marginY: 2,
-            }}
-          >
-            Log out
-          </Button>
           <Button
             variant='outlined'
             color='error'
