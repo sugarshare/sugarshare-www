@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Drawer from '@mui/material/Drawer';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
@@ -14,6 +15,7 @@ import ListItemText from '@mui/material/ListItemText';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 
 import Navigation from 'components/Navigation';
 import ConfirmationDialog from 'components/ConfirmationDialog';
@@ -30,6 +32,78 @@ import settings from 'settings';
 const INITIAL_STATE: UserAccountState = {
   email: '',
 };
+
+function CustomerPortalButton({ email }: { email: UserAccountState['email'] }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [href, setHref] = useState<string | null>(null);
+
+  useEffect(
+    () => {
+      AuthenticationClient.getIdToken()
+        .catch((error) => console.error(error))
+        .then((idToken) => {
+          fetch(`https://${settings.apiDomainName}/subscription/customer-portal`, {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${idToken}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              returnUrl: window.location.href,
+            }),
+          })
+            .then(async (response) => ({
+              statusCode: response.status,
+              body: await response.json(),
+            }))
+            .then(({ statusCode, body }) => {
+              if (statusCode === 200) {
+                setHref(body.customerPortalUrl);
+              } else if (statusCode === 204) {
+                setHref(null);
+              } else {
+                setHref(null);
+                throw new Error(`${statusCode}: ${body.error}`);
+              }
+            })
+            .then((error) => console.error(error));
+        });
+    },
+    [
+      email,
+    ],
+  );
+
+  if (!href) {
+    return null;
+  }
+
+  return (
+    <Box sx={{
+      border: 'solid',
+      borderRadius: 2,
+      padding: 2,
+      marginY: 2,
+    }}
+    >
+      <Typography variant='body1'>
+        View your invoices, change or cancel subscription, and update subscription details:
+      </Typography>
+
+      <LoadingButton
+        variant='contained'
+        loading={isLoading}
+        endIcon={<LocalGroceryStoreIcon />}
+        href={href}
+        onClick={() => setIsLoading(true)}
+        fullWidth
+        sx={{ marginY: 2 }}
+      >
+        Subscription Portal
+      </LoadingButton>
+    </Box>
+  );
+}
 
 export default function UserAccount() {
   const [state, setState] = useState<UserAccountState>(INITIAL_STATE);
@@ -122,6 +196,7 @@ export default function UserAccount() {
           <Typography variant='h5'>Account</Typography>
           <Typography variant='subtitle1'>{state.email}</Typography>
 
+          <CustomerPortalButton email={state.email} />
 
           <Box sx={{
             border: 'dashed #d32f2f',
